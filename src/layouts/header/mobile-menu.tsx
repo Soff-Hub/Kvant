@@ -130,7 +130,7 @@ export default function MobileMenu({ lang }: { lang: string }) {
               menuIndex={index}
               className={cn(
                 dept > 1 && 'ltr:pl-4 rtl:pr-4',
-                dept > 2 && 'ltr:pl-8 rtl:pr-8'
+                dept > 2 && 'ltr:pl-8 rtl:pr-8',
               )}
             />
           );
@@ -144,7 +144,7 @@ export default function MobileMenu({ lang }: { lang: string }) {
       <div className="flex flex-col justify-between w-full h-full">
         <div className="bg-gray-300 w-full border-b border-border-base flex justify-between items-center relative ltr:pl-5 rtl:pr-5 md:ltr:pl-7 md:rtl:pr-7 shrink-0 py-0.5">
           <div role="button" onClick={closeSidebar} className="inline-flex">
-            <Logo />
+            <Logo lang={lang} />
           </div>
 
           <button
@@ -152,7 +152,7 @@ export default function MobileMenu({ lang }: { lang: string }) {
             onClick={closeSidebar}
             aria-label="close"
           >
-            <IoClose  />
+            <IoClose />
           </button>
         </div>
 
