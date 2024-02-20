@@ -8,11 +8,10 @@ import { useForm } from 'react-hook-form';
 import { useLoginMutation, LoginInputType } from '@framework/auth/use-login';
 import { useTranslation } from 'src/app/i18n/client';
 import Image from '@components/ui/image';
-import { useModalAction } from '@components/common/modal/modal.context';
 import Switch from '@components/ui/switch';
-import CloseButton from '@components/ui/close-button';
-import { FaFacebook, FaTwitter, FaLinkedinIn } from 'react-icons/fa';
 import cn from 'classnames';
+import Link from 'next/link';
+import { ROUTES } from '@utils/routes';
 
 interface LoginFormProps {
   lang: string;
@@ -20,13 +19,8 @@ interface LoginFormProps {
   className?: string;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({
-  lang,
-  isPopup = true,
-  className,
-}) => {
+const LoginForm: React.FC<LoginFormProps> = ({ lang, className }) => {
   const { t } = useTranslation(lang);
-  const { closeModal, openModal } = useModalAction();
   const { mutate: login, isLoading } = useLoginMutation();
   const [remember, setRemember] = useState(false);
 
@@ -42,51 +36,38 @@ const LoginForm: React.FC<LoginFormProps> = ({
       password,
       remember_me,
     });
-    closeModal();
     console.log(email, password, remember_me, 'data');
   }
-  function handelSocialLogin() {
-    login({
-      email: 'demo@demo.com',
-      password: 'demo',
-      remember_me: true,
-    });
-    closeModal();
-  }
-  function handleSignUp() {
-    return openModal('SIGN_UP_VIEW');
-  }
-  function handleForgetPassword() {
-    return openModal('FORGET_PASSWORD');
-  }
+
   return (
     <div
       className={cn(
         'w-full md:w-[720px] lg:w-[920px] xl:w-[1000px] 2xl:w-[1200px] relative',
-        className
+        className,
       )}
     >
-      {isPopup === true && <CloseButton onClick={closeModal} />}
-
       <div className="flex mx-auto overflow-hidden rounded-lg bg-brand-light">
         <div className="md:w-1/2 lg:w-[55%] xl:w-[60%] registration hidden md:block relative">
-          <Image src="/assets/images/login.jpg" alt="signin" width={718} height={600} />
+          <Image
+            src="/assets/images/login.jpg"
+            alt="signin"
+            width={718}
+            height={600}
+          />
         </div>
         <div className="w-full md:w-1/2 lg:w-[45%] xl:w-[40%] py-6 sm:py-10 px-4 sm:px-8 md:px-6 lg:px-8 xl:px-12 rounded-md flex flex-col justify-center">
           <div className="mb-6 text-center">
-
             <h4 className="text-xl font-semibold text-brand-dark sm:text-2xl sm:pt-3 ">
               {t('common:text-welcome-back')}
             </h4>
             <div className="mt-3 mb-1 text-sm text-center sm:text-15px text-body">
               {t('common:text-don’t-have-account')}
-              <button
-                type="button"
+              <Link
+                href={`/${lang}${ROUTES.SIGN_UP}`}
                 className="text-sm text-brand sm:text-15px ltr:ml-1 rtl:mr-1 hover:no-underline focus:outline-none"
-                onClick={handleSignUp}
               >
                 {t('common:text-create-account')}
-              </button>
+              </Link>
             </div>
           </div>
           <form
@@ -131,13 +112,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
                   </label>
                 </div>
                 <div className="flex ltr:ml-auto rtl:mr-auto mt-[3px]">
-                  <button
-                    type="button"
-                    onClick={handleForgetPassword}
-                    className="text-sm ltr:text-right rtl:text-left text-heading ltr:pl-3 lg:rtl:pr-3 hover:no-underline hover:text-brand-dark focus:outline-none focus:text-brand-dark"
+                  <Link
+                    href={`/${lang}${ROUTES.SIGN_UP}`}
+                    className="text-sm ltr:text-right text-brand rtl:text-left text-heading ltr:pl-3 lg:rtl:pr-3 hover:no-underline hover:text-brand-dark focus:outline-none focus:text-brand-dark"
                   >
                     {t('common:text-forgot-password')}
-                  </button>
+                  </Link>
                 </div>
               </div>
               <div className="relative">
@@ -153,32 +133,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
               </div>
             </div>
           </form>
-          <div className="relative flex flex-col items-center justify-center text-sm">
-            <span className="mt-6 text-sm text-brand-dark opacity-70">
-              {t('common:text-or')}
-            </span>
-          </div>
-
-          <div className="flex justify-center mt-5 space-x-2.5">
-            <button
-              className="flex items-center justify-center w-10 h-10 transition-all border rounded-full cursor-pointer group border-border-one hover:border-brand focus:border-brand focus:outline-none"
-              onClick={handelSocialLogin}
-            >
-              <FaFacebook className="w-4 h-4 text-opacity-50 transition-all text-brand-dark group-hover:text-brand " />
-            </button>
-            <button
-              className="flex items-center justify-center w-10 h-10 transition-all border rounded-full cursor-pointer group border-border-one hover:border-brand focus:border-brand focus:outline-none"
-              onClick={handelSocialLogin}
-            >
-              <FaTwitter className="w-4 h-4 text-opacity-50 transition-all text-brand-dark group-hover:text-brand" />
-            </button>
-            <button
-              className="flex items-center justify-center w-10 h-10 transition-all border rounded-full cursor-pointer group border-border-one hover:border-brand focus:border-brand focus:outline-none"
-              onClick={handelSocialLogin}
-            >
-              <FaLinkedinIn className="w-4 h-4 text-opacity-50 transition-all text-brand-dark group-hover:text-brand" />
-            </button>
-          </div>
         </div>
       </div>
     </div>

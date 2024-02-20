@@ -141,34 +141,6 @@ const Header = ({ className, lang }: HeaderProps) => {
                   </div>
                 )}
                 {/* End of conditional search  */}
-                <div className="text-brand-icon-header ms-auto flex items-center flex-shrink-0">
-                  <div className="navbar-right flex items-center w-0 opacity-0 transition-all duration-200 ease-in-out">
-                    <button
-                      type="button"
-                      aria-label="Search Toggle"
-                      onClick={() => openSearch()}
-                      title="Search toggle"
-                      className="outline-none me-6 w-12 md:w-14 h-full flex items-center justify-center transition duration-200 ease-in-out hover:text-heading focus:outline-none"
-                    >
-                      <SearchIcon className="w-[22px] h-[22px] text-base" />
-                    </button>
-                    {/* End of search handler btn */}
-
-                    <div className="flex-shrink-0 flex items-center">
-                      <Link
-                        className="flex items-center gap-2 "
-                        href={`/${lang}${ROUTES.SIGN_UP}`}
-                      >
-                        <AccountIcon />
-                        {t('text-account')}
-                      </Link>
-                    </div>
-                    {/* End of auth */}
-
-                    <CartButton className="ms-8 " lang={lang} />
-                    {/* End of cart btn */}
-                  </div>
-                </div>
               </div>
             </Container>
           </div>

@@ -5,13 +5,10 @@ import Input from '@components/ui/form/input';
 import PasswordInput from '@components/ui/form/password-input';
 import Button from '@components/ui/button';
 import { useForm } from 'react-hook-form';
-import Logo from '@components/ui/logo';
 import { useSignUpMutation, SignUpInputType } from '@framework/auth/use-signup';
 import Link from '@components/ui/link';
 import Image from '@components/ui/image';
-import { useModalAction } from '@components/common/modal/modal.context';
 import Switch from '@components/ui/switch';
-import CloseButton from '@components/ui/close-button';
 import cn from 'classnames';
 import { ROUTES } from '@utils/routes';
 import { useTranslation } from 'src/app/i18n/client';
@@ -24,21 +21,17 @@ interface SignUpFormProps {
 
 export default function SignUpForm({
   lang,
-  isPopup = true,
   className,
 }: SignUpFormProps) {
   const { t } = useTranslation(lang);
   const { mutate: signUp, isLoading } = useSignUpMutation();
-  const { closeModal, openModal } = useModalAction();
   const [remember, setRemember] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignUpInputType>();
-  function handleSignIn() {
-    return openModal('LOGIN_VIEW');
-  }
+
   function onSubmit({ name, email, password, remember_me }: SignUpInputType) {
     signUp({
       name,
@@ -52,33 +45,31 @@ export default function SignUpForm({
     <div
       className={cn(
         'flex bg-brand-light mx-auto rounded-lg md:w-[720px] lg:w-[920px] xl:w-[1000px] 2xl:w-[1200px]',
-        className
+        className,
       )}
     >
-      {isPopup === true && <CloseButton onClick={closeModal} />}
       <div className="flex w-full mx-auto overflow-hidden rounded-lg bg-brand-light">
         <div className="md:w-1/2 lg:w-[55%] xl:w-[60%] registration hidden md:block relative">
           <Image
             src="/assets/images/login.jpg"
             alt="sign up"
-            width={718} height={600}
+            width={718}
+            height={600}
           />
         </div>
         <div className="w-full md:w-1/2 lg:w-[45%] xl:w-[40%] py-6 sm:py-10 px-4 sm:px-8 md:px-6 lg:px-8 xl:px-12 rounded-md shadow-dropDown flex flex-col justify-center">
           <div className="text-center mb-6 pt-2.5">
-
             <h4 className="text-xl font-semibold text-brand-dark sm:text-2xl sm:pt-3 ">
               {t('common:text-sign-up-for-free')}
             </h4>
             <div className="mt-3 mb-1 text-sm text-center sm:text-base text-body">
               {t('common:text-already-registered')}
-              <button
-                type="button"
+              <Link
+                href={`/${lang}${ROUTES.LOGIN}`}
                 className="text-sm ltr:ml-1 rtl:mr-1 sm:text-base text-brand hover:no-underline focus:outline-none"
-                onClick={handleSignIn}
               >
                 {t('common:text-sign-in-now')}
-              </button>
+              </Link>
             </div>
           </div>
           <form
@@ -120,8 +111,8 @@ export default function SignUpForm({
                 })}
                 lang={lang}
               />
-              <div className="flex items-center justify-center">
-                <div className="flex items-center shrink-0">
+              <div className="flex items-center justify-start">
+                <div className="flex items-center  shrink-0">
                   <label className="relative inline-block cursor-pointer switch">
                     <Switch checked={remember} onChange={setRemember} />
                   </label>
@@ -132,17 +123,6 @@ export default function SignUpForm({
                   >
                     {t('forms:label-remember-me')}
                   </label>
-                </div>
-                <div
-                  className="flex ltr:ml-auto rtl:mr-auto mt-[2px]"
-                  onClick={closeModal}
-                >
-                  <Link
-                    href={`/${lang}${ROUTES.PRIVACY}`}
-                    className="text-sm ltr:text-right rtl:text-left text-heading ltr:pl-3 lg:rtl:pr-3 hover:no-underline hover:text-brand-dark focus:outline-none focus:text-brand-dark"
-                  >
-                    {t('common:text-privacy-and-policy')}
-                  </Link>
                 </div>
               </div>
               <div className="relative">
