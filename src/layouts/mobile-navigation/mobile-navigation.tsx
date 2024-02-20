@@ -2,7 +2,6 @@
 
 import Link from '@components/ui/link';
 import SearchIcon from '@components/icons/search-icon';
-import UserIcon from '@components/icons/user-icon';
 import MenuIcon from '@components/icons/menu-icon';
 import HomeIcon from '@components/icons/home-icon';
 import { useUI } from '@contexts/ui.context';
@@ -10,13 +9,10 @@ import { ROUTES } from '@utils/routes';
 import dynamic from 'next/dynamic';
 import { Drawer } from '@components/common/drawer/drawer';
 import { getDirection } from '@utils/get-direction';
-import { useModalAction } from '@components/common/modal/modal.context';
 import motionProps from '@components/common/drawer/motion';
 import { useTranslation } from 'src/app/i18n/client';
+import AccountIcon from '@components/icons/account-icon';
 const CartButton = dynamic(() => import('@components/cart/cart-button'), {
-  ssr: false,
-});
-const AuthMenu = dynamic(() => import('@layouts/header/auth-menu'), {
   ssr: false,
 });
 const MobileMenu = dynamic(() => import('@layouts/header/mobile-menu'));
@@ -28,14 +24,11 @@ export default function BottomNavigation({ lang }: { lang: string }) {
     closeSidebar,
     displaySidebar,
     toggleMobileSearch,
-    isAuthorized,
   } = useUI();
-  const { openModal } = useModalAction();
+
   const dir = getDirection(lang);
   const contentWrapperCSS = dir === 'ltr' ? { left: 0 } : { right: 0 };
-  function handleLogin() {
-    openModal('LOGIN_VIEW');
-  }
+
   function handleMobileMenu() {
     return openSidebar();
   }
@@ -66,17 +59,12 @@ export default function BottomNavigation({ lang }: { lang: string }) {
           iconClassName="text-opacity-100"
           lang={lang}
         />
-        <AuthMenu
-          isAuthorized={isAuthorized}
-          href={`/${lang}${ROUTES.ACCOUNT}`}
-          btnProps={{
-            className: 'shrink-0 focus:outline-none',
-            children: <UserIcon />,
-            onClick: handleLogin,
-          }}
+        <Link
+          className="flex items-center gap-2 "
+          href={`/${lang}${ROUTES.SIGN_UP}`}
         >
-          <UserIcon />
-        </AuthMenu>
+          <AccountIcon />
+        </Link>
       </div>
       <Drawer
         className="w-[375px]"

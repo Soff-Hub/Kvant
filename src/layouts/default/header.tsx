@@ -10,17 +10,15 @@ import MenuIcon from '@components/icons/menu-icon';
 import SearchIcon from '@components/icons/search-icon';
 import HeaderMenu from '@layouts/header/header-menu';
 import LanguageSwitcher from '@components/ui/language-switcher';
-import { useModalAction } from '@components/common/modal/modal.context';
 import cn from 'classnames';
 import Search from '@components/common/search';
 import AccountIcon from '@components/icons/account-icon';
 import { FiMenu } from 'react-icons/fi';
 import CategoryDropdownMenu from '@components/category/category-dropdown-menu';
 import { useTranslation } from 'src/app/i18n/client';
+import Link from 'next/link';
 
-const AuthMenu = dynamic(() => import('@layouts/header/auth-menu'), {
-  ssr: false,
-});
+
 const CartButton = dynamic(() => import('@components/cart/cart-button'), {
   ssr: false,
 });
@@ -37,19 +35,13 @@ const Header = ({ className, lang }: HeaderProps) => {
     openSidebar,
     displaySearch,
     openSearch,
-    isAuthorized,
     displayMobileSearch,
   } = useUI();
-  const { openModal } = useModalAction();
   const siteSearchRef = useRef() as DivElementRef;
   const { t } = useTranslation(lang, 'common');
   const siteHeaderRef = useRef() as DivElementRef;
   const [categoryMenu, setCategoryMenu] = useState(Boolean(false));
   useActiveScroll(siteHeaderRef);
-
-  function handleLogin() {
-    openModal('LOGIN_VIEW');
-  }
 
   function handleMobileMenu() {
     return openSidebar();
@@ -76,8 +68,7 @@ const Header = ({ className, lang }: HeaderProps) => {
             searchId="mobile-search"
             className="top-bar-search hidden lg:max-w-[600px] absolute z-30 px-4 md:px-6 top-12 xl:top-1"
           />
-          <div className="top-bar  text-sm text-fill-base border-b border-black/10">
-          </div>
+          <div className="top-bar  text-sm text-fill-base border-b border-black/10"></div>
           <div className="border-b border-black/10">
             <Container>
               <div className="flex items-center justify-between  py-2 md:py-4">
@@ -102,20 +93,13 @@ const Header = ({ className, lang }: HeaderProps) => {
 
                 <div className="text-brand-icon-header flex text-sm space-x-5 xl:space-x-10 lg:max-w-[33%]">
                   <div className="hidden lg:flex items-center shrink-0 accountButton">
-                    <div className="cart-button">
-                      <AccountIcon />
-                    </div>
-
-                    <AuthMenu
-                      isAuthorized={isAuthorized}
-                      href={`/${lang}${ROUTES.ACCOUNT}`}
-                      btnProps={{
-                        children: t('text-sign-in'),
-                        onClick: handleLogin,
-                      }}
+                    <Link
+                      className="flex items-center gap-2 "
+                      href={`/${lang}${ROUTES.SIGN_UP}`}
                     >
+                      <AccountIcon />
                       {t('text-account')}
-                    </AuthMenu>
+                    </Link>
                   </div>
                   <CartButton className="hidden lg:flex" lang={lang} />
                 </div>
@@ -171,16 +155,13 @@ const Header = ({ className, lang }: HeaderProps) => {
                     {/* End of search handler btn */}
 
                     <div className="flex-shrink-0 flex items-center">
-                      <AuthMenu
-                        isAuthorized={isAuthorized}
-                        href={ROUTES.ACCOUNT}
-                        btnProps={{
-                          children: <AccountIcon />,
-                          onClick: handleLogin,
-                        }}
+                      <Link
+                        className="flex items-center gap-2 "
+                        href={`/${lang}${ROUTES.SIGN_UP}`}
                       >
+                        <AccountIcon />
                         {t('text-account')}
-                      </AuthMenu>
+                      </Link>
                     </div>
                     {/* End of auth */}
 
