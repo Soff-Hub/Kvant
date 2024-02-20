@@ -16,7 +16,7 @@ interface ProductsCarouselProps {
     sectionHeading: string;
     categorySlug?: string;
     className?: string;
-    products: Product[];
+    products?: Product[];
     loading: boolean;
     error?: string;
     limit?: number;
@@ -25,7 +25,7 @@ interface ProductsCarouselProps {
     borderCarousel?: boolean;
     lang: string;
     rowCarousel?: number;
-    variant: string;
+    variant?: string;
 }
 
 const breakpoints = {
