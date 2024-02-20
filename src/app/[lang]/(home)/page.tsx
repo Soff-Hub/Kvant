@@ -10,7 +10,6 @@ import {
 import BannerGrid from '@components/common/banner-grid';
 import CategoryDropdownMenu from '@components/category/category-dropdown-menu';
 import CategoryGridBlock from '@components/common/category-grid-block';
-import LatestblogCarousel from '@components/common/latestblog-carousel';
 import PopularProductFeed from '@components/product/feeds/popular-product-feed';
 import ListingtabsFeatured from '@components/product/feeds/listingtabs-featured';
 import BestSellerWithFlashSale from '@components/product/feeds/best-seller-with-flash-sale';
@@ -93,11 +92,7 @@ export default async function Page({
           className="mb-8 lg:mb-15"
           variant={'outBorder'}
         />
-        <LatestblogCarousel
-          lang={lang}
-          className={'mb-8 lg:mb-15'}
-          variant={'home3'}
-        />
+
       </Container>
     </>
   );
