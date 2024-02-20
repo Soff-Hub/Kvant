@@ -14,7 +14,7 @@ function ClientRenderedHighLightedBar({ lang }: { lang: string }) {
   const { t } = useTranslation(lang, 'common');
   const [highlightedBar, setHighlightedBar] = useSessionStorage(
     'highlightedBar',
-    'false'
+    'false',
   );
   return (
     <>
@@ -44,7 +44,7 @@ export default function ModernLayout({
 
   return (
     <div className="flex flex-col min-h-screen">
-      
+      {isMounted && <ClientRenderedHighLightedBar lang={lang} />}
       <Header lang={lang} />
       <main
         className="relative flex-grow pt-5 xl:pt-8 "

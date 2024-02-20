@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { fallbackLng, languages as locales } from './app/i18n/settings';
+import { fallbackLng, languages as locales } from 'src/app/i18n/settings';
 
 export function middleware(request: NextRequest) {
     // Check if there is any supported locale in the pathname

@@ -14,7 +14,7 @@ const fontBai = FontBai({
 
 
 export const metadata: Metadata = {
-  title: 'Uminex',
+  title: 'Kvant',
 };
 
 export default function RootLayout({
