@@ -10,7 +10,7 @@ import WidgetSubscription from "@layouts/footer/widget-newsletter";
 const {widgets, payment} = footer;
 
 interface FooterProps {
-    variant: string;
+    variant?: string;
     lang: string;
     className?: string;
     showWidgetServices?: boolean;

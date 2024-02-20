@@ -36,19 +36,19 @@ export const siteSettings = {
       },
       {
         id: 3,
-        path: '/en',
+        path: '/',
         label: 'menu-gift',
       },
     ],
     menu: [
       {
         id: 1,
-        path: '/en',
+        path: '/',
         label: 'menu-demos',
         subMenu: [
           {
             id: 1,
-            path: '/en',
+            path: '/',
             label: 'menu-home1',
           },
           {
@@ -563,13 +563,13 @@ export const siteSettings = {
     languageMenu: [
       {
         id: 'ar',
-        name: 'عربى',
+        name: 'Ar',
         value: 'ar',
         icon: <SAFlag />,
       },
       {
         id: 'en',
-        name: 'English',
+        name: 'Eng',
         value: 'en',
         icon: <USFlag />,
       },

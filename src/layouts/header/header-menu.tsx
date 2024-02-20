@@ -1,11 +1,9 @@
 import Link from '@components/ui/link';
-import { FaChevronDown } from 'react-icons/fa';
 import {BsChevronDown} from 'react-icons/bs';
 import ListMenu from '@components/ui/list-menu';
 import SubMega from '@components/ui/mega/sub-mega';
 import cn from 'classnames';
 import { useTranslation } from 'src/app/i18n/client';
-import { useState } from 'react';
 
 interface MenuProps {
   lang: string;
@@ -16,7 +14,6 @@ interface MenuProps {
 
 const HeaderMenu: React.FC<MenuProps> = ({ lang, data, className, bgPrimary }) => {
   const { t } = useTranslation(lang, 'menu');
-  const [hoverMenu, setHoverMenu] = useState(Boolean(false));
   return (
     <nav className={cn('headerMenu flex w-full', className)}>
       {data?.map((item: any) => (
@@ -25,8 +22,6 @@ const HeaderMenu: React.FC<MenuProps> = ({ lang, data, className, bgPrimary }) =
             item.type != 'mega' ? 'relative' : ''
           }`}
           key={item.id}
-          onMouseEnter={() => setHoverMenu(true)}
-          onMouseLeave={() => setHoverMenu(false)}
         >
           <Link
             href={`/${lang}${item.path}`}

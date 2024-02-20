@@ -6,11 +6,9 @@ import { useUI } from '@contexts/ui.context';
 import { useActiveScroll } from '@utils/use-active-scroll';
 import Container from '@components/ui/container';
 import Logo from '@components/ui/logo';
-import UserIcon from '@components/icons/user-icon';
 import MenuIcon from '@components/icons/menu-icon';
 import SearchIcon from '@components/icons/search-icon';
 import HeaderMenu from '@layouts/header/header-menu';
-import HeaderMenutop from '@layouts/header/header-menutop';
 import LanguageSwitcher from '@components/ui/language-switcher';
 import { useModalAction } from '@components/common/modal/modal.context';
 import cn from 'classnames';
@@ -79,20 +77,6 @@ const Header = ({ className, lang }: HeaderProps) => {
             className="top-bar-search hidden lg:max-w-[600px] absolute z-30 px-4 md:px-6 top-12 xl:top-1"
           />
           <div className="top-bar  text-sm text-fill-base border-b border-black/10">
-            <Container>
-              <div className="h-11 flex justify-between items-center">
-                <text className={`hidden md:block truncate`}>
-                  {t('text-store-location')}
-                </text>
-                <div className="flex flex-shrink-0 smx-auto pace-s-5">
-                  <HeaderMenutop
-                    data={site_header.topmenu}
-                    className="flex transition-all duration-200 ease-in-out"
-                    lang={lang}
-                  />
-                </div>
-              </div>
-            </Container>
           </div>
           <div className="border-b border-black/10">
             <Container>
