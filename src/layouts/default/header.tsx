@@ -7,7 +7,6 @@ import { useActiveScroll } from '@utils/use-active-scroll';
 import Container from '@components/ui/container';
 import Logo from '@components/ui/logo';
 import MenuIcon from '@components/icons/menu-icon';
-import SearchIcon from '@components/icons/search-icon';
 import HeaderMenu from '@layouts/header/header-menu';
 import LanguageSwitcher from '@components/ui/language-switcher';
 import cn from 'classnames';
@@ -34,7 +33,6 @@ const Header = ({ className, lang }: HeaderProps) => {
   const {
     openSidebar,
     displaySearch,
-    openSearch,
     displayMobileSearch,
   } = useUI();
   const siteSearchRef = useRef() as DivElementRef;
@@ -103,7 +101,7 @@ const Header = ({ className, lang }: HeaderProps) => {
                   </div>
                   <CartButton className="hidden lg:flex" lang={lang} />
                 </div>
-                <LanguageSwitcher lang="en" />
+                <LanguageSwitcher lang="en"  />
               </div>
             </Container>
           </div>
@@ -140,7 +138,6 @@ const Header = ({ className, lang }: HeaderProps) => {
                     />
                   </div>
                 )}
-                {/* End of conditional search  */}
               </div>
             </Container>
           </div>

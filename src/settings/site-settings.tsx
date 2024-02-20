@@ -271,13 +271,13 @@ export const siteSettings = {
     languageMenu: [
       {
         id: 'ar',
-        name: 'Ar',
+        name: 'Arab',
         value: 'ar',
         icon: <SAFlag />,
       },
       {
         id: 'en',
-        name: 'Eng',
+        name: 'English',
         value: 'en',
         icon: <USFlag />,
       },

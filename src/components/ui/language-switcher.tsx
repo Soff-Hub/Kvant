@@ -36,7 +36,7 @@ export default function LanguageSwitcher({ lang }: { lang: string }) {
         <div className="relative z-10 lg:top-[1px]">
           <Listbox.Button className="relative w-full py-2 rounded-lg cursor-pointer  ltr:pl-3 rtl:pr-3 ltr:pr-5 rtl:pl-5 ltr:text-left rtl:text-right focus:outline-none">
             <span className="flex items-center  truncate ">
-              <span className="w-4 h-4 overflow-hidden rounded-full ltr:mr-2 rtl:ml-2 shrink-0">
+              <span className="w-5 h-5 overflow-hidden rounded-full ltr:mr-2 rtl:ml-2 shrink-0">
                 {selectedItem?.icon}
               </span>
               <span className="leading-5 pb-0.5">{t(selectedItem?.name)}</span>
