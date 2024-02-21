@@ -34,10 +34,10 @@ export const useLoginMutation = () => {
   const { authorize } = useUI();
 
   return useMutation((input: LoginInputType) => login(input), {
-    onSuccess:async (data) => {
+    onSuccess: async (data) => {
       if (data?.tokens?.access) {
         Cookies.set('auth_token', data.tokens.access);
-       await authorize();
+        await authorize();
         window.location.href = '/en';
       }
     },

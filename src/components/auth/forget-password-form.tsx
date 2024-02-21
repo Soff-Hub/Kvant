@@ -8,29 +8,30 @@ import { useModalAction } from '@components/common/modal/modal.context';
 import CloseButton from '@components/ui/close-button';
 import Link from 'next/link';
 import { ROUTES } from '@utils/routes';
+import { useForgetPasswordMutation } from '@framework/auth/use-forget-password';
 
 type FormValues = {
-  number: string;
+  code: string;
 };
 
-const defaultValues = {
-  number: '',
-};
 
- export default function ForgetPasswordForm ({ lang }: { lang: string }){
+export default function ForgetPasswordForm({ lang }: { lang: string }) {
   const { t } = useTranslation(lang);
   const { closeModal } = useModalAction();
+  const { mutate: loginForget} = useForgetPasswordMutation();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({
-    defaultValues,
-  });
+  } = useForm<FormValues>();
 
-  const onSubmit = (values: FormValues) => {
-    console.log(values, 'token');
-  };
+  function onSubmit({ code }: FormValues) {
+    loginForget({
+      code,
+    });
+  }
+
+
 
   return (
     <div className="w-full px-5 py-6 mx-auto rounded-lg sm:p-8 bg-brand-light sm:w-96 md:w-450px">
@@ -50,14 +51,14 @@ const defaultValues = {
           type="tel" // Change the type to "number"
           variant="solid"
           className="mb-4"
-          {...register('number', {
+          {...register('code', {
             required: `${t('forms:number-required')}`, // Change the error message for required field
             pattern: {
               value: /^\d+$/, // Regular expression to match numbers only
               message: t('forms:number-error'), // Error message for invalid number format
             },
           })}
-          error={errors.number?.message} // Display error message if validation fails
+          error={errors.code?.message} // Display error message if validation fails
           lang={lang}
         />
 
@@ -87,6 +88,4 @@ const defaultValues = {
       </div>
     </div>
   );
-};
-
- 
+}

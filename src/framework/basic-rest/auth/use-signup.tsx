@@ -9,18 +9,17 @@ export interface SignUpInputType {
   remember_me: boolean;
 }
 
-async function signUp(
-  input: SignUpInputType,
-  baseUrl = 'https://kvantuz.pythonanywhere.com',
-  endPoint = '/api/v1/auth/register/',
-) {
-  const response = await fetch(`${baseUrl}${endPoint}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+async function signUp(input: SignUpInputType) {
+  const response = await fetch(
+    `https://kvantuz.pythonanywhere.com/api/v1/auth/register/`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(input),
     },
-    body: JSON.stringify(input),
-  });
+  );
 
   if (response.ok) {
     return await response.json();
@@ -31,13 +30,13 @@ async function signUp(
 }
 
 export const useSignUpMutation = () => {
+  const { authorize } = useUI();
   return useMutation((input: SignUpInputType) => signUp(input), {
-    onSuccess: async (data) => {
-      const { authorize } = useUI();
+    onSuccess: (data) => {
       if (data?.tokens?.access) {
         Cookies.set('auth_token', data.tokens.access);
-        await authorize();
-        window.location.href = '/en';
+        authorize();
+        window.location.href = '/en/forget-password';
       }
     },
     onError: (error: any) => {

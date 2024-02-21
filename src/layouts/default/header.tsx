@@ -16,7 +16,7 @@ import { FiMenu } from 'react-icons/fi';
 import CategoryDropdownMenu from '@components/category/category-dropdown-menu';
 import { useTranslation } from 'src/app/i18n/client';
 import Link from 'next/link';
-
+import Cookies from 'js-cookie';
 
 const CartButton = dynamic(() => import('@components/cart/cart-button'), {
   ssr: false,
@@ -30,16 +30,14 @@ interface HeaderProps {
   className?: string;
 }
 const Header = ({ className, lang }: HeaderProps) => {
-  const {
-    openSidebar,
-    displaySearch,
-    displayMobileSearch,
-  } = useUI();
+  const { openSidebar, displaySearch, displayMobileSearch } = useUI();
   const siteSearchRef = useRef() as DivElementRef;
   const { t } = useTranslation(lang, 'common');
   const siteHeaderRef = useRef() as DivElementRef;
   const [categoryMenu, setCategoryMenu] = useState(Boolean(false));
   useActiveScroll(siteHeaderRef);
+
+  const token = Cookies.get('auth_token');
 
   function handleMobileMenu() {
     return openSidebar();
@@ -90,18 +88,28 @@ const Header = ({ className, lang }: HeaderProps) => {
                 {/* End of search */}
 
                 <div className="text-brand-icon-header flex text-sm space-x-5 xl:space-x-10 lg:max-w-[33%]">
-                  <div className="hidden lg:flex items-center shrink-0 accountButton">
-                    <Link
-                      className="flex items-center gap-2 "
-                      href={`/${lang}${ROUTES.SIGN_UP}`}
-                    >
-                      <AccountIcon />
-                      {t('text-account')}
-                    </Link>
-                  </div>
                   <CartButton className="hidden lg:flex" lang={lang} />
                 </div>
-                <LanguageSwitcher lang="en"  />
+                <LanguageSwitcher lang="en" />
+                <div className="hidden lg:flex items-center  accountButton">
+                  <AccountIcon />
+                  {!token && (
+                    <div className="flex flex-col ml-4">
+                      <Link
+                        className="text-sm  "
+                        href={`/${lang}${ROUTES.LOGIN}`}
+                      >
+                        {t('Kirish')}
+                      </Link>
+                      <Link
+                        className="text-sm "
+                        href={`/${lang}${ROUTES.SIGN_UP}`}
+                      >
+                        {t('Register')}
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </div>
             </Container>
           </div>

@@ -14,7 +14,6 @@ import Link from 'next/link';
 import { ROUTES } from '@utils/routes';
 import { useModalAction } from '@components/common/modal/modal.context';
 import CloseButton from '@components/ui/close-button';
-import { UIContext } from '@contexts/ui.context';
 
 interface LoginFormProps {
   lang: string;
@@ -31,8 +30,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const { mutate: login, isLoading } = useLoginMutation();
   const [remember, setRemember] = useState(false);
   const { closeModal, openModal } = useModalAction();
-  const context = useContext(UIContext);
-  console.log(context);
   
 
   const {
