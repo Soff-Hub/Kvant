@@ -1,3 +1,5 @@
+'use client';
+
 import Button from '@components/ui/button';
 import Input from '@components/ui/form/input';
 import { useForm } from 'react-hook-form';
@@ -8,14 +10,14 @@ import Link from 'next/link';
 import { ROUTES } from '@utils/routes';
 
 type FormValues = {
-  email: string;
+  number: string;
 };
 
 const defaultValues = {
-  email: '',
+  number: '',
 };
 
-const ForgetPasswordForm = ({ lang }: { lang: string }) => {
+ export default function ForgetPasswordForm ({ lang }: { lang: string }){
   const { t } = useTranslation(lang);
   const { closeModal } = useModalAction();
   const {
@@ -44,19 +46,18 @@ const ForgetPasswordForm = ({ lang }: { lang: string }) => {
         noValidate
       >
         <Input
-          label={t('forms:label-email') as string}
-          type="email"
+          label={t('forms:label-number') as string}
+          type="tel" // Change the type to "number"
           variant="solid"
           className="mb-4"
-          {...register('email', {
-            required: `${t('forms:email-required')}`,
+          {...register('number', {
+            required: `${t('forms:number-required')}`, // Change the error message for required field
             pattern: {
-              value:
-                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-              message: t('forms:email-error'),
+              value: /^\d+$/, // Regular expression to match numbers only
+              message: t('forms:number-error'), // Error message for invalid number format
             },
           })}
-          error={errors.email?.message}
+          error={errors.number?.message} // Display error message if validation fails
           lang={lang}
         />
 
@@ -88,4 +89,4 @@ const ForgetPasswordForm = ({ lang }: { lang: string }) => {
   );
 };
 
-export default ForgetPasswordForm;
+ 

@@ -1,8 +1,6 @@
 import { useUI } from '@contexts/ui.context';
 import Cookies from 'js-cookie';
-import Router from 'next/router';
 import { useMutation } from 'react-query';
-import 'react-toastify/dist/ReactToastify.css';
 
 export interface LoginInputType {
   phone: string;
@@ -10,19 +8,18 @@ export interface LoginInputType {
   remember_me: boolean;
 }
 
-async function login(
-  input: LoginInputType,
-  baseUrl = 'https://kvantuz.pythonanywhere.com',
-  endPoint = '/api/v1/auth/login/',
-) {
+async function login(input: LoginInputType) {
   // Fetch API yordamida serverga POST so'rov yuboriladi
-  const response = await fetch(`${baseUrl}${endPoint}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+  const response = await fetch(
+    `${'https://kvantuz.pythonanywhere.com/api/v1/auth/login/'}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(input),
     },
-    body: JSON.stringify(input),
-  });
+  );
 
   if (response.ok) {
     return await response.json();
@@ -33,26 +30,20 @@ async function login(
   }
 }
 
-export const useLoginMutation = (
-  baseUrl?: string,
-  endPoint?: string,
-  lang?: string,
-) => {
+export const useLoginMutation = () => {
   const { authorize } = useUI();
-  return useMutation(
-    (input: LoginInputType) => login(input, baseUrl, endPoint),
-    {
-      onSuccess: (data) => {
-        if (data?.tokens?.access) {
-          Cookies.set('auth_token', data.tokens.access);
-          authorize();
-          Router.push(`/${lang}`);
-        }
-      },
-      onError: (error: any) => {
-        // Kirishda xato yuz berganda, konsolga xato chiqariladi
-        console.error(error, 'Login error response');
-      },
+
+  return useMutation((input: LoginInputType) => login(input), {
+    onSuccess:async (data) => {
+      if (data?.tokens?.access) {
+        Cookies.set('auth_token', data.tokens.access);
+       await authorize();
+        window.location.href = '/en';
+      }
     },
-  );
+    onError: (error: any) => {
+      // Kirishda xato yuz berganda, konsolga xato chiqariladi
+      console.error(error, 'Login error response');
+    },
+  });
 };

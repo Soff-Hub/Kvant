@@ -12,6 +12,8 @@ import Switch from '@components/ui/switch';
 import cn from 'classnames';
 import { ROUTES } from '@utils/routes';
 import { useTranslation } from 'src/app/i18n/client';
+import { useModalAction } from '@components/common/modal/modal.context';
+import Router from 'next/router';
 
 interface SignUpFormProps {
   lang: string;
@@ -21,9 +23,14 @@ interface SignUpFormProps {
 
 export default function SignUpForm({ lang, className }: SignUpFormProps) {
   const { t } = useTranslation(lang);
-  const { mutate: signUp, isLoading } = useSignUpMutation(lang);
+  const { closeModal, openModal } = useModalAction();
+  const { mutate: signUp, isLoading } = useSignUpMutation();
   const [remember, setRemember] = useState(false);
-  const { register, handleSubmit, formState: { errors },} = useForm<SignUpInputType>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpInputType>();
 
   function onSubmit({
     first_name,
@@ -37,7 +44,11 @@ export default function SignUpForm({ lang, className }: SignUpFormProps) {
       password,
       remember_me,
     });
+    // openModal();
+    // Router.push("/en")
+    
   }
+
   return (
     <div
       className={cn(

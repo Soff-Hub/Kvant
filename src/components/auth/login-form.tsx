@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Input from '@components/ui/form/input';
 import PasswordInput from '@components/ui/form/password-input';
 import Button from '@components/ui/button';
@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { ROUTES } from '@utils/routes';
 import { useModalAction } from '@components/common/modal/modal.context';
 import CloseButton from '@components/ui/close-button';
+import { UIContext } from '@contexts/ui.context';
 
 interface LoginFormProps {
   lang: string;
@@ -27,9 +28,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
   isPopup = true,
 }) => {
   const { t } = useTranslation(lang);
-  const { mutate: login, isLoading } = useLoginMutation(lang);
+  const { mutate: login, isLoading } = useLoginMutation();
   const [remember, setRemember] = useState(false);
   const { closeModal, openModal } = useModalAction();
+  const context = useContext(UIContext);
+  console.log(context);
+  
 
   const {
     register,
@@ -124,7 +128,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                   <button
                     type="button"
                     onClick={handleForgetPassword}
-                    className="text-sm ltr:text-right rtl:text-left text-heading ltr:pl-3 lg:rtl:pr-3 hover:no-underline hover:text-brand-dark focus:outline-none focus:text-brand-dark"
+                    className="text-sm text-brand rtl:text-left text-heading ltr:pl-3 lg:rtl:pr-3 hover:no-underline hover:text-brand-dark focus:outline-none focus:text-brand-dark"
                   >
                     {t('common:text-forgot-password')}
                   </button>

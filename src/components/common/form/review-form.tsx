@@ -72,7 +72,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ lang, className = '' }) => {
           />
           <div className="flex flex-col space-y-5 md:flex-row md:space-y-0">
             <Input
-              label={t('forms:label-name-star') as string}
+              label={t('username') as string}
               {...register('name', { required: 'Name is required' })}
               className="w-full md:w-1/2 "
               error={errors.name?.message}
