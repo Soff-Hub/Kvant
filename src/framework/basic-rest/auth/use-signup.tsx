@@ -1,4 +1,5 @@
 import { useUI } from '@contexts/ui.context';
+import { ROUTES } from '@utils/routes';
 import Cookies from 'js-cookie';
 import Router from 'next/router';
 import toast from 'react-hot-toast';
@@ -32,15 +33,14 @@ async function signUp(
   }
 }
 
-export const useSignUpMutation = () => {
-  const { authorize } = useUI();
-
+export const useSignUpMutation = (lang: string) => {
   return useMutation((input: SignUpInputType) => signUp(input), {
     onSuccess: (data) => {
+      const { authorize } = useUI();
       if (data?.tokens?.access) {
         Cookies.set('auth_token', data.tokens.access);
         authorize();
-        Router.push('/en');
+        Router.push(`/${lang}${ROUTES.HOME}`);
       }
     },
     onError: (error: any) => {

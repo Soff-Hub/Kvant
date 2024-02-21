@@ -2,7 +2,6 @@
 
 import Heading from '@components/ui/heading';
 import Accordion from '@components/ui/accordion';
-import { help } from '@settings/help-setting';
 import { useTranslation } from 'src/app/i18n/client';
 
 export default function HelpCenter({ lang }: { lang: string }) {

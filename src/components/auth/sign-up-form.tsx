@@ -21,13 +21,9 @@ interface SignUpFormProps {
 
 export default function SignUpForm({ lang, className }: SignUpFormProps) {
   const { t } = useTranslation(lang);
-  const { mutate: signUp, isLoading } = useSignUpMutation();
+  const { mutate: signUp, isLoading } = useSignUpMutation(lang);
   const [remember, setRemember] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignUpInputType>();
+  const { register, handleSubmit, formState: { errors },} = useForm<SignUpInputType>();
 
   function onSubmit({
     first_name,

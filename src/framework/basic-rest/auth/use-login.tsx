@@ -33,7 +33,11 @@ async function login(
   }
 }
 
-export const useLoginMutation = (baseUrl?: string, endPoint?: string) => {
+export const useLoginMutation = (
+  baseUrl?: string,
+  endPoint?: string,
+  lang?: string,
+) => {
   const { authorize } = useUI();
   return useMutation(
     (input: LoginInputType) => login(input, baseUrl, endPoint),
@@ -42,7 +46,7 @@ export const useLoginMutation = (baseUrl?: string, endPoint?: string) => {
         if (data?.tokens?.access) {
           Cookies.set('auth_token', data.tokens.access);
           authorize();
-          Router.push('/en');
+          Router.push(`/${lang}`);
         }
       },
       onError: (error: any) => {

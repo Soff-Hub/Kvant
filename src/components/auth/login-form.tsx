@@ -27,7 +27,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   isPopup = true,
 }) => {
   const { t } = useTranslation(lang);
-  const { mutate: login, isLoading } = useLoginMutation();
+  const { mutate: login, isLoading } = useLoginMutation(lang);
   const [remember, setRemember] = useState(false);
   const { closeModal, openModal } = useModalAction();
 
