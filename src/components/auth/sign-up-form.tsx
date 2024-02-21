@@ -19,10 +19,7 @@ interface SignUpFormProps {
   className?: string;
 }
 
-export default function SignUpForm({
-  lang,
-  className,
-}: SignUpFormProps) {
+export default function SignUpForm({ lang, className }: SignUpFormProps) {
   const { t } = useTranslation(lang);
   const { mutate: signUp, isLoading } = useSignUpMutation();
   const [remember, setRemember] = useState(false);
@@ -32,14 +29,18 @@ export default function SignUpForm({
     formState: { errors },
   } = useForm<SignUpInputType>();
 
-  function onSubmit({ name, email, password, remember_me }: SignUpInputType) {
+  function onSubmit({
+    first_name,
+    phone,
+    password,
+    remember_me,
+  }: SignUpInputType) {
     signUp({
-      name,
-      email,
+      first_name,
+      phone,
       password,
       remember_me,
     });
-    console.log(name, email, password, 'sign form values');
   }
   return (
     <div
@@ -82,27 +83,27 @@ export default function SignUpForm({
                 label={t('forms:label-name') as string}
                 type="text"
                 variant="solid"
-                {...register('name', {
+                {...register('first_name', {
                   required: 'forms:name-required',
                 })}
-                error={errors.name?.message}
+                error={errors.first_name?.message}
                 lang={lang}
               />
               <Input
-                label={t('forms:label-email') as string}
-                type="email"
+                label={t('Phone number') as string}
+                type="phone"
                 variant="solid"
-                {...register('email', {
-                  required: `${t('forms:email-required')}`,
+                {...register('phone', {
+                  required: `${t('forms:phone-required')}`,
                   pattern: {
-                    value:
-                      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: t('forms:email-error'),
+                    value: /^(\+\d{1,3}\s?)?\d{9,}$/,
+                    message: t('Invalid phone number'),
                   },
                 })}
-                error={errors.email?.message}
+                error={errors.phone?.message}
                 lang={lang}
               />
+
               <PasswordInput
                 label={t('forms:label-password')}
                 error={errors.password?.message}

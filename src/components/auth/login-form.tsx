@@ -12,6 +12,8 @@ import Switch from '@components/ui/switch';
 import cn from 'classnames';
 import Link from 'next/link';
 import { ROUTES } from '@utils/routes';
+import { useModalAction } from '@components/common/modal/modal.context';
+import CloseButton from '@components/ui/close-button';
 
 interface LoginFormProps {
   lang: string;
@@ -19,10 +21,15 @@ interface LoginFormProps {
   className?: string;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ lang, className }) => {
+const LoginForm: React.FC<LoginFormProps> = ({
+  lang,
+  className,
+  isPopup = true,
+}) => {
   const { t } = useTranslation(lang);
   const { mutate: login, isLoading } = useLoginMutation();
   const [remember, setRemember] = useState(false);
+  const { closeModal, openModal } = useModalAction();
 
   const {
     register,
@@ -30,13 +37,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang, className }) => {
     formState: { errors },
   } = useForm<LoginInputType>();
 
-  function onSubmit({ email, password, remember_me }: LoginInputType) {
+  function onSubmit({ phone, password, remember_me }: LoginInputType) {
     login({
-      email,
+      phone,
       password,
       remember_me,
     });
-    console.log(email, password, remember_me, 'data');
+  }
+  function handleForgetPassword() {
+    return openModal('FORGET_PASSWORD');
   }
 
   return (
@@ -46,6 +55,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang, className }) => {
         className,
       )}
     >
+      {isPopup === true && <CloseButton onClick={closeModal} />}
       <div className="flex mx-auto overflow-hidden rounded-lg bg-brand-light">
         <div className="md:w-1/2 lg:w-[55%] xl:w-[60%] registration hidden md:block relative">
           <Image
@@ -77,18 +87,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang, className }) => {
           >
             <div className="flex flex-col space-y-3.5">
               <Input
-                label={t('forms:label-email') as string}
-                type="email"
+                label={t('Phone number') as string}
+                type="phone"
                 variant="solid"
-                {...register('email', {
-                  required: `${t('forms:email-required')}`,
+                {...register('phone', {
+                  required: `${t('forms:phone-required')}`,
                   pattern: {
-                    value:
-                      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: t('forms:email-error'),
+                    value: /^(\+\d{1,3}\s?)?\d{9,}$/,
+                    message: t('Invalid phone number'),
                   },
                 })}
-                error={errors.email?.message}
+                error={errors.phone?.message}
                 lang={lang}
               />
               <PasswordInput
@@ -112,12 +121,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang, className }) => {
                   </label>
                 </div>
                 <div className="flex ltr:ml-auto rtl:mr-auto mt-[3px]">
-                  <Link
-                    href={`/${lang}${ROUTES.SIGN_UP}`}
-                    className="text-sm ltr:text-right text-brand rtl:text-left text-heading ltr:pl-3 lg:rtl:pr-3 hover:no-underline hover:text-brand-dark focus:outline-none focus:text-brand-dark"
+                  <button
+                    type="button"
+                    onClick={handleForgetPassword}
+                    className="text-sm ltr:text-right rtl:text-left text-heading ltr:pl-3 lg:rtl:pr-3 hover:no-underline hover:text-brand-dark focus:outline-none focus:text-brand-dark"
                   >
                     {t('common:text-forgot-password')}
-                  </Link>
+                  </button>
                 </div>
               </div>
               <div className="relative">

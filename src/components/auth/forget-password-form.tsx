@@ -1,10 +1,11 @@
 import Button from '@components/ui/button';
 import Input from '@components/ui/form/input';
-import Logo from '@components/ui/logo';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'src/app/i18n/client';
 import { useModalAction } from '@components/common/modal/modal.context';
 import CloseButton from '@components/ui/close-button';
+import Link from 'next/link';
+import { ROUTES } from '@utils/routes';
 
 type FormValues = {
   email: string;
@@ -16,7 +17,7 @@ const defaultValues = {
 
 const ForgetPasswordForm = ({ lang }: { lang: string }) => {
   const { t } = useTranslation(lang);
-  const { closeModal, openModal } = useModalAction();
+  const { closeModal } = useModalAction();
   const {
     register,
     handleSubmit,
@@ -24,10 +25,6 @@ const ForgetPasswordForm = ({ lang }: { lang: string }) => {
   } = useForm<FormValues>({
     defaultValues,
   });
-
-  function handleSignIn() {
-    return openModal('LOGIN_VIEW');
-  }
 
   const onSubmit = (values: FormValues) => {
     console.log(values, 'token');
@@ -37,7 +34,6 @@ const ForgetPasswordForm = ({ lang }: { lang: string }) => {
     <div className="w-full px-5 py-6 mx-auto rounded-lg sm:p-8 bg-brand-light sm:w-96 md:w-450px">
       <CloseButton onClick={closeModal} />
       <div className="text-center mb-9 pt-2.5">
-
         <p className="mt-3 mb-8 text-sm md:text-base text-body sm:mt-4 sm:mb-10">
           {t('common:forgot-password-helper')}
         </p>
@@ -80,13 +76,13 @@ const ForgetPasswordForm = ({ lang }: { lang: string }) => {
       </div>
       <div className="text-sm text-center sm:text-15px text-brand-muted">
         {t('common:text-back-to')}{' '}
-        <button
-          type="button"
-          className="font-medium underline text-brand-dark hover:no-underline focus:outline-none"
-          onClick={handleSignIn}
+        <Link
+          onClick={() => closeModal()}
+          href={`/${lang}${ROUTES.LOGIN}`}
+          className="text-sm text-brand sm:text-15px ltr:ml-1 rtl:mr-1 hover:no-underline focus:outline-none"
         >
           {t('common:text-login')}
-        </button>
+        </Link>
       </div>
     </div>
   );

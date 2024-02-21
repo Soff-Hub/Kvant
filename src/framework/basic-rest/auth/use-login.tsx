@@ -1,27 +1,54 @@
 import { useUI } from '@contexts/ui.context';
 import Cookies from 'js-cookie';
+import Router from 'next/router';
 import { useMutation } from 'react-query';
+import 'react-toastify/dist/ReactToastify.css';
 
 export interface LoginInputType {
-  email: string;
+  phone: string;
   password: string;
   remember_me: boolean;
 }
-async function login(input: LoginInputType) {
-  return {
-    token: `${input.email}.${input.remember_me}`.split('').reverse().join(''),
-  };
-}
-export const useLoginMutation = () => {
-  const { authorize, closeModal } = useUI();
-  return useMutation((input: LoginInputType) => login(input), {
-    onSuccess: (data) => {
-      Cookies.set('auth_token', data.token);
-      authorize();
-      closeModal();
+
+async function login(
+  input: LoginInputType,
+  baseUrl = 'https://kvantuz.pythonanywhere.com',
+  endPoint = '/api/v1/auth/login/',
+) {
+  // Fetch API yordamida serverga POST so'rov yuboriladi
+  const response = await fetch(`${baseUrl}${endPoint}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-    onError: (data) => {
-      console.log(data, 'login error response');
-    },
+    body: JSON.stringify(input),
   });
+
+  if (response.ok) {
+    return await response.json();
+  } else {
+    // Agar serverdan xato javob qaytsa, bu xatolikni ko'rsatish
+    const error = await response.json();
+    throw new Error(error?.msg[0] || 'Login failed');
+  }
+}
+
+export const useLoginMutation = (baseUrl?: string, endPoint?: string) => {
+  const { authorize } = useUI();
+  return useMutation(
+    (input: LoginInputType) => login(input, baseUrl, endPoint),
+    {
+      onSuccess: (data) => {
+        if (data?.tokens?.access) {
+          Cookies.set('auth_token', data.tokens.access);
+          authorize();
+          Router.push('/en');
+        }
+      },
+      onError: (error: any) => {
+        // Kirishda xato yuz berganda, konsolga xato chiqariladi
+        console.error(error, 'Login error response');
+      },
+    },
+  );
 };
