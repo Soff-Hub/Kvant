@@ -1,6 +1,4 @@
 'use client';
-
-import { useContext, useState } from 'react';
 import Input from '@components/ui/form/input';
 import PasswordInput from '@components/ui/form/password-input';
 import Button from '@components/ui/button';
@@ -8,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import { useLoginMutation, LoginInputType } from '@framework/auth/use-login';
 import { useTranslation } from 'src/app/i18n/client';
 import Image from '@components/ui/image';
-import Switch from '@components/ui/switch';
 import cn from 'classnames';
 import Link from 'next/link';
 import { ROUTES } from '@utils/routes';
@@ -28,7 +25,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
 }) => {
   const { t } = useTranslation(lang);
   const { mutate: login, isLoading } = useLoginMutation();
-  const [remember, setRemember] = useState(false);
   const { closeModal, openModal } = useModalAction();
   
 
@@ -38,11 +34,10 @@ const LoginForm: React.FC<LoginFormProps> = ({
     formState: { errors },
   } = useForm<LoginInputType>();
 
-  function onSubmit({ phone, password, remember_me }: LoginInputType) {
+  function onSubmit({ phone, password }: LoginInputType) {
     login({
       phone,
       password,
-      remember_me,
     });
   }
   function handleForgetPassword() {
@@ -110,17 +105,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 lang={lang}
               />
               <div className="flex items-center justify-center">
-                <div className="flex items-center shrink-0">
-                  <label className="relative inline-block cursor-pointer switch">
-                    <Switch checked={remember} onChange={setRemember} />
-                  </label>
-                  <label
-                    onClick={() => setRemember(!remember)}
-                    className="mt-1 text-sm cursor-pointer shrink-0 text-heading ltr:pl-2.5 rtl:pr-2.5"
-                  >
-                    {t('forms:label-remember-me')}
-                  </label>
-                </div>
                 <div className="flex ltr:ml-auto rtl:mr-auto mt-[3px]">
                   <button
                     type="button"

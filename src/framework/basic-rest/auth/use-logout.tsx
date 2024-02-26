@@ -6,8 +6,8 @@ import { useMutation } from 'react-query';
 export interface LoginInputType {
   email: string;
   password: string;
-  remember_me: boolean;
 }
+
 async function logout() {
   return {
     ok: true,

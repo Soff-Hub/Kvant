@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Input from '@components/ui/form/input';
 import PasswordInput from '@components/ui/form/password-input';
 import Button from '@components/ui/button';
@@ -12,8 +11,6 @@ import Switch from '@components/ui/switch';
 import cn from 'classnames';
 import { ROUTES } from '@utils/routes';
 import { useTranslation } from 'src/app/i18n/client';
-import { useModalAction } from '@components/common/modal/modal.context';
-import Router from 'next/router';
 
 interface SignUpFormProps {
   lang: string;
@@ -23,30 +20,19 @@ interface SignUpFormProps {
 
 export default function SignUpForm({ lang, className }: SignUpFormProps) {
   const { t } = useTranslation(lang);
-  const { closeModal, openModal } = useModalAction();
   const { mutate: signUp, isLoading } = useSignUpMutation();
-  const [remember, setRemember] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignUpInputType>();
 
-  function onSubmit({
-    first_name,
-    phone,
-    password,
-    remember_me,
-  }: SignUpInputType) {
+  function onSubmit({ first_name, phone, password }: SignUpInputType) {
     signUp({
       first_name,
       phone,
       password,
-      remember_me,
     });
-    // openModal();
-    // Router.push("/en")
-    
   }
 
   return (
@@ -119,20 +105,6 @@ export default function SignUpForm({ lang, className }: SignUpFormProps) {
                 })}
                 lang={lang}
               />
-              <div className="flex items-center justify-start">
-                <div className="flex items-center  shrink-0">
-                  <label className="relative inline-block cursor-pointer switch">
-                    <Switch checked={remember} onChange={setRemember} />
-                  </label>
-
-                  <label
-                    onClick={() => setRemember(!remember)}
-                    className="mt-1 text-sm cursor-pointer shrink-0 text-heading ltr:pl-2.5 rtl:pr-2.5"
-                  >
-                    {t('forms:label-remember-me')}
-                  </label>
-                </div>
-              </div>
               <div className="relative">
                 <Button
                   type="submit"
