@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { ROUTES } from '@utils/routes';
 import { useModalAction } from '@components/common/modal/modal.context';
 import CloseButton from '@components/ui/close-button';
+import { useRouter } from 'next/router';
 
 interface LoginFormProps {
   lang: string;
@@ -18,11 +19,7 @@ interface LoginFormProps {
   className?: string;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({
-  lang,
-  className,
-  isPopup = true,
-}) => {
+const LoginForm: React.FC<LoginFormProps> = ({lang, className,isPopup = true}) => {
   const { t } = useTranslation(lang);
   const { mutate: login, isLoading } = useLoginMutation();
   const { closeModal, openModal } = useModalAction();
