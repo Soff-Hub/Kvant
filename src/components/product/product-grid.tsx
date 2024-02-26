@@ -5,7 +5,6 @@ import Button from '@components/ui/button';
 import ProductCardAlpine from '@components/product/product-cards/product-card';
 import ProductCardLoader from '@components/ui/loaders/product-card-loader';
 import ProductCardList from '@components/product/product-cards/product-list-view';
-import cn from 'classnames';
 import { useProductsQuery } from '@framework/product/get-all-products';
 import { LIMITS } from '@framework/utils/limits';
 import { Product } from '@framework/types';
@@ -64,6 +63,7 @@ export const ProductGrid: FC<ProductGridProps> = ({ className = '', lang,viewAs 
                           key={`product--key-${product.id}`}
                           product={product}
                           lang={lang}
+                          variant=''
                       />
                   ));
               }else{

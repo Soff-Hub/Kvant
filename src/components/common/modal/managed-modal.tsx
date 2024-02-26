@@ -21,9 +21,6 @@ const PaymentPopup = dynamic(
 const PhoneNumberPopup = dynamic(
   () => import('@components/common/form/add-contact')
 );
-const DeliveryAddresses = dynamic(
-  () => import('@components/address/delivery-addresses')
-);
 const CategoryPopup = dynamic(
   () => import('@components/category/category-popup')
 );
@@ -49,7 +46,6 @@ export default function ManagedModal({ lang }: { lang: string }) {
       {view === 'ADDRESS_VIEW_AND_EDIT' && <AddressPopup lang={lang} />}
       {view === 'PAYMENT' && <PaymentPopup lang={lang} />}
       {view === 'PHONE_NUMBER' && <PhoneNumberPopup lang={lang} />}
-      {view === 'DELIVERY_VIEW' && <DeliveryAddresses lang={lang} />}
     </Modal>
   );
 }

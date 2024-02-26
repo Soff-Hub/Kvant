@@ -8,7 +8,7 @@ const AccountIcon = ({
   height = '23',
 }) => {
   return Cookies.get('auth_token') ? (
-    <Link href={'/en/my-account/account-settings'}>
+    <Link href={'/en/my-account/orders'}>
       <svg
         className={cn(className)}
         width={width}

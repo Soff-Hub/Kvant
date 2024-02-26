@@ -36,7 +36,7 @@ export const useSignUpMutation = () => {
       if (data?.tokens?.access) {
         Cookies.set('auth_token', data.tokens.access);
         authorize();
-        window.location.href = '/en/forget-password';
+        window.location.href = '/en/my-account/orders';
       }
     },
     onError: (error: any) => {

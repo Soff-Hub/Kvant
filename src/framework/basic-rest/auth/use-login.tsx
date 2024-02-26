@@ -38,8 +38,8 @@ export const useLoginMutation = () => {
       if (data?.tokens?.access) {
         Cookies.set('auth_token', data.tokens.access);
         await authorize();
-        window.location.href = '/en';
-      }
+        window.location.href = '/en/my-account/orders';
+      } 
     },
     onError: (error: any) => {
       // Kirishda xato yuz berganda, konsolga xato chiqariladi
