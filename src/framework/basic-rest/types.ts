@@ -1,20 +1,6 @@
 import { QueryKey } from 'react-query';
 
-export type CollectionsQueryOptionsType = {
-  text?: string;
-  collection?: string;
-  status?: string;
-  limit?: number;
-};
-
 export type CategoriesQueryOptionsType = {
-  text?: string;
-  category?: string;
-  status?: string;
-  limit?: number;
-};
-export type ProductsQueryOptionsType = {
-  type: string;
   text?: string;
   category?: string;
   status?: string;
@@ -25,11 +11,6 @@ export type QueryOptionsType = {
   category?: string;
   status?: string;
   limit?: number;
-};
-
-export type QueryParamsType = {
-  queryKey: QueryKey;
-  pageParam?: string;
 };
 export type Attachment = {
   id: string | number;
@@ -119,56 +100,4 @@ export type Order = {
   payment_gateway: string;
 };
 
-export type ShopsQueryOptionsType = {
-  text?: string;
-  shop?: Shop;
-  status?: string;
-  limit?: number;
-};
 
-export type Shop = {
-  id: string | number;
-  owner_id: string | number;
-  owner_name: string;
-  address: string;
-  phone: string;
-  website: string;
-  ratings: string;
-  name: string;
-  slug: string;
-  description: string;
-  cover_image: Attachment;
-  logo: Attachment;
-  socialShare: any;
-  created_at: string;
-  updated_at: string;
-};
-export type Blog = {
-  id: number | string;
-  title: string;
-  subTitle: string;
-  shortDescription: string;
-  authorName: string;
-  date: {
-    month: string;
-    date: number;
-    year: number;
-  };
-  totalWatchCount?: number;
-  totalCommentCount?: number;
-  titleTwo: string;
-  category: string;
-  image: string;
-  sku?: string;
-  content?: string;
-  contentTwo?: string;
-  contentThree?: string;
-  quote: {
-    content: string;
-  };
-  postList?: object;
-  discount?: object;
-  tags: {};
-  comments?: object;
-  [key: string]: unknown;
-};

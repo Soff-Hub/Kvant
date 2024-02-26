@@ -4,7 +4,7 @@ import siteLogo from 'public/assets/images/logo.svg';
 import siteLogoBlack from 'public/assets/images/logo.svg';
 
 export const siteSettings = {
-  name: 'Razazoror',
+  name: 'Kvant',
   description:
     'Fastest E-commerce template built with React, NextJS, TypeScript, React-Query and Tailwind CSS.',
   author: {
