@@ -38,7 +38,7 @@ export type Attachment = {
 };
 export type Category = {
   id: number | string;
-  name: string;
+  title: string;
   slug: string;
   details?: string;
   image?: Attachment;

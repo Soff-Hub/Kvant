@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useUI } from '@contexts/ui.context';
 import { getToken } from '@framework/utils/get-token';
+import { baseURL } from '@framework/utils/http';
+import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 
 type ForgetPasswordType = {
   codeValues: string;
@@ -38,17 +40,14 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
       if (firstSendCode) {
         try {
           setLoader(false);
-          const response = await fetch(
-            'http://192.168.1.20/api/v1/auth/check-code/',
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({ code: codeValues }),
+          await fetch(baseURL + API_ENDPOINTS.CHECK_CODE, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
             },
-          );
+            body: JSON.stringify({ code: codeValues }),
+          });
           window.location.href = '/en/change-password'; // Boshqa sahifaga yo'naltiramiz
           setLoader(true);
         } catch (error) {
@@ -57,7 +56,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
       } else if (!firstSendCode) {
         try {
           const response = await fetch(
-            'http://192.168.1.20/api/v1/auth/forget-password/',
+            baseURL + API_ENDPOINTS.FORGET_PASSWORD,
             {
               method: 'POST',
               headers: {
@@ -82,17 +81,14 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
       if (firstSendCode) {
         try {
           setLoader(false);
-          const response = await fetch(
-            'http://192.168.1.20/api/v1/auth/verify/',
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({ code: codeValues }),
+          const response = await fetch(baseURL + API_ENDPOINTS.VERIFY, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
             },
-          );
+            body: JSON.stringify({ code: codeValues }),
+          });
           const data = await response.json();
           if (data?.tokens?.access) {
             Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
@@ -105,16 +101,13 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
         }
       } else if (!firstSendCode) {
         try {
-          const response = await fetch(
-            'http://192.168.1.20/api/v1/auth/get-new-code/',
-            {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
+          const response = await fetch(baseURL + API_ENDPOINTS.GET_CODE, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
             },
-          );
+          });
           const data = await response.json();
           if (data?.tokens?.access) {
             Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz

@@ -9,6 +9,8 @@ import { useState } from 'react';
 import { useUI } from '@contexts/ui.context';
 import { getToken } from '@framework/utils/get-token';
 import Cookies from 'js-cookie';
+import { baseURL } from '@framework/utils/http';
+import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 
 interface ChangePasswordInputType {
   newPassword: string;
@@ -29,20 +31,17 @@ const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
   async function onSubmit({ newPassword }: ChangePasswordInputType) {
     try {
       setLoader(false);
-      const response = await fetch(
-        'http://192.168.1.20/api/v1/auth/reset-password/',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            password1: newPassword,
-            password2: newPassword,
-          }),
+      await fetch(baseURL + API_ENDPOINTS.RESET_PASSWORD, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
-      );
+        body: JSON.stringify({
+          password1: newPassword,
+          password2: newPassword,
+        }),
+      });
       window.location.href = '/en/signin'; // Boshqa sahifaga yo'naltiramiz
       setLoader(true);
     } catch (error) {

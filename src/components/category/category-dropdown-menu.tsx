@@ -11,6 +11,7 @@ interface CategoryDropdownProps {
   categoriesLimit?: number;
 }
 
+
 export default function CategoryDropdownMenu({
   lang,
   className,
@@ -24,7 +25,6 @@ export default function CategoryDropdownMenu({
     limit: 15,
   });
 
-  console.log(data);
 
   return (
     <div className={cn('absolute z-30 w-72 lg:w-full', className)}>
@@ -48,7 +48,7 @@ export default function CategoryDropdownMenu({
           </div>
         ) : (
           <CategoryMenu
-            items={data?.categories?.data.slice(0)}
+            items={data}
             categoriesLimit={categoriesLimit}
             lang={lang}
           />

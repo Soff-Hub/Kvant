@@ -10,6 +10,8 @@ import CloseButton from '@components/ui/close-button';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useUI } from '@contexts/ui.context';
+import { baseURL } from '@framework/utils/http';
+import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 
 type ForgetPasswordType = {
   phone: any;
@@ -29,21 +31,17 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
   async function onSubmit({ phone }: ForgetPasswordType) {
     try {
       setLoader(false);
-      const response = await fetch(
-        'http://192.168.1.20/api/v1/auth/forget-password/',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ phone: phone }),
+      const response = await fetch(baseURL + API_ENDPOINTS.FORGET_PASSWORD, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify({ phone: phone }),});
       const data = await response.json();
       if (data?.tokens?.access) {
-        Cookies.remove('phone',phone); // Yangi raqam o'rnatamiz
+        Cookies.remove('phone', phone); // Yangi raqam o'rnatamiz
         Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
-        Cookies.set('phone',phone); // Yangi raqam o'rnatamiz
+        Cookies.set('phone', phone); // Yangi raqam o'rnatamiz
         authorize();
         window.location.href = '/en/forget-password'; // Boshqa sahifaga yo'naltiramiz
         setLoader(true);

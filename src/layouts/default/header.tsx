@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { siteSettings } from '@settings/site-settings';
 import { ROUTES } from '@utils/routes';
@@ -35,6 +35,7 @@ const Header = ({ className, lang }: HeaderProps) => {
   const { t } = useTranslation(lang, 'common');
   const siteHeaderRef = useRef() as DivElementRef;
   const [categoryMenu, setCategoryMenu] = useState(Boolean(false));
+  const [isClient, setIsClient] = useState(Boolean(false));
   useActiveScroll(siteHeaderRef);
 
   const token = getToken();
@@ -46,6 +47,9 @@ const Header = ({ className, lang }: HeaderProps) => {
   function handleCategoryMenu() {
     setCategoryMenu(!categoryMenu);
   }
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <>
@@ -93,22 +97,25 @@ const Header = ({ className, lang }: HeaderProps) => {
                 <LanguageSwitcher lang="en" />
                 <div className="hidden lg:flex items-center  accountButton">
                   <AccountIcon />
-                  {!token && (
-                    <div className="flex flex-col ml-4">
-                      <Link
-                        className="text-sm  "
-                        href={`/${lang}${ROUTES.LOGIN}`}
-                      >
-                        {t('Kirish')}
-                      </Link>
-                      <Link
-                        className="text-sm "
-                        href={`/${lang}${ROUTES.SIGN_UP}`}
-                      >
-                        {t('Register')}
-                      </Link>
-                    </div>
-                  )}
+                  {isClient &&
+                    (!token ? (
+                      <div className="flex flex-col ml-4">
+                        <Link
+                          className="text-sm  "
+                          href={`/${lang}${ROUTES.LOGIN}`}
+                        >
+                          {t('Kirish')}
+                        </Link>
+                        <Link
+                          className="text-sm "
+                          href={`/${lang}${ROUTES.SIGN_UP}`}
+                        >
+                          {t('Register')}
+                        </Link>
+                      </div>
+                    ) : (
+                      <></>
+                    ))}
                 </div>
               </div>
             </Container>

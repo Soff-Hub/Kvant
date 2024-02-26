@@ -5,10 +5,9 @@ import { useQuery } from 'react-query';
 
 export const fetchCategory = async ({ queryKey }: any) => {
   const [_key, _params] = queryKey;
-  const {
-    data: { data },
-  } = await http.get(API_ENDPOINTS.CATEGORIES);
+  const {data: { data }, } = await http.get(API_ENDPOINTS.CATEGORIES);
   return { category: { data } };
+  
 };
 export const useCategoriesQuery = (options: QueryOptionsType) => {
   return useQuery<{ category: { data: Category[] } }, Error>(

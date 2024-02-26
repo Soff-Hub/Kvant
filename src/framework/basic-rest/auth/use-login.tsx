@@ -1,4 +1,6 @@
 import { useUI } from '@contexts/ui.context';
+import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import { baseURL } from '@framework/utils/http';
 import Cookies from 'js-cookie';
 import { useMutation } from 'react-query';
 
@@ -9,7 +11,7 @@ export interface LoginInputType {
 
 async function login(input: LoginInputType) {
   // Fetch API yordamida serverga POST so'rov yuboriladi
-  const response = await fetch(`${'http://192.168.1.20/api/v1/auth/login/'}`, {
+  const response = await fetch(baseURL + API_ENDPOINTS.LOGIN, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
