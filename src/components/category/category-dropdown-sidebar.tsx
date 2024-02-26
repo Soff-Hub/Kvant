@@ -24,6 +24,9 @@ export default function CategoryDropdownSidebar({
   } = useCategoriesQuery({
     limit: 10,
   });
+
+  console.log(data);
+  
   return (
       <aside className={cn('category-mobile-sidebar bg-white rounded p-5', className)}>
       <div className=" mb-3 ">

@@ -9,16 +9,13 @@ export interface LoginInputType {
 
 async function login(input: LoginInputType) {
   // Fetch API yordamida serverga POST so'rov yuboriladi
-  const response = await fetch(
-    `${'https://kvantuz.pythonanywhere.com/api/v1/auth/login/'}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(input),
+  const response = await fetch(`${'http://192.168.1.20/api/v1/auth/login/'}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    body: JSON.stringify(input),
+  });
 
   if (response.ok) {
     return await response.json();
@@ -38,7 +35,7 @@ export const useLoginMutation = () => {
         Cookies.set('auth_token', data.tokens.access);
         await authorize();
         window.location.href = '/en/my-account/orders';
-      } 
+      }
     },
     onError: (error: any) => {
       // Kirishda xato yuz berganda, konsolga xato chiqariladi

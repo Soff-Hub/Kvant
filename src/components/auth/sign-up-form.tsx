@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { useSignUpMutation, SignUpInputType } from '@framework/auth/use-signup';
 import Link from '@components/ui/link';
 import Image from '@components/ui/image';
-import Switch from '@components/ui/switch';
 import cn from 'classnames';
 import { ROUTES } from '@utils/routes';
 import { useTranslation } from 'src/app/i18n/client';

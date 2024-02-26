@@ -10,7 +10,7 @@ export interface SignUpInputType {
 
 async function signUp(input: SignUpInputType) {
   const response = await fetch(
-    `https://kvantuz.pythonanywhere.com/api/v1/auth/register/`,
+    `http://192.168.1.20/api/v1/auth/register/`,
     {
       method: 'POST',
       headers: {
@@ -34,8 +34,9 @@ export const useSignUpMutation = () => {
     onSuccess: (data) => {
       if (data?.tokens?.access) {
         Cookies.set('auth_token', data.tokens.access);
+        Cookies.remove('phone');
         authorize();
-        window.location.href = '/en/my-account/orders';
+        window.location.href = '/en/forget-password';
       }
     },
     onError: (error: any) => {

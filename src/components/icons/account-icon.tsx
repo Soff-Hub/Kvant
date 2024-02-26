@@ -1,5 +1,5 @@
+import { getToken } from '@framework/utils/get-token';
 import cn from 'classnames';
-import Cookies from 'js-cookie';
 import Link from 'next/link';
 const AccountIcon = ({
   className = '',
@@ -7,7 +7,9 @@ const AccountIcon = ({
   width = '23',
   height = '23',
 }) => {
-  return Cookies.get('auth_token') ? (
+  const token = getToken();
+
+  return token ? (
     <Link href={'/en/my-account/orders'}>
       <svg
         className={cn(className)}

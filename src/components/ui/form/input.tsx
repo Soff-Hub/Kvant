@@ -10,7 +10,7 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
   name: string;
-  error?: string;
+  error?: any;
   type?: string;
   shadow?: boolean;
   variant?: 'normal' | 'solid' | 'outline';

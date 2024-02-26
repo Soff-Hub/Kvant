@@ -16,7 +16,7 @@ import { FiMenu } from 'react-icons/fi';
 import CategoryDropdownMenu from '@components/category/category-dropdown-menu';
 import { useTranslation } from 'src/app/i18n/client';
 import Link from 'next/link';
-import Cookies from 'js-cookie';
+import { getToken } from '@framework/utils/get-token';
 
 const CartButton = dynamic(() => import('@components/cart/cart-button'), {
   ssr: false,
@@ -37,7 +37,7 @@ const Header = ({ className, lang }: HeaderProps) => {
   const [categoryMenu, setCategoryMenu] = useState(Boolean(false));
   useActiveScroll(siteHeaderRef);
 
-  const token = Cookies.get('auth_token');
+  const token = getToken();
 
   function handleMobileMenu() {
     return openSidebar();

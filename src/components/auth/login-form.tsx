@@ -41,7 +41,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
     });
   }
   function handleForgetPassword() {
-    return openModal('FORGET_PASSWORD');
+    return openModal('FORGET_PASSWORD_MODAL');
   }
 
   return (

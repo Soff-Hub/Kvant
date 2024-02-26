@@ -5,7 +5,7 @@ import React from 'react';
 type MODAL_VIEWS =
   | 'SIGN_UP_VIEW'
   | 'LOGIN_VIEW'
-  | 'FORGET_PASSWORD'
+  | 'FORGET_PASSWORD_MODAL'
   | 'PAYMENT'
   | 'ADDRESS_VIEW_AND_EDIT'
   | 'PHONE_NUMBER'

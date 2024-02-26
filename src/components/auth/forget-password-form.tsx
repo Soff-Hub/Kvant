@@ -6,32 +6,149 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'src/app/i18n/client';
 import { useModalAction } from '@components/common/modal/modal.context';
 import CloseButton from '@components/ui/close-button';
-import Link from 'next/link';
-import { ROUTES } from '@utils/routes';
-import { useForgetPasswordMutation } from '@framework/auth/use-forget-password';
 
-type FormValues = {
-  code: string;
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import { useUI } from '@contexts/ui.context';
+import { getToken } from '@framework/utils/get-token';
+
+type ForgetPasswordType = {
+  codeValues: string;
 };
-
 
 export default function ForgetPasswordForm({ lang }: { lang: string }) {
   const { t } = useTranslation(lang);
   const { closeModal } = useModalAction();
-  const { mutate: loginForget} = useForgetPasswordMutation();
+  const [countdown, setCountdown] = useState<number>(20);
+  const [loader, setLoader] = useState<boolean>(false);
+  const [firstSendCode, setFirstSendCode] = useState<boolean>(true);
+  const { authorize } = useUI();
+  const token = getToken();
+
+  const phoneCookie = Cookies.get('phone');
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<ForgetPasswordType>();
 
-  function onSubmit({ code }: FormValues) {
-    loginForget({
-      code,
-    });
+  async function onSubmit({ codeValues }: ForgetPasswordType) {
+    if (phoneCookie) {
+      if (firstSendCode) {
+        try {
+          setLoader(false);
+          const response = await fetch(
+            'http://192.168.1.20/api/v1/auth/check-code/',
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ code: codeValues }),
+            },
+          );
+          window.location.href = '/en/change-password'; // Boshqa sahifaga yo'naltiramiz
+          setLoader(true);
+        } catch (error) {
+          console.log(error, 'forget password error response');
+        }
+      } else if (!firstSendCode) {
+        try {
+          const response = await fetch(
+            'http://192.168.1.20/api/v1/auth/forget-password/',
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ phone: phoneCookie }),
+            },
+          );
+          const data = await response.json();
+          if (data?.tokens?.access) {
+            Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
+            authorize();
+          }
+          setFirstSendCode(true);
+          setCountdown(20);
+        } catch (error) {
+          console.log(error, 'forget password error response');
+        }
+      }
+    } else {
+      if (firstSendCode) {
+        try {
+          setLoader(false);
+          const response = await fetch(
+            'http://192.168.1.20/api/v1/auth/verify/',
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ code: codeValues }),
+            },
+          );
+          const data = await response.json();
+          if (data?.tokens?.access) {
+            Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
+            authorize();
+            window.location.href = '/en'; // Boshqa sahifaga yo'naltiramiz
+            setLoader(true);
+          }
+        } catch (error) {
+          console.log(error, 'forget password error response');
+        }
+      } else if (!firstSendCode) {
+        try {
+          const response = await fetch(
+            'http://192.168.1.20/api/v1/auth/get-new-code/',
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          );
+          const data = await response.json();
+          if (data?.tokens?.access) {
+            Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
+            authorize();
+            window.location.href = '/en'; // Boshqa sahifaga yo'naltiramiz
+          }
+          setFirstSendCode(true);
+          setCountdown(20);
+        } catch (error) {
+          console.log(error, 'forget password error response');
+        }
+      }
+    }
   }
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        if (prevCountdown === 0) {
+          clearInterval(interval);
+          return 0;
+        } else {
+          return prevCountdown - 1;
+        }
+      });
+    }, 1000);
 
+    if (countdown <= 0) {
+      setFirstSendCode(false);
+    }
+    return () => {
+      clearInterval(interval);
+    };
+  }, [countdown]);
 
   return (
     <div className="w-full px-5 py-6 mx-auto rounded-lg sm:p-8 bg-brand-light sm:w-96 md:w-450px">
@@ -47,45 +164,35 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
         noValidate
       >
         <Input
-          label={t('forms:label-number') as string}
-          type="tel" // Change the type to "number"
+          label={t('Kodni kiriting') as string}
+          type="number" // Change the type to "number"
           variant="solid"
-          className="mb-4"
-          {...register('code', {
-            required: `${t('forms:number-required')}`, // Change the error message for required field
+          className="mb-1"
+          {...register('codeValues', {
+            // required: `${t('number required')}`,
             pattern: {
               value: /^\d+$/, // Regular expression to match numbers only
-              message: t('forms:number-error'), // Error message for invalid number format
+              message: t('error kode'), // Error message for invalid number format
             },
           })}
-          error={errors.code?.message} // Display error message if validation fails
+          error={errors.codeValues?.message} // Display error message if validation fails
           lang={lang}
         />
-
+        <div className="mb-3 text-red-600 ">
+          {`${Math.floor(countdown / 60)
+            .toString()
+            .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}
+        </div>
         <Button
+          loading={loader}
+          disabled={loader}
           type="submit"
           variant="formButton"
           className="w-full mt-0 h-11 md:h-12"
         >
-          {t('common:text-reset-password')}
+          {firstSendCode ? 'Yuborish' : 'Qayta kod yuborish'}
         </Button>
       </form>
-      <div className="relative flex flex-col items-center justify-center mt-8 mb-6 text-sm text-heading sm:mt-10 sm:mb-7">
-        <hr className="w-full border-gray-300" />
-        <span className="absolute -top-2.5 px-2 bg-brand-light">
-          {t('common:text-or')}
-        </span>
-      </div>
-      <div className="text-sm text-center sm:text-15px text-brand-muted">
-        {t('common:text-back-to')}{' '}
-        <Link
-          onClick={() => closeModal()}
-          href={`/${lang}${ROUTES.LOGIN}`}
-          className="text-sm text-brand sm:text-15px ltr:ml-1 rtl:mr-1 hover:no-underline focus:outline-none"
-        >
-          {t('common:text-login')}
-        </Link>
-      </div>
     </div>
   );
 }
