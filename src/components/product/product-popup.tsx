@@ -44,7 +44,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
     useState<boolean>(false);
   const [shareButtonStatus, setShareButtonStatus] = useState<boolean>(false);
 
-  const variations = getVariations(data.variations);
+  const variations = getVariations(data);
   const {
     slug,
     title,
@@ -176,52 +176,6 @@ export default function ProductPopup({ lang }: { lang: string }) {
                 </div>
               </div>
 
-              {Object.keys(variations).map((variation) => {
-                return (
-                  <ProductAttributes
-                    key={`popup-attribute-key${variation}`}
-                    variations={variations}
-                    attributes={attributes}
-                    setAttributes={setAttributes}
-                  />
-                );
-              })}
-
-              <div className="pb-2">
-                {/* check that item isInCart and place the available quantity or the item quantity */}
-                {isEmpty(variations) && (
-                  <>
-                    {Number(quantity) > 0 || !outOfStock ? (
-                      <span className="text-sm font-medium text-yellow">
-                        {t('text-only') +
-                          ' ' +
-                          quantity +
-                          ' ' +
-                          t('text-left-item')}
-                      </span>
-                    ) : (
-                      <div className="text-base text-brand-danger whitespace-nowrap">
-                        {t('text-out-stock')}
-                      </div>
-                    )}
-                  </>
-                )}
-
-                {!isEmpty(selectedVariation) && (
-                  <span className="text-sm font-medium text-yellow">
-                    {selectedVariation?.is_disable ||
-                    selectedVariation.quantity === 0
-                      ? t('text-out-stock')
-                      : `${
-                          t('text-only') +
-                          ' ' +
-                          selectedVariation.quantity +
-                          ' ' +
-                          t('text-left-item')
-                        }`}
-                  </span>
-                )}
-              </div>
 
               <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
                 <Counter
@@ -234,8 +188,8 @@ export default function ProductPopup({ lang }: { lang: string }) {
                   disabled={
                     isInCart(item.id)
                       ? getItemFromCart(item.id).quantity + selectedQuantity >=
-                        Number(item.stock)
-                      : selectedQuantity >= Number(item.stock)
+                        Number(item.quantity)
+                      : selectedQuantity >= Number(item.quantity)
                   }
                   lang={lang}
                 />
@@ -288,7 +242,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
                   </div>
                 </div>
               </div>
-              {tag && (
+              {/* {tag && (
                 <ul className="pt-5 xl:pt-6">
                   <li className="relative inline-flex items-center justify-center text-sm md:text-15px text-skin-base text-opacity-80 me-2 top-1">
                     <LabelIcon className="me-2" /> {t('text-tags')}:
@@ -299,7 +253,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
                     </li>
                   ))}
                 </ul>
-              )}
+              )} */}
 
               <div className="pt-6 xl:pt-8">
                 <Heading className="mb-3 lg:mb-3.5">

@@ -1,4 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
+
 interface Item {
   id: string | number;
   name: string;
@@ -12,6 +13,7 @@ interface Item {
   quantity?: number;
   [key: string]: unknown;
 }
+
 interface Variation {
   id: string | number;
   title: string;
@@ -20,8 +22,11 @@ interface Variation {
   quantity: number;
   [key: string]: unknown;
 }
+
 export function generateCartItem(item: Item, variation: Variation) {
   const { id, name, slug, image, price, sale_price, quantity, unit } = item;
+
+  // isEmpty funksiyasi orqali variation obyekti bo'sh bo'lsa true qaytariladi
   if (!isEmpty(variation)) {
     return {
       id: `${id}.${variation.id}`,
@@ -35,6 +40,7 @@ export function generateCartItem(item: Item, variation: Variation) {
       variationId: variation.id,
     };
   }
+
   return {
     id,
     name,

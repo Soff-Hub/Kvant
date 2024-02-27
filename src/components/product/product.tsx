@@ -1,17 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@components/ui/button';
 import Counter from '@components/ui/counter';
 import { useParams } from 'next/navigation';
 import { ROUTES } from '@utils/routes';
 import useWindowSize from '@utils/use-window-size';
-import { useProductQuery } from '@framework/product/get-product';
 import { getVariations } from '@framework/utils/get-variations';
-import usePrice from '@framework/product/use-price';
 import { useCart } from '@contexts/cart/cart.context';
 import { generateCartItem } from '@utils/generate-cart-item';
-import ProductAttributes from '@components/product/product-attributes';
 import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
 import ThumbnailCarousel from '@components/ui/carousel/thumbnail-carousel';
@@ -23,16 +20,17 @@ import LabelIcon from '@components/icons/label-icon';
 import { IoArrowRedoOutline } from 'react-icons/io5';
 import SocialShareBox from '@components/ui/social-share-box';
 import ProductDetailsTab from '@components/product/product-details/product-tab';
-import VariationPrice from './variation-price';
 import isEqual from 'lodash/isEqual';
 import { useTranslation } from 'src/app/i18n/client';
-
+import { baseURL } from '@framework/utils/http';
+import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import Heading from '@components/ui/heading';
+import Text from '@components/ui/text';
 const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'common');
   const pathname = useParams();
   const { slug } = pathname;
   const { width } = useWindowSize();
-  const { data, isLoading } = useProductQuery(slug as string);
   const { addItemToCart, isInCart, getItemFromCart, isInStock } = useCart();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
@@ -42,24 +40,38 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const [addToWishlistLoader, setAddToWishlistLoader] =
     useState<boolean>(false);
   const [shareButtonStatus, setShareButtonStatus] = useState<boolean>(false);
-  const productUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}${ROUTES.PRODUCT}/${pathname.slug}`;
-  const { price, basePrice, discount } = usePrice(
-    data && {
-      amount: data.sale_price ? data.sale_price : data.price,
-      baseAmount: data.price,
-      currencyCode: 'USD',
+  const [data, setData] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const productUrl = `${baseURL}${ROUTES.PRODUCT}/${slug}`;
+
+  async function handlePopupView() {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `${baseURL + API_ENDPOINTS.PRODUCTS_DETAILS}/${pathname.slug}/`,
+      );
+      const product = await response.json();
+      setData(product);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Xatolik yuz berdi:', error);
     }
-  );
+  }
+  useEffect(() => {
+    handlePopupView();
+  }, [slug]);
+
   const handleChange = () => {
     setShareButtonStatus(!shareButtonStatus);
   };
-  if (isLoading) return <p className={"pt-8 pb-8"}>Loading...</p>;
-  const variations = getVariations(data?.variations);
+  if (isLoading) return <p className={'pt-8 pb-8'}>Loading...</p>;
+  const variations = getVariations(data);
 
   const isSelected = !isEmpty(variations)
     ? !isEmpty(attributes) &&
       Object.keys(variations).every((variation) =>
-        attributes.hasOwnProperty(variation)
+        attributes.hasOwnProperty(variation),
       )
     : true;
   let selectedVariation: any = {};
@@ -68,11 +80,11 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     selectedVariation = dataVaiOption?.find((o: any) =>
       isEqual(
         o.options.map((v: any) => v.value).sort(),
-        Object.values(attributes).sort()
-      )
+        Object.values(attributes).sort(),
+      ),
     );
   }
-  const item = generateCartItem(data!, selectedVariation);
+  const item: any = generateCartItem(data, selectedVariation);
   const outOfStock = isInCart(item.id) && !isInStock(item.id);
   function addToCart() {
     if (!isSelected) return;
@@ -114,21 +126,23 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     });
   }
 
+  console.log(data);
+
   return (
     <div className="pt-6 pb-2 md:pt-7">
       <div className="grid-cols-10 lg:grid gap-7 2xl:gap-7 mb-8 lg:mb-12 bg-white p-5 rounded">
         <div className="col-span-5 mb-6 overflow-hidden  md:mb-8 lg:mb-0 xl:flex justify-center">
-          {!!data?.gallery?.length ? (
+          {!!data?.galleries?.[0]?.image?.length ? (
             <ThumbnailCarousel
-              gallery={data?.gallery}
+              gallery={data?.galleries}
               galleryClassName="xl:w-[100px]"
               lang={lang}
             />
           ) : (
             <div className="flex items-center justify-center w-auto">
               <Image
-                src={data?.image?.original ?? '/product-placeholder.svg'}
-                alt={data?.name!}
+                src={data?.image ?? '/product-placeholder.svg'}
+                alt={data?.title!}
                 width={900}
                 height={680}
                 style={{ width: 'auto' }}
@@ -141,108 +155,28 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
           <div className="pb-4 lg:pb-8">
             <div className="md:mb-2.5 block -mt-1.5">
               <h2 className="text-lg font-medium transition-colors duration-300 text-brand-dark md:text-xl xl:text-2xl">
-                {data?.name}
+                {data?.title}
               </h2>
             </div>
-            {data?.unit && isEmpty(variations) ? (
-              <div className="text-sm font-medium md:text-15px">
-                {data?.unit}
-              </div>
-            ) : (
-              <VariationPrice
-                selectedVariation={selectedVariation}
-                minPrice={data?.min_price}
-                maxPrice={data?.max_price}
-                lang={lang}
-              />
-            )}
 
-            {isEmpty(variations) && (
-              <div className="flex items-center mt-5">
-                <div className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
-                  {price}
-                </div>
-                {discount && (
-                  <>
-                    <del className="text-sm text-opacity-50 md:text-15px ltr:pl-3 rtl:pr-3 text-brand-dark ">
-                      {basePrice}
-                    </del>
-                    <span className="inline-block rounded font-bold text-xs md:text-sm bg-brand-tree bg-opacity-20 text-brand-tree uppercase px-2 py-1 ltr:ml-2.5 rtl:mr-2.5">
-                      {discount} {t('text-off')}
-                    </span>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-
-          <dl className="productView-info  text-[14px] leading-8 pb-5 mb-5 border-b border-border-base">
-            <dt className={`productView-info-name w-40 ltr:float-left rtl:float-right`}>
-              {t('text-brand')}:
-            </dt>
-            <dd className="productView-info-value">{data?.brand}</dd>
-            <dt className={`productView-info-name w-40 ltr:float-left rtl:float-right`}>
-              {t('text-sku')}:
-            </dt>
-            <dd className="productView-info-value">200101</dd>
-            <dt className={`productView-info-name w-40 ltr:float-left rtl:float-right`}>
-              {t('text-weight')}:
-            </dt>
-            <dd className="productView-info-value" data-product-weight="">
-              {data?.weight} KGS
-            </dd>
-            <dt className={`productView-info-name w-40 ltr:float-left rtl:float-right`}>
-              {t('text-shipping')}:
-            </dt>
-            <dd className="productView-info-value">
-              {t(`text-calculated-checkout`)}
-            </dd>
-          </dl>
-          {Object.keys(variations).map((variation) => {
-            return (
-              <ProductAttributes
-                key={`popup-attribute-key${variation}`}
-                variations={variations}
-                attributes={attributes}
-                setAttributes={setAttributes}
-              />
-            );
-          })}
-
-          <div className="pb-2">
-            {/* check that item isInCart and place the available quantity or the item quantity */}
-            {isEmpty(variations) && (
-              <>
-                {Number(quantity) > 0 || !outOfStock ? (
-                  <span className="text-sm font-medium text-yellow">
-                    {t('text-only') +
-                      ' ' +
-                      quantity +
-                      ' ' +
-                      t('text-left-item')}
+            <div className="flex items-center mt-5">
+              {data?.discount_price !== Number(data?.price) ? (
+                <>
+                  <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
+                    {data?.discount_price} so'm
                   </span>
-                ) : (
-                  <div className="text-base text-red-500 whitespace-nowrap">
-                    {t('text-out-stock')}
-                  </div>
-                )}
-              </>
-            )}
-
-            {!isEmpty(selectedVariation) && (
-              <span className="text-sm font-medium text-yellow">
-                {selectedVariation?.is_disable ||
-                selectedVariation.quantity === 0
-                  ? t('text-out-stock')
-                  : `${
-                      t('text-only') +
-                      ' ' +
-                      selectedVariation.quantity +
-                      ' ' +
-                      t('text-left-item')
-                    }`}
-              </span>
-            )}
+                  <del className="text-sm text-opacity-50 md:text-15px ltr:pl-3 rtl:pr-3 text-brand-dark ">
+                    {Number(data?.price)} so'm
+                  </del>
+                </>
+              ) : (
+                <>
+                  <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
+                    {Number(data?.price)} so'm
+                  </span>
+                </>
+              )}
+            </div>
           </div>
 
           <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
@@ -256,8 +190,8 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
               disabled={
                 isInCart(item.id)
                   ? getItemFromCart(item.id).quantity + selectedQuantity >=
-                    Number(item.stock)
-                  : selectedQuantity >= Number(item.stock)
+                    Number(item.quantity)
+                  : selectedQuantity >= Number(item.quantity)
               }
               lang={lang}
             />
@@ -310,7 +244,15 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
               </div>
             </div>
           </div>
-          {data?.tag && (
+          <div className="pt-6 xl:pt-8">
+            <Heading className="mb-3 lg:mb-3.5">
+              Mahsulot haqida
+            </Heading>
+            <Text variant="small">
+              {data?.description}
+            </Text>
+          </div>
+          {/* {data?.tag && (
             <ul className="pt-5 xl:pt-6">
               <li className="relative inline-flex items-center justify-center text-sm md:text-15px text-brand-dark text-opacity-80 ltr:mr-2 rtl:ml-2 top-1">
                 <LabelIcon className="ltr:mr-2 rtl:ml-2" /> {t('text-tags')}:
@@ -321,10 +263,10 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
                 </li>
               ))}
             </ul>
-          )}
+          )} */}
         </div>
       </div>
-      <ProductDetailsTab lang={lang} />
+      <ProductDetailsTab lang={lang} dataProps={data?.body} />
     </div>
   );
 };
