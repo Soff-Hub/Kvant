@@ -25,10 +25,11 @@ export default function CategoryDropdownSidebar({
     limit: 10,
   });
 
-  console.log(data);
-  
+
   return (
-      <aside className={cn('category-mobile-sidebar bg-white rounded p-5', className)}>
+    <aside
+      className={cn('category-mobile-sidebar bg-white rounded p-5', className)}
+    >
       <div className=" mb-3 ">
         <SectionHeader
           sectionHeading={`text-all-categories`}
@@ -52,11 +53,7 @@ export default function CategoryDropdownSidebar({
                   />
                 ))
               ) : (
-                <SidebarMenu
-                  className="list"
-                  items={data?.categories?.data}
-                  lang={lang}
-                />
+                <SidebarMenu className="list" items={data} lang={lang} />
               )}
             </div>
           </Scrollbar>

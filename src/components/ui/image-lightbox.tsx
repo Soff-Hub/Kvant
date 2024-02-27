@@ -8,20 +8,19 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/plugins/captions.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import "yet-another-react-lightbox/styles.css";
-import { IoExpand,IoExpandOutline } from 'react-icons/io5';
+import {IoExpandOutline } from 'react-icons/io5';
 import {useState} from "react";
 
 interface ImgGalleryProps {
     gallery: any[];
 }
 
-const ImageLightBox: React.FC<ImgGalleryProps> = ({gallery,}) => {
+const ImageLightBox: React.FC<ImgGalleryProps> = ({gallery}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [photoIndex, setPhotoIndex] = useState(0);
 
     const slidesGallery = gallery?.map((image) => {
         return {
-            src: image.original
+            src: image.image
         }
     });
 

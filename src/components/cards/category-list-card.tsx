@@ -20,53 +20,55 @@ const CategoryListCard: React.FC<Props> = ({
   variant = 'default',
   lang,
 }) => {
-  const { name, icon, image,children } = category;
+  const { title, image, children } = category;
   const { t } = useTranslation(lang, 'common');
   const SUBCATEGORIES_LIMITS = 5;
   return (
     <div className={`wb-categories__items pe-4`}>
-        <Link href={href} legacyBehavior>
-            <a
-                className={cn(
-                    'group  justify-between items-center px-0 transition ',
-                    className
-                )}
-            >
-                <Image
-                    src={image?.original ?? '/assets/placeholder/category-small.svg'}
-                    alt={name || t('text-category-thumbnail')}
-                    width={variant === 'antique' ? 80 : 255}
-                    height={variant === 'antique' ? 80 : 160}
-                    priority
-                    style={{ width: '100%' }}
-                    className="bg-sink-thumbnail object-cover transition duration-200 ease-in-out transform group-hover:opacity-80"
-                    />
-
-            </a>
-        </Link>
-
-        <h3
-            className={`pt-5 text-[16px] text-fill-base capitalize  font-medium hover:text-brand`}
+      <Link href={href} legacyBehavior>
+        <a
+          className={cn(
+            'group  justify-between items-center px-0 transition ',
+            className,
+          )}
         >
-            <Link href={href} legacyBehavior>{name}</Link>
-        </h3>
+          <Image
+            src={image?.original ?? '/assets/placeholder/category-small.svg'}
+            alt={title || t('text-category-thumbnail')}
+            width={variant === 'antique' ? 80 : 255}
+            height={variant === 'antique' ? 80 : 160}
+            priority
+            style={{ width: '100%' }}
+            className="bg-sink-thumbnail object-cover transition duration-200 ease-in-out transform group-hover:opacity-80"
+          />
+        </a>
+      </Link>
 
-        {Array.isArray(children) ? (
-            <ul key="content" className="py-3 text-[14px] leading-6">
-                {children.slice(0, SUBCATEGORIES_LIMITS)?.map((currentItem: any, idx:number) => {
-                    return (
-                        <li className="pb-1 hover:text-skin-primary" key={`${idx}`}>
-                            <Link
-                                href={`/${lang}${ROUTES.SEARCH}?category=${currentItem.slug}`}
-                            >
-                            {currentItem.name}
-                            </Link>
-                        </li>
-                    );
-                })}
-            </ul>
-        ) : null}
+      <h3
+        className={`pt-5 text-[16px] text-fill-base capitalize  font-medium hover:text-brand`}
+      >
+        <Link href={href} legacyBehavior>
+          {title}
+        </Link>
+      </h3>
 
+      {Array.isArray(children) ? (
+        <ul key="content" className="py-3 text-[14px] leading-6">
+          {children
+            .slice(0, SUBCATEGORIES_LIMITS)
+            ?.map((currentItem: any, idx: number) => {
+              return (
+                <li className="pb-1 hover:text-skin-primary" key={`${idx}`}>
+                  <Link
+                    href={`/${lang}${ROUTES.SEARCH}?category=${currentItem.slug}`}
+                  >
+                    {currentItem.name}
+                  </Link>
+                </li>
+              );
+            })}
+        </ul>
+      ) : null}
     </div>
   );
 };

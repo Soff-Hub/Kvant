@@ -6,7 +6,7 @@ import { useQuery } from 'react-query';
 export const fetchCategories = async ({ queryKey }: any) => {
   const [_key, _params] = queryKey;
   const { data } = await http.get(API_ENDPOINTS.CATEGORIES);
-  return data?.results;
+  return data;
 };
 
 export const useCategoriesQuery = (options: CategoriesQueryOptionsType) => {

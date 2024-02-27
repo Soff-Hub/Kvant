@@ -27,7 +27,6 @@ interface ProductProps {
 
 function RenderPopupOrAddToCart({ props }: { props: Object }) {
   let { data, lang }: any = props;
-  // console.log(variant);
   const { t } = useTranslation(lang, 'common');
   const { id, quantity, product_type } = data ?? {};
   const { width } = useWindowSize();
@@ -92,26 +91,14 @@ const ProductCardMedium: React.FC<ProductProps> = ({
   className,
   lang,
 }) => {
-  const { id, name, image, unit, quantity, slug, product_type } = product ?? {};
+  const { id, title, image, price, quantity, slug, discount, discount_price } =
+    product ?? {};
   const { openModal } = useModalAction();
   const { t } = useTranslation(lang, 'common');
   const { width } = useWindowSize();
   const { isInCart, isInStock } = useCart();
   const outOfStock = isInCart(id) && !isInStock(id);
   const iconSize = width! > 1024 ? '20' : '17';
-  const { price, basePrice, discount } = usePrice({
-    amount: product?.sale_price ? product?.sale_price : product?.price,
-    baseAmount: product?.price,
-    currencyCode: 'USD',
-  });
-  const { price: minPrice } = usePrice({
-    amount: product?.min_price ?? 0,
-    currencyCode: 'USD',
-  });
-  const { price: maxPrice } = usePrice({
-    amount: product?.max_price ?? 0,
-    currencyCode: 'USD',
-  });
 
   function handlePopupView() {
     openModal('PRODUCT_VIEW', product);
@@ -126,22 +113,24 @@ const ProductCardMedium: React.FC<ProductProps> = ({
           ? 'card-image--nojump'
           : 'card-image--nojump',
       )}
-      title={name}
+      title={title}
     >
       <div className="relative flex-shrink-0 product-card-img">
         <div className="card-img-container overflow-hidden flex items-center">
           <ImageFill
-            src={image?.thumbnail ?? productPlaceholder}
-            alt={name || 'Product Image'}
+            src={image ?? productPlaceholder}
+            alt={title || 'Product Image'}
             width={180}
             height={180}
           />
         </div>
         <div className="w-full h-full absolute top-0  z-10">
-          {discount && (
+          {discount ? (
             <span className="text-[10px] font-medium text-white uppercase inline-block bg-red-600 rounded-sm px-2.5 pt-1 pb-[3px] mx-0.5 sm:mx-1">
-              {t('text-on-sale')}
+              {discount} %
             </span>
+          ) : (
+            <></>
           )}
           <button
             className="buttons--quickview px-4 py-2 bg-brand-light rounded-full hover:bg-brand hover:text-brand-light"
@@ -155,13 +144,13 @@ const ProductCardMedium: React.FC<ProductProps> = ({
 
       <div className="flex flex-col h-full overflow-hidden relative product-card-content">
         <div className="text-sm mt-auto leading-6 text-gray-400 mb-1.5 hidden">
-          {unit}
+          {price}
         </div>
         <Link
           href={`/${lang}${ROUTES.PRODUCTS}/${slug}`}
           className="text-skin-base font-semibold text-sm leading-5 min-h-[40px] line-clamp-2 mb-2 hover:text-brand"
         >
-          {name}
+          {title}
         </Link>
         <div className="flex text-gray-500 space-x-2">
           <div className="flex items-center">
@@ -176,13 +165,21 @@ const ProductCardMedium: React.FC<ProductProps> = ({
           <span className="text-[13px] leading-4">(1 review)</span>
         </div>
         <div className="space-s-2">
-          <span className="inline-block font-semibold text-[18px] text-brand">
-            {product_type === 'variable' ? `${minPrice} - ${maxPrice}` : price}
-          </span>
-          {basePrice && (
-            <del className="mx-1  text-gray-400 text-opacity-70">
-              {basePrice}
-            </del>
+          {discount_price !== Number(price) ? (
+            <>
+              <span className="inline-block font-semibold text-[18px] text-brand">
+                {discount_price} so'm
+              </span>
+              <del className="mx-1  text-gray-400 text-opacity-70">
+                {Number(price)} so'm
+              </del>
+            </>
+          ) : (
+            <>
+              <span className="inline-block font-semibold text-[18px] text-brand">
+                {Number(price)} so'm
+              </span>
+            </>
           )}
         </div>
         <div className="mt-3 ">

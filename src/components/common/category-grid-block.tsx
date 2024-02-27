@@ -8,10 +8,10 @@ import Alert from '@components/ui/alert';
 import { SwiperSlide } from 'swiper/react';
 import useWindowSize from '@utils/use-window-size';
 import { LIMITS } from '@framework/utils/limits';
-import { useCategoriesQuery } from '@framework/category/get-all-categories';
 import CategoryListCardLoader from '@components/ui/loaders/category-list-card-loader';
 import CategoryListCard from '@components/cards/category-list-card';
 import CategoryCard from '@components/cards/category-card';
+import { useCategoriesQueryImages } from '@framework/category/get-all-categories-images';
 const Carousel = dynamic(() => import('@components/ui/carousel/carousel'), {
   ssr: false,
 });
@@ -30,9 +30,12 @@ const CategoryGridBlock: React.FC<CategoriesProps> = ({
   variant = 'default',
 }) => {
   const { width } = useWindowSize();
-  const { data, isLoading, error } = useCategoriesQuery({
+  const { isLoading, error, data } = useCategoriesQueryImages({
     limit: LIMITS.CATEGORIES_LIMITS,
   });
+
+  const data2: any = data === undefined ? [] : data;
+
   const breakpoints = {
     '1480': {
       slidesPerView: limit,
@@ -70,7 +73,7 @@ const CategoryGridBlock: React.FC<CategoriesProps> = ({
             breakpoints={breakpoints}
             className="shopby-categories"
           >
-            {isLoading && !data
+            {isLoading && !data2
               ? Array.from({ length: limit }).map((_, idx) => {
                   return (
                     <SwiperSlide key={`category--key-${idx}`}>
@@ -80,7 +83,8 @@ const CategoryGridBlock: React.FC<CategoriesProps> = ({
                     </SwiperSlide>
                   );
                 })
-              : data?.categories?.data?.slice(0, limit)?.map((category) => (
+              : data2 &&
+                data2.slice(0, limit)?.map((category: any) => (
                   <SwiperSlide key={`category--key-${category.id}`}>
                     <CategoryCard
                       lang={lang}

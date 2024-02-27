@@ -15,5 +15,14 @@ module.exports = {
       ignoreDuringBuilds: true,
     },
   }),
-
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'kvantuz.pythonanywhere.com',
+        port: '',
+        pathname: '/media/**',
+      },
+    ],
+  },
 };

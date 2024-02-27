@@ -1,30 +1,23 @@
+'use client';
 import Container from '@components/ui/container';
-import { Metadata } from 'next';
 import HeroSliderBlock from '@components/hero/hero-slider-block';
-import {
-  homeThreeGridHero as gridHero,
-  homeThreeGridHero2 as gridHero2,
-  homeThreeHeroCarousel as bannerHeroCarousel,
-  homeThreeHeroSlider as heroBanner,
-} from '@framework/static/banner';
+
 import BannerGrid from '@components/common/banner-grid';
 import CategoryDropdownMenu from '@components/category/category-dropdown-menu';
 import CategoryGridBlock from '@components/common/category-grid-block';
 import PopularProductFeed from '@components/product/feeds/popular-product-feed';
 import ListingtabsFeatured from '@components/product/feeds/listingtabs-featured';
 import BestSellerWithFlashSale from '@components/product/feeds/best-seller-with-flash-sale';
+import { useBannerQueryImages } from '@framework/banner/get-banner-lists';
 
-export const metadata: Metadata = {
-  title: 'Home3',
-};
-
-export default async function Page({
+export default function Page({
   params: { lang },
 }: {
-  params: {
-    lang: string;
-  };
+  params: { lang: string };
 }) {
+  const { isLoading, error, data } = useBannerQueryImages({});
+
+
   return (
     <>
       <div className={'bg-skin-body py-7'}>
@@ -46,7 +39,7 @@ export default async function Page({
               <div className={'grid gap-2.5 grid-cols-1'}>
                 <HeroSliderBlock
                   lang={lang}
-                  heroBanner={heroBanner}
+                  heroBanner={data}
                   showHeroContent={true}
                   variant={'antique'}
                   className={`mb-0`}
@@ -62,7 +55,7 @@ export default async function Page({
 
               <BannerGrid
                 lang={lang}
-                data={bannerHeroCarousel}
+                data={data}
                 grid={1}
                 girdClassName={'gap-2.5'}
                 className="2xl:gap-[10px] staticBanner--slider"
@@ -76,14 +69,14 @@ export default async function Page({
         <ListingtabsFeatured lang={lang} />
         <BannerGrid
           lang={lang}
-          data={gridHero}
+          data={data}
           grid={1}
           className="mb-8 lg:mb-15"
         />
         <BestSellerWithFlashSale lang={lang} />
         <BannerGrid
           lang={lang}
-          data={gridHero2}
+          data={data}
           grid={2}
           className="mb-8 lg:mb-15"
         />
@@ -92,7 +85,6 @@ export default async function Page({
           className="mb-8 lg:mb-15"
           variant={'outBorder'}
         />
-
       </Container>
     </>
   );

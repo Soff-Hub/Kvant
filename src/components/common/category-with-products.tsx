@@ -84,9 +84,7 @@ export default function CategoryWithProducts({
   className = 'mb-12',
 }: Props) {
   const { t } = useTranslation(lang, 'common');
-  const { data } = useCategoriesQuery({
-    limit: LIMITS.CATEGORIES_LIMITS,
-  });
+  const { data } = useCategoriesQuery();
   return (
     <div className={`xl:flex ${className}`}>
       <div className="hidden xl:block shrink-0 ltr:pr-7 rtl:pl-7 2xl:ltr:pr-8 2xl:rtl:pl-8 xl:w-[320px] 2xl:w-[356px] pt-px">
@@ -95,7 +93,7 @@ export default function CategoryWithProducts({
             {t('text-all-categories')}
           </h2>
           <div className="flex flex-col justify-between">
-            {data?.categories?.data?.slice(0, 11)?.map((category) => (
+            {data?.map((category) => (
               <CategoryListCard
                 key={`category--key-${category.id}`}
                 category={category}

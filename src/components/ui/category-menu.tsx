@@ -2,22 +2,17 @@ import cn from 'classnames';
 import { useState } from 'react';
 import Link from '@components/ui/link';
 import {
-  IoIosArrowForward,
   IoIosAddCircleOutline,
   IoIosRemoveCircleOutline,
-  IoIosArrowBack,
 } from 'react-icons/io';
 
-import Image from '@components/ui/image';
 import { ROUTES } from '@utils/routes';
 import { useTranslation } from 'src/app/i18n/client';
 import SubMegaVertical from '@components/ui/mega/sub-mega-vertical';
-import { getDirection } from '@utils/get-direction';
 
 function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
-  const { t } = useTranslation(lang, 'common');
-  const { name, children: items, icon, type } = item;
-  const dir = getDirection(lang);
+  const { title, children: items, type } = item;
+
   return (
     <>
       <li
@@ -37,26 +32,7 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
             },
           )}
         >
-          {icon && (
-            <div className="inline-flex w-8 shrink-0 3xl:h-auto">
-              <Image
-                src={icon ?? '/assets/placeholder/category-small.svg'}
-                alt={name || t('text-category-thumbnail')}
-                width={25}
-                height={25}
-              />
-            </div>
-          )}
-          <span className="capitalize">{name}</span>
-          {items && (
-            <span className="hidden ltr:ml-auto rtl:mr-auto md:inline-flex">
-              {dir === 'rtl' ? (
-                <IoIosArrowBack className="text-15px text-skin-base text-opacity-40" />
-              ) : (
-                <IoIosArrowForward className="text-15px text-skin-base text-opacity-40" />
-              )}
-            </span>
-          )}
+          <span className="capitalize">{title}</span>
         </Link>
         {Array.isArray(items) ? (
           <>
@@ -69,7 +45,7 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
                     const childDepth = depth + 1;
                     return (
                       <SidebarMenuItem
-                        key={`${currentItem.name}${currentItem.slug}`}
+                        key={`${currentItem.title}${currentItem.slug}`}
                         item={currentItem}
                         depth={childDepth}
                         lang={lang}
@@ -91,8 +67,8 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
   );
 }
 
-function SidebarMenu({ items, className, categoriesLimit, lang }: any) {
-  const [categoryMenuToggle, setcategoryMenuToggle] = useState(Boolean(false));
+function SidebarMenu({ items, className, lang }: any) {
+  const [categoryMenuToggle, setcategoryMenuToggle] = useState(Boolean(true));
   const { t } = useTranslation(lang, 'common');
 
   function handleCategoryMenu() {
@@ -106,22 +82,15 @@ function SidebarMenu({ items, className, categoriesLimit, lang }: any) {
         className,
       )}
     >
-      {items?.map((item: any, idx: number) =>
-        idx <= categoriesLimit - 1 ? (
-          <SidebarMenuItem
-            key={`${item.slug}-key-${item.id}`}
-            item={item}
-            lang={lang}
-          />
-        ) : (
+      {items?.map(
+        (item: any) =>
           categoryMenuToggle && (
             <SidebarMenuItem
               key={`${item.slug}-key-${item.id}`}
               item={item}
               lang={lang}
             />
-          )
-        ),
+          ),
       )}
 
       {

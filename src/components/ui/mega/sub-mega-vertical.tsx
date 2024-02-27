@@ -1,17 +1,11 @@
 import { useTranslation } from 'src/app/i18n/client';
-import { useRouter } from 'next/router';
-import ListMenu from '@components/ui/mega/mega-menu';
-import Container from '@components/ui/container';
-import Image from '@components/ui/image';
-import { productPlaceholder } from '@assets/placeholders';
 import Link from '@components/ui/link';
 import cn from 'classnames';
 import { ROUTES } from '@utils/routes';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
   const { t } = useTranslation(lang, 'common');
-  const { name, children: items, icon, type } = item;
+  const { title, children: items} = item;
 
   return (
     <>
@@ -24,7 +18,7 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
             items ? 'text-base font-medium' : ' '
           }`}
         >
-          <span className="capitalize ">{name}</span>
+          <span className="capitalize ">{title}</span>
         </Link>
         {Array.isArray(items) && (
           <div
@@ -37,7 +31,7 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
                 const childDepth = depth + 1;
                 return (
                   <SidebarMenuItem
-                    key={`${currentItem.name}${currentItem.slug}`}
+                    key={`${currentItem.title}${currentItem.slug}`}
                     item={currentItem}
                     depth={childDepth}
                     lang={lang}
@@ -64,11 +58,11 @@ const SubMegaVertical = ({ items, lang }: any) => {
         key="content"
         className="text-xs pl-7 px-5 py-4 grid grid-cols-3 gap-4"
       >
-        {items?.map((currentItem: { name: any; slug: any }) => {
+        {items?.map((currentItem: { title: any; slug: any }) => {
           const childDepth = depth + 1;
           return (
             <SidebarMenuItem
-              key={`${currentItem.name}${currentItem.slug}`}
+              key={`${currentItem.title}${currentItem.slug}`}
               item={currentItem}
               depth={childDepth}
               lang={lang}

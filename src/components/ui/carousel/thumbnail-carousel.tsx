@@ -10,7 +10,6 @@ import { useRef, useState } from 'react';
 import cn from 'classnames';
 import { productGalleryPlaceholder } from '@assets/placeholders';
 import { getDirection } from '@utils/get-direction';
-import { useRouter } from 'next/navigation';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import ImageLightBox from '@components/ui/image-lightbox';
 
@@ -21,21 +20,6 @@ interface Props {
   lang: string;
 }
 
-// product gallery breakpoints
-const galleryCarouselBreakpoints = {
-  1280: {
-    slidesPerView: 4,
-    direction: 'vertical',
-  },
-  767: {
-    slidesPerView: 4,
-    direction: 'horizontal',
-  },
-  0: {
-    slidesPerView: 3,
-    direction: 'horizontal',
-  },
-};
 
 const swiperParams: SwiperOptions = {
   slidesPerView: 1,
@@ -81,7 +65,7 @@ const ThumbnailCarousel: React.FC<Props> = ({
               className="flex items-center justify-center"
             >
               <Image
-                src={item?.original ?? productGalleryPlaceholder}
+                src={item?.image ?? productGalleryPlaceholder}
                 alt={`Product gallery ${item.id}`}
                 width={650}
                 height={590}
@@ -137,7 +121,7 @@ const ThumbnailCarousel: React.FC<Props> = ({
               className="flex items-center justify-center cursor-pointer rounded overflow-hidden border border-border-base transition hover:opacity-75"
             >
               <Image
-                src={item?.thumbnail ?? productGalleryPlaceholder}
+                src={item?.image ?? productGalleryPlaceholder}
                 alt={`Product thumb gallery ${item.id}`}
                 width={170}
                 height={170}

@@ -21,6 +21,7 @@ const HeroSliderBlock: React.FC<Props> = ({
   contentClassName = 'px-5 py-10 xl:py-24',
   showHeroContent = true,
 }) => {
+
   return (
     <div className={`${className}`}>
       <Carousel

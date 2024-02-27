@@ -2,12 +2,10 @@
 import {LIMITS} from '@framework/utils/limits';
 import SupperCategoryList from "@components/suppercategory/suppercategory-list";
 import SupperCategoryContainer from "@components/suppercategory/suppercategory-container";
-import {useElectronicProductsQuery} from "@framework/product/get-all-electronic-products";
 import {useComputerCategoryQuery} from '@framework/product/get-computer-category';
 import {getDirection} from "@utils/get-direction";
 import BannerGrid from "@components/common/banner-grid";
 import {homeSupperCategory3} from "@framework/static/banner";
-import cn from "classnames";
 import React from "react";
 import {usePopularProductsQuery} from "@framework/product/get-all-popular-products";
 

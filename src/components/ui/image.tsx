@@ -1,5 +1,6 @@
-import Image from 'next/image'
+import Image from 'next/image';
 import cn from 'classnames';
+import { CSSProperties } from 'react';
 
 interface Props {
   variant?: string;
@@ -8,9 +9,12 @@ interface Props {
   height: number;
   src: string;
   alt: string;
+  quality?: number;
+  priority?: any;
+  style?: CSSProperties;
 }
 
-const ImageFill : React.FC<Props> = ({
+const ImageFill: React.FC<Props> = ({
   className,
   variant,
   width,
@@ -20,7 +24,11 @@ const ImageFill : React.FC<Props> = ({
   ...props
 }) => {
   return (
-    <div className={cn('relative inline-block overflow-hidden mx-auto box-sizing', className)}
+    <div
+      className={cn(
+        'relative inline-block overflow-hidden mx-auto box-sizing',
+        className,
+      )}
     >
       <div className="block w-full box-sizing">
         <svg

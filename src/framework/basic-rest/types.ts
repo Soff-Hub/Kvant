@@ -1,4 +1,3 @@
-import { QueryKey } from 'react-query';
 
 export type CategoriesQueryOptionsType = {
   text?: string;
@@ -6,6 +5,20 @@ export type CategoriesQueryOptionsType = {
   status?: string;
   limit?: number;
 };
+export type CategoriesQueryOptionsTypeImages = {
+  title?: string;
+  slug?: string;
+  image?: string;
+  limit?: number;
+  id?: number;
+};
+export type BannerQueryOptionsTypeImages = {
+  title?: string;
+  image?: string;
+  limit?: number;
+  id?: number;
+};
+
 export type QueryOptionsType = {
   text?: string;
   category?: string;
@@ -21,13 +34,16 @@ export type Category = {
   id: number | string;
   title: string;
   slug: string;
-  details?: string;
   image?: Attachment;
-  icon?: string;
   children?: [Category];
-  products?: Product[];
   productCount?: number;
   [key: string]: unknown;
+};
+export type Category_Images = {
+  id: number | string;
+  title: string;
+  slug: string;
+  image?: Attachment;
 };
 export type Collection = {
   id: number | string;
@@ -59,24 +75,18 @@ export type Tag = {
 };
 export type Product = {
   id: number | string;
-  name: string;
+  title: string;
   slug: string;
-  price: number;
+  price: number | string;
+  discount?: number;
+  discount_price?: number | string;
+  image: string;
   quantity: number;
-  sold: number;
-  unit: string;
-  sale_price?: number;
-  min_price?: number;
-  max_price?: number;
-  image: Attachment;
-  sku?: string;
-  gallery?: Attachment[];
-  category?: Category;
-  tag?: Tag[];
-  meta?: any[];
-  brand?: Brand;
+  video_url	?: any;
+  galleries?:any;
+  body: any;
   description?: string;
-  variations?: object;
+  view_count?:number;
   [key: string]: unknown;
 };
 export type OrderItem = {
