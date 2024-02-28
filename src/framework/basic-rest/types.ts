@@ -17,6 +17,8 @@ export type BannerQueryOptionsTypeImages = {
   image?: string;
   limit?: number;
   id?: number;
+  url?:string;
+  description?:string;
 };
 
 export type QueryOptionsType = {

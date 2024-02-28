@@ -8,10 +8,9 @@ import Alert from '@components/ui/alert';
 import { SwiperSlide } from 'swiper/react';
 import useWindowSize from '@utils/use-window-size';
 import { LIMITS } from '@framework/utils/limits';
-import CategoryListCardLoader from '@components/ui/loaders/category-list-card-loader';
-import CategoryListCard from '@components/cards/category-list-card';
 import CategoryCard from '@components/cards/category-card';
 import { useCategoriesQueryImages } from '@framework/category/get-all-categories-images';
+import ContentLoader from 'react-content-loader';
 const Carousel = dynamic(() => import('@components/ui/carousel/carousel'), {
   ssr: false,
 });
@@ -73,18 +72,8 @@ const CategoryGridBlock: React.FC<CategoriesProps> = ({
             breakpoints={breakpoints}
             className="shopby-categories"
           >
-            {isLoading && !data2
-              ? Array.from({ length: limit }).map((_, idx) => {
-                  return (
-                    <SwiperSlide key={`category--key-${idx}`}>
-                      <CategoryListCardLoader
-                        uniqueKey={`category-card-${idx}`}
-                      />
-                    </SwiperSlide>
-                  );
-                })
-              : data2 &&
-                data2.slice(0, limit)?.map((category: any) => (
+            {!isLoading
+              ? data2.slice(0, limit)?.map((category: any) => (
                   <SwiperSlide key={`category--key-${category.id}`}>
                     <CategoryCard
                       lang={lang}
@@ -93,7 +82,33 @@ const CategoryGridBlock: React.FC<CategoriesProps> = ({
                       href={`/${lang}${ROUTES.SEARCH}?category=${category.slug}`}
                     />
                   </SwiperSlide>
-                ))}
+                ))
+              : Array(5)
+                  .fill(0)
+                  .map((_, idx) => {
+                    return (
+                      <SwiperSlide key={`category--key-${idx}`}>
+                        <ContentLoader
+                          key={idx}
+                          width={200}
+                          height={220}
+                          viewBox="0 0 200 220"
+                          backgroundColor="#FEFEFE"
+                          foregroundColor="#E7ECF3"
+                          className="w-full shadow-card rounded-md overflow-hidden"
+                        >
+                          <rect
+                            x="0"
+                            y="0"
+                            rx="0"
+                            ry="0"
+                            width="250"
+                            height="220"
+                          />
+                        </ContentLoader>
+                      </SwiperSlide>
+                    );
+                  })}
           </Carousel>
         )}
       </div>

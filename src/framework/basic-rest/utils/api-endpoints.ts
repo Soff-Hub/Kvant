@@ -10,6 +10,7 @@ export const API_ENDPOINTS = {
   CATEGORIES: 'common/categories/',
   CATEGORIES_ALL: 'common/category-parents-image-list/',
   BANNER: 'common/banners/',
+  BANNER_RIGTH: 'common/advertisements/',
   FASHION_PRODUCTS: 'common/global/products/',
   PRODUCTS_DETAILS: 'common/product/detail',
   // DIETARY: '',

@@ -2,10 +2,12 @@ import cn from 'classnames';
 import Image from '@components/ui/image';
 import { Product } from '@framework/types';
 import { useModalAction } from '@components/common/modal/modal.context';
-import { zeroPad } from 'react-countdown';
 import { productPlaceholder } from '@assets/placeholders';
 import { useTranslation } from 'src/app/i18n/client';
 import StarIcon from '@components/icons/star-icon';
+import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import { baseURL } from '@framework/utils/http';
+
 
 interface ProductProps {
   product: Product;
@@ -25,15 +27,26 @@ const ProductFlashSaleGobies: React.FC<ProductProps> = ({
     quantity,
     discount_price,
     discount,
+    slug,
     price,
     view_count,
+    description,
   } = product ?? {};
   const { openModal } = useModalAction();
   const { t } = useTranslation(lang, 'common');
 
-  function handlePopupView() {
-    openModal('PRODUCT_VIEW', product);
+  async function handlePopupView() {
+    try {
+      const response = await fetch(
+        `${baseURL + API_ENDPOINTS.PRODUCTS_DETAILS}/${slug}/`,
+      );
+      const product = await response.json();
+      openModal('PRODUCT_VIEW', product);
+    } catch (error) {
+      console.error('Xatolik yuz berdi:', error);
+    }
   }
+
 
 
   return (
@@ -95,6 +108,7 @@ const ProductFlashSaleGobies: React.FC<ProductProps> = ({
             </>
           )}
         </div>
+        <span className="text-[14px] leading-4">{description} </span>
       </div>
     </article>
   );

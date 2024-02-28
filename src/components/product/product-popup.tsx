@@ -5,7 +5,6 @@ import { ROUTES } from '@utils/routes';
 import Button from '@components/ui/button';
 import Counter from '@components/ui/counter';
 import { useCart } from '@contexts/cart/cart.context';
-import ProductAttributes from '@components/product/product-attributes';
 import { generateCartItem } from '@utils/generate-cart-item';
 import { getVariations } from '@framework/utils/get-variations';
 import { useTranslation } from 'src/app/i18n/client';
@@ -14,8 +13,6 @@ import Image from '@components/ui/image';
 import CartIcon from '@components/icons/cart-icon';
 import Heading from '@components/ui/heading';
 import Text from '@components/ui/text';
-import TagLabel from '@components/ui/tag-label';
-import LabelIcon from '@components/icons/label-icon';
 import { IoArrowRedoOutline } from 'react-icons/io5';
 import SocialShareBox from '@components/ui/social-share-box';
 import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
@@ -104,7 +101,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
       favorite === true ? t('text-remove-favorite') : t('text-added-favorite');
     setTimeout(() => {
       setAddToWishlistLoader(false);
-    }, 1500); 
+    }, 1500);
     toast(toastStatus, {
       progressClassName: 'fancy-progress-bar',
       position: width! > 768 ? 'bottom-right' : 'top-right',
@@ -135,7 +132,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
               ) : (
                 <div className="flex items-center justify-center w-auto">
                   <Image
-                    src={galleries[0]?.image ?? productGalleryPlaceholder}
+                    src={galleries?.image ?? productGalleryPlaceholder}
                     alt={title!}
                     width={650}
                     height={590}
@@ -176,7 +173,6 @@ export default function ProductPopup({ lang }: { lang: string }) {
                 </div>
               </div>
 
-
               <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
                 <Counter
                   variant="single"
@@ -187,9 +183,9 @@ export default function ProductPopup({ lang }: { lang: string }) {
                   }
                   disabled={
                     isInCart(item.id)
-                      ? getItemFromCart(item.id).quantity + selectedQuantity >=
-                        Number(item.quantity)
-                      : selectedQuantity >= Number(item.quantity)
+                      ? getItemFromCart(item.id) + selectedQuantity >=
+                        Number(item)
+                      : selectedQuantity >= Number(item)
                   }
                   lang={lang}
                 />
@@ -242,33 +238,12 @@ export default function ProductPopup({ lang }: { lang: string }) {
                   </div>
                 </div>
               </div>
-              {/* {tag && (
-                <ul className="pt-5 xl:pt-6">
-                  <li className="relative inline-flex items-center justify-center text-sm md:text-15px text-skin-base text-opacity-80 me-2 top-1">
-                    <LabelIcon className="me-2" /> {t('text-tags')}:
-                  </li>
-                  {tag?.map((item: any) => (
-                    <li className="inline-block p-[3px]" key={`tag-${item.id}`}>
-                      <TagLabel data={item} />
-                    </li>
-                  ))}
-                </ul>
-              )} */}
 
               <div className="pt-6 xl:pt-8">
                 <Heading className="mb-3 lg:mb-3.5">
                   {t('text-product-details')}:
                 </Heading>
-                <Text variant="small">
-                  {description}
-                  <span
-                    onClick={navigateToProductPage}
-                    role="button"
-                    className="text-brand ltr:ml-0.5 rtl:mr-0.5"
-                  >
-                    {t('text-read-more')}
-                  </span>
-                </Text>
+                <Text variant="small">{description}</Text>
               </div>
             </div>
           </div>

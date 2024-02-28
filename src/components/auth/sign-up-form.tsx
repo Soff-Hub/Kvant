@@ -88,9 +88,13 @@ export default function SignUpForm({ lang, className }: SignUpFormProps) {
                 {...register('phone', {
                   required: `${t('forms:phone-required')}`,
                   pattern: {
-                    value: /^(\+\d{1,3}\s?)?\d{9,}$/,
+                    value: /^(\+\d{1,3}\s?)?\d{11}$/,
                     message: t('Invalid phone number'),
                   },
+                  validate: (value: string) =>
+                    value.match(/^(\+\d{1,3}\s?)?\d{11}$/)
+                      ? true
+                      : 'Phone number must be 11 digits or more',
                 })}
                 error={errors.phone?.message}
                 lang={lang}

@@ -17,7 +17,6 @@ export default function Page({
 }) {
   const { isLoading, error, data } = useBannerQueryImages({});
 
-
   return (
     <>
       <div className={'bg-skin-body py-7'}>
@@ -38,6 +37,7 @@ export default function Page({
             >
               <div className={'grid gap-2.5 grid-cols-1'}>
                 <HeroSliderBlock
+                  isloading={isLoading}
                   lang={lang}
                   heroBanner={data}
                   showHeroContent={true}
@@ -55,7 +55,6 @@ export default function Page({
 
               <BannerGrid
                 lang={lang}
-                data={data}
                 grid={1}
                 girdClassName={'gap-2.5'}
                 className="2xl:gap-[10px] staticBanner--slider"
@@ -69,15 +68,13 @@ export default function Page({
         <ListingtabsFeatured lang={lang} />
         <BannerGrid
           lang={lang}
-          data={data}
-          grid={1}
+          grid={3}
           className="mb-8 lg:mb-15"
         />
         <BestSellerWithFlashSale lang={lang} />
         <BannerGrid
           lang={lang}
-          data={data}
-          grid={2}
+          grid={3}
           className="mb-8 lg:mb-15"
         />
         <PopularProductFeed

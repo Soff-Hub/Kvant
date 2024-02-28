@@ -12,6 +12,7 @@ import Cookies from 'js-cookie';
 import { useUI } from '@contexts/ui.context';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import { toast } from 'react-toastify';
 
 type ForgetPasswordType = {
   phone: any;
@@ -36,7 +37,8 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phone: phone }),});
+        body: JSON.stringify({ phone: phone }),
+      });
       const data = await response.json();
       if (data?.tokens?.access) {
         Cookies.remove('phone', phone); // Yangi raqam o'rnatamiz
@@ -45,8 +47,27 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
         authorize();
         window.location.href = '/en/forget-password'; // Boshqa sahifaga yo'naltiramiz
         setLoader(true);
+        toast.success('Muvaffaqiyatli!', {
+          style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
+          progressClassName: 'fancy-progress-bar',
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        toast.error(data?.msg[0] + '', {
+          style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
+          progressClassName: 'fancy-progress-bar',
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error, 'forget password error response');
     }
   }

@@ -13,6 +13,7 @@ import { useUI } from '@contexts/ui.context';
 import { getToken } from '@framework/utils/get-token';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import { toast } from 'react-toastify';
 
 type ForgetPasswordType = {
   codeValues: string;
@@ -37,10 +38,10 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
 
   async function onSubmit({ codeValues }: ForgetPasswordType) {
     if (phoneCookie) {
-      if (firstSendCode) {
+      if (firstSendCode && countdown !== 0) {
         try {
           setLoader(false);
-          await fetch(baseURL + API_ENDPOINTS.CHECK_CODE, {
+          const response = await fetch(baseURL + API_ENDPOINTS.CHECK_CODE, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -48,12 +49,15 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
             },
             body: JSON.stringify({ code: codeValues }),
           });
-          window.location.href = '/en/change-password'; // Boshqa sahifaga yo'naltiramiz
-          setLoader(true);
+          const data = await response.json();
+          if (data) {
+            window.location.href = '/en/change-password'; // Boshqa sahifaga yo'naltiramiz
+            setLoader(true);
+          }
         } catch (error) {
           console.log(error, 'forget password error response');
         }
-      } else if (!firstSendCode) {
+      } else {
         try {
           const response = await fetch(
             baseURL + API_ENDPOINTS.FORGET_PASSWORD,
@@ -70,9 +74,28 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           if (data?.tokens?.access) {
             Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
             authorize();
+            setFirstSendCode(true);
+            setCountdown(20);
+            toast.success('Muvaffaqiyatli!', {
+              style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
+              progressClassName: 'fancy-progress-bar',
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+            });
+          } else {
+            toast.error(data?.msg[0] + '', {
+              style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
+              progressClassName: 'fancy-progress-bar',
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+            });
           }
-          setFirstSendCode(true);
-          setCountdown(20);
         } catch (error) {
           console.log(error, 'forget password error response');
         }
@@ -95,11 +118,20 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
             authorize();
             window.location.href = '/en'; // Boshqa sahifaga yo'naltiramiz
             setLoader(true);
+            toast.success('Muvaffaqiyatli kirdingiz!', {
+              style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
+              progressClassName: 'fancy-progress-bar',
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+            });
           }
         } catch (error) {
           console.log(error, 'forget password error response');
         }
-      } else if (!firstSendCode) {
+      } else {
         try {
           const response = await fetch(baseURL + API_ENDPOINTS.GET_CODE, {
             method: 'GET',
@@ -108,21 +140,29 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
               Authorization: `Bearer ${token}`,
             },
           });
-          const data = await response.json();
-          if (data?.tokens?.access) {
-            Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
-            authorize();
-            window.location.href = '/en'; // Boshqa sahifaga yo'naltiramiz
-          }
           setFirstSendCode(true);
           setCountdown(20);
-        } catch (error) {
+          const data = await response?.json();
+          console.log(data);
+
+          // toast.error(data?.code[0] + '', {
+          //   style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
+          //   progressClassName: 'fancy-progress-bar',
+          //   autoClose: 1500,
+          //   hideProgressBar: false,
+          //   closeOnClick: true,
+          //   pauseOnHover: true,
+          //   draggable: true,
+          // });
+        } catch (error: any) {
           console.log(error, 'forget password error response');
         }
       }
     }
   }
 
+
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setCountdown((prevCountdown) => {

@@ -11,6 +11,7 @@ import { getToken } from '@framework/utils/get-token';
 import Cookies from 'js-cookie';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import { toast } from 'react-toastify';
 
 interface ChangePasswordInputType {
   newPassword: string;
@@ -31,7 +32,7 @@ const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
   async function onSubmit({ newPassword }: ChangePasswordInputType) {
     try {
       setLoader(false);
-      await fetch(baseURL + API_ENDPOINTS.RESET_PASSWORD, {
+      const response = await fetch(baseURL + API_ENDPOINTS.RESET_PASSWORD, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,8 +43,20 @@ const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
           password2: newPassword,
         }),
       });
-      window.location.href = '/en/signin'; // Boshqa sahifaga yo'naltiramiz
+      const data = await response?.json();
       setLoader(true);
+      if (data) {
+        window.location.href = '/en/signin'; // Boshqa sahifaga yo'naltiramiz
+        toast.success('Muvaffaqiyatli!', {
+          style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
+          progressClassName: 'fancy-progress-bar',
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
     } catch (error) {
       console.log(error);
     }

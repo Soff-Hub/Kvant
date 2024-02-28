@@ -1,8 +1,11 @@
 import cn from 'classnames';
 import { useState } from 'react';
 import Link from '@components/ui/link';
+import Image from '@components/ui/image';
 import {
   IoIosAddCircleOutline,
+  IoIosArrowBack,
+  IoIosArrowForward,
   IoIosRemoveCircleOutline,
 } from 'react-icons/io';
 
@@ -11,7 +14,7 @@ import { useTranslation } from 'src/app/i18n/client';
 import SubMegaVertical from '@components/ui/mega/sub-mega-vertical';
 
 function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
-  const { title, children: items, type } = item;
+  const { title, image, children: items, type } = item;
 
   return (
     <>
@@ -32,6 +35,17 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
             },
           )}
         >
+          {image && (
+            <div className="inline-flex w-8 shrink-0 3xl:h-auto">
+              <Image
+                src={image ?? '/assets/placeholder/category-small.svg'}
+                alt={title || 'imagess'}
+                width={25}
+                height={25}
+                style={{ width: 'auto' }}
+              />
+            </div>
+          )}
           <span className="capitalize">{title}</span>
         </Link>
         {Array.isArray(items) ? (
@@ -67,8 +81,8 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
   );
 }
 
-function SidebarMenu({ items, className, lang }: any) {
-  const [categoryMenuToggle, setcategoryMenuToggle] = useState(Boolean(true));
+function SidebarMenu({ items, className, categoriesLimit, lang }: any) {
+  const [categoryMenuToggle, setcategoryMenuToggle] = useState(Boolean(false));
   const { t } = useTranslation(lang, 'common');
 
   function handleCategoryMenu() {
@@ -82,18 +96,25 @@ function SidebarMenu({ items, className, lang }: any) {
         className,
       )}
     >
-      {items?.map(
-        (item: any) =>
+      {items?.map((item: any, idx: number) =>
+        idx <= categoriesLimit - 1 ? (
+          <SidebarMenuItem
+            key={`${item.slug}-key-${item.id}`}
+            item={item}
+            lang={lang}
+          />
+        ) : (
           categoryMenuToggle && (
             <SidebarMenuItem
               key={`${item.slug}-key-${item.id}`}
               item={item}
               lang={lang}
             />
-          ),
+          )
+        ),
       )}
 
-      {
+      {items.length >= categoriesLimit && (
         <li
           className={`px-4 relative transition text-sm hover:text-skin-primary`}
         >
@@ -111,7 +132,7 @@ function SidebarMenu({ items, className, lang }: any) {
             <span className="capitalize ">{t('text-all-categories')}</span>
           </div>
         </li>
-      }
+      )}
     </ul>
   );
 }

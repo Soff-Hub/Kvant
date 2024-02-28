@@ -22,7 +22,7 @@ export default function CategoryDropdownMenu({
     isLoading: loading,
     error,
   } = useCategoriesQuery({
-    limit: 15,
+    limit: 20,
   });
 
 
@@ -36,10 +36,10 @@ export default function CategoryDropdownMenu({
         ) : loading ? (
           <div
             className={
-              'w-full bg-skin-fill rounded-b-md category-dropdown-menu'
+              'w-full bg-skin-fill h-full rounded-b-md category-dropdown-menu'
             }
           >
-            {Array.from({ length: 5 }).map((_, idx) => (
+            {Array.from({ length: 4 }).map((_, idx) => (
               <CategoryListCardLoader
                 key={`category-list-${idx}`}
                 uniqueKey="category-list-card-loader"

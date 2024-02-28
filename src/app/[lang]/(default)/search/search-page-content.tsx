@@ -1,5 +1,6 @@
 'use client';
 
+
 import { ProductGrid } from '@components/product/product-grid';
 import { ShopFilters } from '@components/search/filters';
 import SearchTopBar from '@components/search/search-top-bar';

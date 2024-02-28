@@ -94,6 +94,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
       setAddToCartLoader(false);
     }, 1500);
 
+    
     const item = generateCartItem(data!, selectedVariation);
     addItemToCart(item, quantity);
     toast('Added to the bag', {

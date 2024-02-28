@@ -9,6 +9,7 @@ import useQueryParam from '@utils/use-query-params';
 export default function SelectedFilters({ lang }: { lang: string }) {
   const { t } = useTranslation(lang, 'common');
 
+  
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
