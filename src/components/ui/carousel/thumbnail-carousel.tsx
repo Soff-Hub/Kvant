@@ -1,7 +1,6 @@
 import {
   Swiper,
   SwiperSlide,
-  SwiperOptions,
   Navigation,
   Thumbs,
 } from '@components/ui/carousel/slider';
@@ -21,10 +20,6 @@ interface Props {
 }
 
 
-const swiperParams: SwiperOptions = {
-  slidesPerView: 1,
-  spaceBetween: 0,
-};
 
 const ThumbnailCarousel: React.FC<Props> = ({
   gallery,
@@ -57,7 +52,6 @@ const ThumbnailCarousel: React.FC<Props> = ({
             prevEl: prevRef.current!, // Assert non-null
             nextEl: nextRef.current!, // Assert non-null
           }}
-          {...swiperParams}
         >
           {gallery?.map((item: any) => (
             <SwiperSlide
