@@ -2,6 +2,7 @@ import { useUI } from '@contexts/ui.context';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'react-query';
+import { toast } from 'react-toastify';
 
 export interface LoginInputType {
   email: string;
@@ -22,6 +23,15 @@ export const useLogoutMutation = (lang: string) => {
       Cookies.remove('auth_token');
       unauthorize();
       router.push(`/${lang}`);
+      toast.warning('Muvaffaqiyatli chiqdingiz!', {
+        style: { color: 'white', background: 'blueyellow' }, // Xabar rangi va orqa fon rangi
+        progressClassName: 'fancy-progress-bar',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     },
     onError: (data) => {
       console.log(data, 'logout error response');

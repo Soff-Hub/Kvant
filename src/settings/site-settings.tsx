@@ -47,7 +47,7 @@ export const siteSettings = {
         label: 'menu-demos',
       },
       {
-        id: 5,
+        id: 2,
         path: '/',
         label: 'menu-pages',
         subMenu: [

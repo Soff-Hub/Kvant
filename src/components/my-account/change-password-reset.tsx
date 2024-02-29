@@ -12,6 +12,7 @@ import Cookies from 'js-cookie';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 interface ChangePasswordInputType {
   newPassword: string;
@@ -22,6 +23,7 @@ const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
   const [loader, setLoader] = useState<boolean>(false);
   const { authorize } = useUI();
   const token = getToken();
+  const router = useRouter();
 
   const {
     register,
@@ -43,10 +45,8 @@ const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
           password2: newPassword,
         }),
       });
-      const data = await response?.json();
       setLoader(true);
-      if (data) {
-        window.location.href = '/en/signin'; // Boshqa sahifaga yo'naltiramiz
+      if (response.ok) {
         toast.success('Muvaffaqiyatli!', {
           style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
           progressClassName: 'fancy-progress-bar',
@@ -56,6 +56,7 @@ const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
           pauseOnHover: true,
           draggable: true,
         });
+        router.push('/en/signin'); // Boshqa sahifaga yo'naltiramiz
       }
     } catch (error) {
       console.log(error);

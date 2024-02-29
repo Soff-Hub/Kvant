@@ -2,6 +2,7 @@ import { useUI } from '@contexts/ui.context';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { baseURL } from '@framework/utils/http';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 
@@ -26,19 +27,19 @@ async function login(input: LoginInputType) {
     // Agar serverdan xato javob qaytsa, bu xatolikni ko'rsatish
     const error = await response.json();
     throw new Error(error?.msg[0] || 'Login failed');
-    
   }
 }
 
 export const useLoginMutation = () => {
   const { authorize } = useUI();
 
+  const router = useRouter();
+
   return useMutation((input: LoginInputType) => login(input), {
     onSuccess: async (data) => {
       if (data?.tokens?.access) {
         Cookies.set('auth_token', data.tokens.access);
         await authorize();
-        window.location.href = '/en/my-account/orders';
         toast.success('Muvaffaqiyatli kirdingiz!', {
           style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
           progressClassName: 'fancy-progress-bar',
@@ -48,10 +49,11 @@ export const useLoginMutation = () => {
           pauseOnHover: true,
           draggable: true,
         });
+        router.push('/en/my-account/orders');
       }
     },
     onError: (error: any) => {
-      toast.error(error + "", {
+      toast.error(error + '', {
         style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
         progressClassName: 'fancy-progress-bar',
         autoClose: 1500,

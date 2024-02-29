@@ -2,6 +2,7 @@ import { useUI } from '@contexts/ui.context';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { baseURL } from '@framework/utils/http';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 
@@ -30,13 +31,13 @@ async function signUp(input: SignUpInputType) {
 
 export const useSignUpMutation = () => {
   const { authorize } = useUI();
+  const router =useRouter()
   return useMutation((input: SignUpInputType) => signUp(input), {
     onSuccess: (data) => {
       if (data?.tokens?.access) {
         Cookies.set('auth_token', data.tokens.access);
         Cookies.remove('phone');
         authorize();
-        window.location.href = '/en/forget-password';
         toast.success('Muvaffaqiyatli!', {
           style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
           progressClassName: 'fancy-progress-bar',
@@ -46,6 +47,7 @@ export const useSignUpMutation = () => {
           pauseOnHover: true,
           draggable: true,
         });
+        router.push('/en/forget-password');
       }
     },
     onError: (error: any) => {

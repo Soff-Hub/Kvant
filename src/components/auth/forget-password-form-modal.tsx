@@ -13,6 +13,7 @@ import { useUI } from '@contexts/ui.context';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 type ForgetPasswordType = {
   phone: any;
@@ -23,6 +24,9 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
   const { closeModal } = useModalAction();
   const [loader, setLoader] = useState(false);
   const { authorize } = useUI();
+  const router = useRouter()
+ 
+
   const {
     register,
     handleSubmit,
@@ -45,7 +49,6 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
         Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
         Cookies.set('phone', phone); // Yangi raqam o'rnatamiz
         authorize();
-        window.location.href = '/en/forget-password'; // Boshqa sahifaga yo'naltiramiz
         setLoader(true);
         toast.success('Muvaffaqiyatli!', {
           style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
@@ -56,6 +59,8 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
           pauseOnHover: true,
           draggable: true,
         });
+
+        router.push('/en/forget-password'); // Boshqa sahifaga yo'naltiramiz
       } else {
         toast.error(data?.msg[0] + '', {
           style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi

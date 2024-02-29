@@ -10,10 +10,11 @@ import { getToken } from '@framework/utils/get-token';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 export default function ForgetPasswordForm({ lang }: { lang: string }) {
   const { t } = useTranslation(lang);
-  const [countdown, setCountdown] = useState<number>(30);
+  const [countdown, setCountdown] = useState<number>(120);
   const [loader, setLoader] = useState<boolean>(false);
   const [firstSendCode, setFirstSendCode] = useState<boolean>(true);
   const { authorize } = useUI();
@@ -21,6 +22,8 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
   const [codeValues, setCodeValues] = useState<any>(null);
 
   const phoneCookie = Cookies.get('phone');
+
+  const router = useRouter();
 
   async function onSubmit(e: any) {
     e.preventDefault();
@@ -36,7 +39,6 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           body: JSON.stringify({ code: codeValues }),
         });
         if (response.ok) {
-          window.location.href = '/en/change-password'; // Boshqa sahifaga yo'naltiramiz
           toast.success('Muvaffaqiyatli yuborildi!', {
             style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
             progressClassName: 'fancy-progress-bar',
@@ -46,6 +48,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
             pauseOnHover: true,
             draggable: true,
           });
+          router.push('/en/change-password'); // Boshqa sahifaga yo'naltiramiz
         } else {
           // Xato keldiğida xatoni chiqaramiz
           const error = await response.json();
@@ -80,7 +83,6 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
         if (response.ok) {
           Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
           authorize();
-          window.location.href = '/en'; // Boshqa sahifaga yo'naltiramiz
           setLoader(true);
           toast.success('Muvaffaqiyatli kirdingiz!', {
             style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
@@ -91,10 +93,11 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
             pauseOnHover: true,
             draggable: true,
           });
+          router.push('/en');
         } else {
           // Xato keldiğida xatoni chiqaramiz
           console.log(data);
-          
+
           throw new Error(data?.msg[0] || 'Forget password error response');
         }
       } catch (error: any) {
@@ -132,7 +135,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
           authorize();
           setFirstSendCode(true);
-          setCountdown(20);
+          setCountdown(120);
           toast.success('Muvaffaqiyatli!', {
             style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
             progressClassName: 'fancy-progress-bar',
@@ -160,7 +163,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
       }
     } else {
       try {
-        const response = await fetch(baseURL + API_ENDPOINTS.GET_CODE, {
+        await fetch(baseURL + API_ENDPOINTS.GET_CODE, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -168,19 +171,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           },
         });
         setFirstSendCode(true);
-        setCountdown(20);
-        const data = await response?.json();
-        console.log(data);
-
-        // toast.error(data?.code[0] + '', {
-        //   style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
-        //   progressClassName: 'fancy-progress-bar',
-        //   autoClose: 1500,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        // });
+        setCountdown(120);
       } catch (error: any) {
         console.log(error, 'forget password error response');
       }

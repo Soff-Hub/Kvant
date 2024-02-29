@@ -3,11 +3,9 @@ import AccountNav from '@components/my-account/account-nav';
 import { ROUTES } from '@utils/routes';
 import OrdersIcon from '@components/icons/account-order';
 import WishlistIcon from '@components/icons/account-wishlist';
-import { IoSettingsOutline } from 'react-icons/io5';
 import AccountNavMobile from '@components/my-account/account-nav-mobile';
 
 const accountMenu = [
-
   {
     slug: ROUTES.ORDERS,
     name: 'text-orders',
@@ -17,13 +15,6 @@ const accountMenu = [
     slug: ROUTES.WISHLIST,
     name: 'text-wishlist',
     icon: <WishlistIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
-  },
-  {
-    slug: ROUTES.CHANGE_PASSWORD,
-    name: 'text-change-password',
-    icon: (
-      <IoSettingsOutline className="w-5 md:w-[22px] h-5 md:h-[22px] text-[#8C969F]" />
-    ),
   },
 ];
 

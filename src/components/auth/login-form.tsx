@@ -11,7 +11,6 @@ import Link from 'next/link';
 import { ROUTES } from '@utils/routes';
 import { useModalAction } from '@components/common/modal/modal.context';
 import CloseButton from '@components/ui/close-button';
-import { useRouter } from 'next/router';
 
 interface LoginFormProps {
   lang: string;
@@ -19,11 +18,14 @@ interface LoginFormProps {
   className?: string;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({lang, className,isPopup = true}) => {
-  const { t } = useTranslation(lang);
+const LoginForm: React.FC<LoginFormProps> = ({
+  lang,
+  className,
+  isPopup = true,
+}) => {
+  // const { t } = useTranslation(lang);
   const { mutate: login, isLoading } = useLoginMutation();
   const { closeModal, openModal } = useModalAction();
-  
 
   const {
     register,
@@ -61,15 +63,15 @@ const LoginForm: React.FC<LoginFormProps> = ({lang, className,isPopup = true}) =
         <div className="w-full md:w-1/2 lg:w-[45%] xl:w-[40%] py-6 sm:py-10 px-4 sm:px-8 md:px-6 lg:px-8 xl:px-12 rounded-md flex flex-col justify-center">
           <div className="mb-6 text-center">
             <h4 className="text-xl font-semibold text-brand-dark sm:text-2xl sm:pt-3 ">
-              {t('common:text-welcome-back')}
+              Sign into you account
             </h4>
             <div className="mt-3 mb-1 text-sm text-center sm:text-15px text-body">
-              {t('common:text-don’t-have-account')}
+              Don’t have an account?
               <Link
                 href={`/${lang}${ROUTES.SIGN_UP}`}
                 className="text-sm text-brand sm:text-15px ltr:ml-1 rtl:mr-1 hover:no-underline focus:outline-none"
               >
-                {t('common:text-create-account')}
+                Create Account
               </Link>
             </div>
           </div>
@@ -80,24 +82,24 @@ const LoginForm: React.FC<LoginFormProps> = ({lang, className,isPopup = true}) =
           >
             <div className="flex flex-col space-y-3.5">
               <Input
-                label={t('Phone number') as string}
+                label="Phone number"
                 type="phone"
                 variant="solid"
                 {...register('phone', {
-                  required: `${t('forms:phone-required')}`,
+                  required: `Telefon raqami noto‘g‘ri kiritilgan!`,
                   pattern: {
                     value: /^(\+\d{1,3}\s?)?\d{9,}$/,
-                    message: t('Invalid phone number'),
+                    message: 'Telefon raqami noto‘g‘ri',
                   },
                 })}
                 error={errors.phone?.message}
                 lang={lang}
               />
               <PasswordInput
-                label={t('forms:label-password') as string}
+                label="Password"
                 error={errors.password?.message}
                 {...register('password', {
-                  required: `${t('forms:password-required')}`,
+                  required: `Parol kiriting!`,
                 })}
                 lang={lang}
               />
@@ -108,7 +110,7 @@ const LoginForm: React.FC<LoginFormProps> = ({lang, className,isPopup = true}) =
                     onClick={handleForgetPassword}
                     className="text-sm text-brand rtl:text-left text-heading ltr:pl-3 lg:rtl:pr-3 hover:no-underline hover:text-brand-dark focus:outline-none focus:text-brand-dark"
                   >
-                    {t('common:text-forgot-password')}
+                    Forgot password?
                   </button>
                 </div>
               </div>
@@ -120,7 +122,7 @@ const LoginForm: React.FC<LoginFormProps> = ({lang, className,isPopup = true}) =
                   className="w-full mt-2 tracking-normal h-11 md:h-12 font-15px md:font-15px"
                   variant="formButton"
                 >
-                  {t('common:text-sign-in')}
+                  Kirish
                 </Button>
               </div>
             </div>

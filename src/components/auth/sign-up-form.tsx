@@ -53,15 +53,15 @@ export default function SignUpForm({ lang, className }: SignUpFormProps) {
         <div className="w-full md:w-1/2 lg:w-[45%] xl:w-[40%] py-6 sm:py-10 px-4 sm:px-8 md:px-6 lg:px-8 xl:px-12 rounded-md shadow-dropDown flex flex-col justify-center">
           <div className="text-center mb-6 pt-2.5">
             <h4 className="text-xl font-semibold text-brand-dark sm:text-2xl sm:pt-3 ">
-              {t('common:text-sign-up-for-free')}
+              SignUp for free!
             </h4>
             <div className="mt-3 mb-1 text-sm text-center sm:text-base text-body">
-              {t('common:text-already-registered')}
+              Already registered?
               <Link
                 href={`/${lang}${ROUTES.LOGIN}`}
                 className="text-sm ltr:ml-1 rtl:mr-1 sm:text-base text-brand hover:no-underline focus:outline-none"
               >
-                {t('common:text-sign-in-now')}
+                Sign In Now
               </Link>
             </div>
           </div>
@@ -72,24 +72,24 @@ export default function SignUpForm({ lang, className }: SignUpFormProps) {
           >
             <div className="flex flex-col space-y-4">
               <Input
-                label={t('forms:label-name') as string}
+                label="Name"
                 type="text"
                 variant="solid"
                 {...register('first_name', {
-                  required: 'forms:name-required',
+                  required: 'Name errorr',
                 })}
                 error={errors.first_name?.message}
                 lang={lang}
               />
               <Input
-                label={t('Phone number') as string}
+                label="Phone number"
                 type="phone"
                 variant="solid"
                 {...register('phone', {
-                  required: `${t('forms:phone-required')}`,
+                  required: `Telefon raqam xato `,
                   pattern: {
                     value: /^(\+\d{1,3}\s?)?\d{11}$/,
-                    message: t('Invalid phone number'),
+                    message: 'Telefon raqam xato',
                   },
                   validate: (value: string) =>
                     value.match(/^(\+\d{1,3}\s?)?\d{11}$/)
@@ -101,10 +101,10 @@ export default function SignUpForm({ lang, className }: SignUpFormProps) {
               />
 
               <PasswordInput
-                label={t('forms:label-password')}
+                label="Password"
                 error={errors.password?.message}
                 {...register('password', {
-                  required: `${t('forms:password-required')}`,
+                  required: `Password error}`,
                 })}
                 lang={lang}
               />
@@ -116,7 +116,7 @@ export default function SignUpForm({ lang, className }: SignUpFormProps) {
                   className="w-full mt-2 tracking-normal h-11 md:h-12 font-15px md:font-15px"
                   variant="formButton"
                 >
-                  {t('common:text-register')}
+                  Register
                 </Button>
               </div>
             </div>
