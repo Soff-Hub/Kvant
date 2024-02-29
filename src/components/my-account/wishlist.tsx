@@ -9,3 +9,4 @@ export default function Wishlist({ lang }: { lang: string }) {
     </div>
   );
 }
+

@@ -40,7 +40,11 @@ const BannerCard: React.FC<BannerProps> = ({
       >
         <div className="relative inline-block overflow-hidden w-full box-sizing">
           <div className="block w-full box-sizing">
-            <svg className="block max-w-full h-auto" xmlns="http://www.w3.org/2000/svg"  version="1.1"/>
+            <svg
+              className="block max-w-full h-auto"
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+            />
           </div>
           <Image
             src={image}

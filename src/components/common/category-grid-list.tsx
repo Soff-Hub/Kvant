@@ -25,7 +25,7 @@ const CategoryGridList: React.FC<CategoriesProps> = ({
     <aside
       className={cn(
         'sticky top-22 h-full hidden xl:block text-brand-light',
-        className
+        className,
       )}
     >
       <div className="max-h-full overflow-hidden">
@@ -43,7 +43,8 @@ const CategoryGridList: React.FC<CategoriesProps> = ({
                 );
               })
             ) : (
-              data?.categories?.data?.map((category) => (
+              Array?.isArray(data) &&
+              data?.map((category) => (
                 <CategoryListCard
                   key={`category--key-${category.id}`}
                   category={category}

@@ -17,6 +17,8 @@ export default function ProductWishlistGrid({
   const { data, isLoading, error } = useWishlistProductsQuery({
     limit: limit,
   });
+
+
   return (
     <div className={cn(className)}>
       {error ? (

@@ -49,7 +49,6 @@ const CollectionCard: React.FC<Props> = ({
         >
           {t(title)}
         </Heading>
-       
       </div>
     </Link>
   );

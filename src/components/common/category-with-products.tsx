@@ -59,13 +59,15 @@ function ProductWeek({ lang }: { lang: string }) {
             ))
           ) : (
             <>
-              {data?.slice(0, 8)?.map((product: Product) => (
-                <ProductCardAlpine
-                  key={`product--key${product.id}`}
-                  product={product}
-                  lang={lang}
-                />
-              ))}
+              {data
+                ?.slice(0, 8)
+                ?.map((product: Product) => (
+                  <ProductCardAlpine
+                    key={`product--key${product.id}`}
+                    product={product}
+                    lang={lang}
+                  />
+                ))}
             </>
           )}
         </div>
@@ -84,7 +86,9 @@ export default function CategoryWithProducts({
   className = 'mb-12',
 }: Props) {
   const { t } = useTranslation(lang, 'common');
+  
   const { data } = useCategoriesQuery();
+
   return (
     <div className={`xl:flex ${className}`}>
       <div className="hidden xl:block shrink-0 ltr:pr-7 rtl:pl-7 2xl:ltr:pr-8 2xl:rtl:pl-8 xl:w-[320px] 2xl:w-[356px] pt-px">
@@ -93,16 +97,17 @@ export default function CategoryWithProducts({
             {t('text-all-categories')}
           </h2>
           <div className="flex flex-col justify-between">
-            {data?.map((category) => (
-              <CategoryListCard
-                key={`category--key-${category.id}`}
-                category={category}
-                href={`${ROUTES.SEARCH}?category=${category.slug}`}
-                className="transition border-b border-border-base last:border-b-0"
-                variant="small"
-                lang={lang}
-              />
-            ))}
+            {Array.isArray(data) &&
+              data?.map((category) => (
+                <CategoryListCard
+                  key={`category--key-${category.id}`}
+                  category={category}
+                  href={`${ROUTES.SEARCH}?category=${category.slug}`}
+                  className="transition border-b border-border-base last:border-b-0"
+                  variant="small"
+                  lang={lang}
+                />
+              ))}
           </div>
         </div>
       </div>

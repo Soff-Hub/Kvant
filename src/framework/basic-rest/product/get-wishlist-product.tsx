@@ -5,12 +5,12 @@ import { useQuery } from 'react-query';
 
 export const fetchWishlistProducts = async ({ queryKey }: any) => {
   const [_key, _params] = queryKey;
-  const { data } = await http.get(API_ENDPOINTS.WISHLIST);
+  const { data } = await http.get(API_ENDPOINTS.FASHION_PRODUCTS);
   return data;
 };
 export const useWishlistProductsQuery = (options: QueryOptionsType) => {
   return useQuery<Product[], Error>(
-    [API_ENDPOINTS.WISHLIST, options],
+    [API_ENDPOINTS.FASHION_PRODUCTS, options],
     fetchWishlistProducts
   );
 };

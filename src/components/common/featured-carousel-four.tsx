@@ -10,6 +10,7 @@ import DeliveryIcon from "@components/icons/featured/delivery-icon";
 import CardIcon from "@components/icons/featured/card-icon";
 import SupportIcon from "@components/icons/featured/support-icon";
 
+
 const data = [
     {
         id: 1,

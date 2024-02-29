@@ -24,7 +24,7 @@ const CookieBar: React.FC<CookieBarProps> = ({
           'translate-y-0 opacity-100': !hide,
           'translate-y-full opacity-0': hide,
         },
-        className
+        className,
       )}
     >
       <span className="inline-block mb:block mb-3.5 leading-6">{title}</span>
