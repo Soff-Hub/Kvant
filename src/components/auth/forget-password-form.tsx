@@ -1,11 +1,7 @@
 'use client';
 
 import Button from '@components/ui/button';
-import Input from '@components/ui/form/input';
-import { useForm } from 'react-hook-form';
 import { useTranslation } from 'src/app/i18n/client';
-import { useModalAction } from '@components/common/modal/modal.context';
-import CloseButton from '@components/ui/close-button';
 
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
@@ -15,154 +11,182 @@ import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { toast } from 'react-toastify';
 
-type ForgetPasswordType = {
-  codeValues: string;
-};
-
 export default function ForgetPasswordForm({ lang }: { lang: string }) {
   const { t } = useTranslation(lang);
-  const { closeModal } = useModalAction();
-  const [countdown, setCountdown] = useState<number>(20);
+  const [countdown, setCountdown] = useState<number>(30);
   const [loader, setLoader] = useState<boolean>(false);
   const [firstSendCode, setFirstSendCode] = useState<boolean>(true);
   const { authorize } = useUI();
   const token = getToken();
+  const [codeValues, setCodeValues] = useState<any>(null);
 
   const phoneCookie = Cookies.get('phone');
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ForgetPasswordType>();
-
-  async function onSubmit({ codeValues }: ForgetPasswordType) {
+  async function onSubmit(e: any) {
+    e.preventDefault();
     if (phoneCookie) {
-      if (firstSendCode && countdown !== 0) {
-        try {
-          setLoader(false);
-          const response = await fetch(baseURL + API_ENDPOINTS.CHECK_CODE, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ code: codeValues }),
+      try {
+        setLoader(false);
+        const response = await fetch(baseURL + API_ENDPOINTS.CHECK_CODE, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ code: codeValues }),
+        });
+        if (response.ok) {
+          window.location.href = '/en/change-password'; // Boshqa sahifaga yo'naltiramiz
+          toast.success('Muvaffaqiyatli yuborildi!', {
+            style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
+            progressClassName: 'fancy-progress-bar',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
           });
-          const data = await response.json();
-          if (data) {
-            window.location.href = '/en/change-password'; // Boshqa sahifaga yo'naltiramiz
-            setLoader(true);
-          }
-        } catch (error) {
-          console.log(error, 'forget password error response');
+        } else {
+          // Xato keldiğida xatoni chiqaramiz
+          const error = await response.json();
+          throw new Error(error?.msg[0] || 'Forget password error response');
         }
-      } else {
-        try {
-          const response = await fetch(
-            baseURL + API_ENDPOINTS.FORGET_PASSWORD,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({ phone: phoneCookie }),
-            },
-          );
-          const data = await response.json();
-          if (data?.tokens?.access) {
-            Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
-            authorize();
-            setFirstSendCode(true);
-            setCountdown(20);
-            toast.success('Muvaffaqiyatli!', {
-              style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
-              progressClassName: 'fancy-progress-bar',
-              autoClose: 1500,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-            });
-          } else {
-            toast.error(data?.msg[0] + '', {
-              style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
-              progressClassName: 'fancy-progress-bar',
-              autoClose: 1500,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-            });
-          }
-        } catch (error) {
-          console.log(error, 'forget password error response');
-        }
+        setLoader(true);
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error + '', {
+          style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
+          progressClassName: 'fancy-progress-bar',
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
+      setCodeValues(null);
     } else {
-      if (firstSendCode) {
-        try {
-          setLoader(false);
-          const response = await fetch(baseURL + API_ENDPOINTS.VERIFY, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ code: codeValues }),
+      try {
+        setLoader(false);
+        const response = await fetch(baseURL + API_ENDPOINTS.VERIFY, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ code: codeValues }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
+          authorize();
+          window.location.href = '/en'; // Boshqa sahifaga yo'naltiramiz
+          setLoader(true);
+          toast.success('Muvaffaqiyatli kirdingiz!', {
+            style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
+            progressClassName: 'fancy-progress-bar',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
           });
-          const data = await response.json();
-          if (data?.tokens?.access) {
-            Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
-            authorize();
-            window.location.href = '/en'; // Boshqa sahifaga yo'naltiramiz
-            setLoader(true);
-            toast.success('Muvaffaqiyatli kirdingiz!', {
-              style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
-              progressClassName: 'fancy-progress-bar',
-              autoClose: 1500,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-            });
-          }
-        } catch (error) {
-          console.log(error, 'forget password error response');
+        } else {
+          // Xato keldiğida xatoni chiqaramiz
+          console.log(data);
+          
+          throw new Error(data?.msg[0] || 'Forget password error response');
         }
-      } else {
-        try {
-          const response = await fetch(baseURL + API_ENDPOINTS.GET_CODE, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-          });
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error + '', {
+          style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
+          progressClassName: 'fancy-progress-bar',
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+      setCodeValues(null);
+    }
+  }
+
+  async function onSubmit2(e: any = null) {
+    if (e) {
+      e.preventDefault();
+    }
+    if (phoneCookie) {
+      try {
+        const response = await fetch(baseURL + API_ENDPOINTS.FORGET_PASSWORD, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ phone: phoneCookie }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
+          authorize();
           setFirstSendCode(true);
           setCountdown(20);
-          const data = await response?.json();
-          console.log(data);
-
-          // toast.error(data?.code[0] + '', {
-          //   style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
-          //   progressClassName: 'fancy-progress-bar',
-          //   autoClose: 1500,
-          //   hideProgressBar: false,
-          //   closeOnClick: true,
-          //   pauseOnHover: true,
-          //   draggable: true,
-          // });
-        } catch (error: any) {
-          console.log(error, 'forget password error response');
+          toast.success('Muvaffaqiyatli!', {
+            style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
+            progressClassName: 'fancy-progress-bar',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        } else {
+          // Xato keldiğida xatoni chiqaramiz
+          throw new Error('Forget password error response');
         }
+      } catch (error) {
+        console.log(error, 'forget password error response');
+        toast.error(error + '', {
+          style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
+          progressClassName: 'fancy-progress-bar',
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+    } else {
+      try {
+        const response = await fetch(baseURL + API_ENDPOINTS.GET_CODE, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFirstSendCode(true);
+        setCountdown(20);
+        const data = await response?.json();
+        console.log(data);
+
+        // toast.error(data?.code[0] + '', {
+        //   style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
+        //   progressClassName: 'fancy-progress-bar',
+        //   autoClose: 1500,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        // });
+      } catch (error: any) {
+        console.log(error, 'forget password error response');
       }
     }
   }
 
-
-  
   useEffect(() => {
     const interval = setInterval(() => {
       setCountdown((prevCountdown) => {
@@ -185,46 +209,47 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
 
   return (
     <div className="w-full px-5 py-6 mx-auto rounded-lg sm:p-8 bg-brand-light sm:w-96 md:w-450px">
-      <CloseButton onClick={closeModal} />
       <div className="text-center mb-9 pt-2.5">
         <p className="mt-3 mb-8 text-sm md:text-base text-body sm:mt-4 sm:mb-10">
           {t('common:forgot-password-helper')}
         </p>
       </div>
-      <form
-        onSubmit={handleSubmit((data) => onSubmit(data))}
-        className="flex flex-col justify-center"
-        noValidate
-      >
-        <Input
-          label={t('Kodni kiriting') as string}
-          type="number" // Change the type to "number"
-          variant="solid"
-          className="mb-1"
-          {...register('codeValues', {
-            // required: `${t('number required')}`,
-            pattern: {
-              value: /^\d+$/, // Regular expression to match numbers only
-              message: t('error kode'), // Error message for invalid number format
-            },
-          })}
-          error={errors.codeValues?.message} // Display error message if validation fails
+      <form className="flex flex-col justify-center" noValidate>
+        <input
+          type="text"
+          defaultValue={codeValues}
+          className="mb-1 py-3 px-4 w-full appearance-none  border text-input text-16px lg:text-sm font-body rounded placeholder-[#B3B3B3] min-h-12 transition duration-200 ease-in-out text-brand-dark focus:ring-0"
           lang={lang}
+          onChange={(e) => (
+            setCodeValues(e.target.value), setFirstSendCode(false)
+          )}
         />
         <div className="mb-3 text-red-600 ">
           {`${Math.floor(countdown / 60)
             .toString()
             .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}
         </div>
-        <Button
-          loading={loader}
-          disabled={loader}
-          type="submit"
-          variant="formButton"
-          className="w-full mt-0 h-11 md:h-12"
-        >
-          {firstSendCode ? 'Yuborish' : 'Qayta kod yuborish'}
-        </Button>
+        {firstSendCode || codeValues !== null ? (
+          <Button
+            disabled={firstSendCode}
+            loading={loader}
+            onClick={onSubmit}
+            variant="formButton"
+            className="w-full mt-0 h-11 md:h-12"
+          >
+            Yuborish
+          </Button>
+        ) : (
+          <Button
+            disabled={firstSendCode}
+            loading={loader}
+            onClick={onSubmit2}
+            variant="formButton"
+            className="w-full mt-0 h-11 md:h-12"
+          >
+            Qayta kod olish
+          </Button>
+        )}
       </form>
     </div>
   );
