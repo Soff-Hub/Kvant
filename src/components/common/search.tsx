@@ -23,7 +23,7 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
       variant = 'border',
       lang,
     },
-    ref
+    ref,
   ) => {
     const {
       displayMobileSearch,
@@ -38,30 +38,35 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
     });
 
     useFreezeBodyScroll(
-      inputFocus === true || displaySearch || displayMobileSearch
+      inputFocus === true || displaySearch || displayMobileSearch,
     );
+
     function handleSearch(e: React.SyntheticEvent) {
       e.preventDefault();
     }
+
     function handleAutoSearch(e: React.FormEvent<HTMLInputElement>) {
       setSearchText(e.currentTarget.value);
     }
+
     function clear() {
       setSearchText('');
       setInputFocus(false);
       closeMobileSearch();
       closeSearch();
     }
+
     function enableInputFocus() {
       setInputFocus(true);
     }
+
 
     return (
       <div
         ref={ref}
         className={cn(
           'w-full transition-all duration-200 ease-in-out',
-          className
+          className,
         )}
       >
         <div
@@ -71,7 +76,7 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
               open: displayMobileSearch,
               'input-focus-overlay-open': inputFocus === true,
               'open-search-overlay': displaySearch,
-            }
+            },
           )}
           onClick={() => clear()}
         />
@@ -126,7 +131,7 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 Search.displayName = 'Search';

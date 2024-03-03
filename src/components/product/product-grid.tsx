@@ -18,6 +18,7 @@ interface ProductGridProps {
   viewAs: boolean;
 }
 
+
 export const ProductGrid: FC<ProductGridProps> = ({
   className = '',
   lang,
@@ -31,6 +32,9 @@ export const ProductGrid: FC<ProductGridProps> = ({
     `${baseURL}${query}`,
   );
 
+  console.log(newQuery);
+  
+
   const {
     isFetching: isLoading,
     isFetchingNextPage: loadingMore,
@@ -43,10 +47,7 @@ export const ProductGrid: FC<ProductGridProps> = ({
     // @ts-ignore
     newQuery,
   });
-
-  console.log(data);
   
-
 
   return (
     <>

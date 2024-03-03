@@ -25,6 +25,8 @@ import {
 import CloseButton from '@components/ui/close-button';
 import isEqual from 'lodash/isEqual';
 import { productGalleryPlaceholder } from '@assets/placeholders';
+import { baseURL } from '@framework/utils/http';
+
 
 export default function ProductPopup({ lang }: { lang: string }) {
   const { t } = useTranslation(lang, 'common');
@@ -32,7 +34,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
   const { width } = useWindowSize();
   const { closeModal } = useModalAction();
   const router = useRouter();
-  const { addItemToCart, isInCart, getItemFromCart, isInStock } = useCart();
+  const { addItemToCart, isInCart, getItemFromCart } = useCart();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
   const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
@@ -41,23 +43,23 @@ export default function ProductPopup({ lang }: { lang: string }) {
     useState<boolean>(false);
   const [shareButtonStatus, setShareButtonStatus] = useState<boolean>(false);
 
-  const variations = getVariations(data);
+  const variations = getVariations(data.variations);
   const {
     slug,
+    image,
     title,
     price,
     description,
-    discount_price,
     discount,
     galleries,
-    tag,
+    discount_price,
     quantity,
   } = data;
-
-  const productUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${lang}${ROUTES.PRODUCT}/${slug}`;
+  const productUrl = `${baseURL}/${lang}${ROUTES.PRODUCT}/${slug}`;
   const handleChange = () => {
     setShareButtonStatus(!shareButtonStatus);
   };
+
   const isSelected = !isEmpty(variations)
     ? !isEmpty(attributes) &&
       Object.keys(variations).every((variation) =>
@@ -74,7 +76,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
     );
   }
   const item = generateCartItem(data, selectedVariation);
-  const outOfStock = isInCart(item.id) && !isInStock(item.id);
+
   function addToCart() {
     if (!isSelected) return;
     // to show btn feedback while product carting
@@ -127,12 +129,12 @@ export default function ProductPopup({ lang }: { lang: string }) {
         <div className="px-2 md:px-5 mb-2 lg:mb-2 pt-4 md:pt-7">
           <div className="lg:flex items-stretch justify-between gap-8">
             <div className="xl:flex  justify-center overflow-hidden">
-              {!!galleries?.length ? (
+              {!!galleries ? (
                 <ThumbnailCarousel gallery={galleries} lang={lang} />
               ) : (
                 <div className="flex items-center justify-center w-auto">
                   <Image
-                    src={galleries?.image ?? productGalleryPlaceholder}
+                    src={image ?? productGalleryPlaceholder}
                     alt={title!}
                     width={650}
                     height={590}
@@ -153,13 +155,14 @@ export default function ProductPopup({ lang }: { lang: string }) {
                     {title}
                   </h2>
                 </div>
+
                 <div className="flex items-center mt-5">
                   {discount_price !== Number(price) ? (
                     <>
                       <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
                         {discount_price} so'm
                       </span>
-                      <del className="text-sm text-opacity-50 md:text-15px ltr:pl-3 rtl:pr-3 ">
+                      <del className="text-sm text-opacity-50 md:text-15px ltr:pl-3 rtl:pr-3">
                         {Number(price)} so'm
                       </del>
                     </>
@@ -183,9 +186,9 @@ export default function ProductPopup({ lang }: { lang: string }) {
                   }
                   disabled={
                     isInCart(item.id)
-                      ? getItemFromCart(item.id) + selectedQuantity >=
-                        Number(item)
-                      : selectedQuantity >= Number(item)
+                      ? getItemFromCart(item.id).quantity + selectedQuantity >=
+                        Number(item.stock)
+                      : selectedQuantity >= Number(item.stock)
                   }
                   lang={lang}
                 />
@@ -243,7 +246,9 @@ export default function ProductPopup({ lang }: { lang: string }) {
                 <Heading className="mb-3 lg:mb-3.5">
                   {t('text-product-details')}:
                 </Heading>
-                <Text variant="small">{description}</Text>
+                <Text variant="small">
+                  {description.split(' ').slice(0, 40).join(' ')}
+                </Text>
               </div>
             </div>
           </div>

@@ -59,6 +59,7 @@ const SearchBox = React.forwardRef<HTMLInputElement, SearchProps>(
             ref={ref}
             {...rest}
           />
+          
         </label>
         {value ? (
           <button

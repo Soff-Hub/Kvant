@@ -11,6 +11,7 @@ interface Props {
     className?: string;
     variant?: string;
 }
+
 const BestSellerProductFeed: FC<Props> = ({
    lang,
    className,

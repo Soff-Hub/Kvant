@@ -29,12 +29,10 @@ function RenderPopupOrAddToCart({ props }: { props: Object }) {
   let { data, lang }: any = props;
   const { t } = useTranslation(lang, 'common');
   const { id, quantity, product_type } = data ?? {};
-  const { width } = useWindowSize();
   const { openModal } = useModalAction();
   const { isInCart, isInStock } = useCart();
   const outOfStock = isInCart(id) && !isInStock(id);
 
-  const iconSize = width! > 1024 ? '19' : '17';
 
   function handlePopupView() {
     openModal('PRODUCT_VIEW', data);
@@ -42,7 +40,7 @@ function RenderPopupOrAddToCart({ props }: { props: Object }) {
 
   if (Number(quantity) < 1 || outOfStock) {
     return (
-      <span className="block w-full text-[13px] leading-6 px-4 py-2 bg-brand-danger rounded-full text-brand-light text-[13px] items-center justify-center">
+      <span className="block w-full  leading-6 px-4 py-2 bg-brand-danger rounded-full text-brand-light text-[13px] items-center justify-center">
         {t('text-out-stock')}
       </span>
     );
