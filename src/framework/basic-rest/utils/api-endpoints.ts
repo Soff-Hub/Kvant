@@ -13,6 +13,7 @@ export const API_ENDPOINTS = {
   BANNER_RIGTH: 'common/advertisements/',
   FASHION_PRODUCTS: 'common/global/products/',
   PRODUCTS_DETAILS: 'common/product/detail',
+  PRODUCTS_DETAILS_SINGLE: 'common/similar/producdts',
   // DIETARY: '',
   // BRANDS: '',
   // PRODUCTS: '',

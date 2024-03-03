@@ -6,9 +6,12 @@ import Counter from '@components/ui/counter';
 import { useParams } from 'next/navigation';
 import { ROUTES } from '@utils/routes';
 import useWindowSize from '@utils/use-window-size';
+import { useProductQuery } from '@framework/product/get-product';
 import { getVariations } from '@framework/utils/get-variations';
+import usePrice from '@framework/product/use-price';
 import { useCart } from '@contexts/cart/cart.context';
 import { generateCartItem } from '@utils/generate-cart-item';
+import ProductAttributes from '@components/product/product-attributes';
 import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
 import ThumbnailCarousel from '@components/ui/carousel/thumbnail-carousel';
@@ -20,12 +23,16 @@ import LabelIcon from '@components/icons/label-icon';
 import { IoArrowRedoOutline } from 'react-icons/io5';
 import SocialShareBox from '@components/ui/social-share-box';
 import ProductDetailsTab from '@components/product/product-details/product-tab';
+import VariationPrice from './variation-price';
 import isEqual from 'lodash/isEqual';
 import { useTranslation } from 'src/app/i18n/client';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
-import Heading from '@components/ui/heading';
-import Text from '@components/ui/text';
+import ProductCard from './product-cards/product-card';
+import { SwiperSlide } from 'swiper/react';
+import ProductCardLoader from '@components/ui/loaders/product-card-loader';
+import Carousel from '@components/ui/carousel/carousel';
+
 const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'common');
   const pathname = useParams();
@@ -41,6 +48,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     useState<boolean>(false);
   const [shareButtonStatus, setShareButtonStatus] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
+  const [dataProducts, setDataProducts] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const productUrl = `${baseURL}${ROUTES.PRODUCT}/${slug}`;
@@ -58,15 +66,32 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
       console.error('Xatolik yuz berdi:', error);
     }
   }
+
+  async function handlePopupViewProducts() {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `${baseURL + API_ENDPOINTS.PRODUCTS_DETAILS_SINGLE}/${pathname.slug}/`,
+      );
+      const product = await response.json();
+      setDataProducts(product);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Xatolik yuz berdi:', error);
+    }
+  }
+
   useEffect(() => {
+    handlePopupViewProducts();
     handlePopupView();
   }, [slug]);
 
   const handleChange = () => {
     setShareButtonStatus(!shareButtonStatus);
   };
+
   if (isLoading) return <p className={'pt-8 pb-8'}>Loading...</p>;
-  const variations = getVariations(data);
+  const variations = getVariations(data?.variations);
 
   const isSelected = !isEmpty(variations)
     ? !isEmpty(attributes) &&
@@ -84,8 +109,8 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
       ),
     );
   }
-  const item: any = generateCartItem(data, selectedVariation);
-  const outOfStock = isInCart(item.id) && !isInStock(item.id);
+  const item = generateCartItem(data!, selectedVariation);
+
   function addToCart() {
     if (!isSelected) return;
     // to show btn feedback while product carting
@@ -94,7 +119,6 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
       setAddToCartLoader(false);
     }, 1500);
 
-    
     const item = generateCartItem(data!, selectedVariation);
     addItemToCart(item, quantity);
     toast('Added to the bag', {
@@ -127,7 +151,26 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     });
   }
 
-  console.log(data);
+  const breakpoints = {
+    '1536': {
+      slidesPerView: 6,
+    },
+    '1280': {
+      slidesPerView: 5,
+    },
+    '1024': {
+      slidesPerView: 4,
+    },
+    '640': {
+      slidesPerView: 3,
+    },
+    '360': {
+      slidesPerView: 2,
+    },
+    '0': {
+      slidesPerView: 1,
+    },
+  };
 
   return (
     <div className="pt-6 pb-2 md:pt-7">
@@ -180,6 +223,37 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
             </div>
           </div>
 
+          <dl className="productView-info  text-[14px] leading-8 pb-5 mb-5 border-b border-border-base">
+            <dt
+              className={`productView-info-name w-40 ltr:float-left rtl:float-right`}
+            >
+              {t('text-brand')}:
+            </dt>
+            <dd className="productView-info-value">{data?.brand}</dd>
+            <dt
+              className={`productView-info-name w-40 ltr:float-left rtl:float-right`}
+            >
+              {t('text-sku')}:
+            </dt>
+            <dd className="productView-info-value">200101</dd>
+            <dt
+              className={`productView-info-name w-40 ltr:float-left rtl:float-right`}
+            >
+              {t('text-weight')}:
+            </dt>
+            <dd className="productView-info-value" data-product-weight="">
+              {data?.weight} KGS
+            </dd>
+            <dt
+              className={`productView-info-name w-40 ltr:float-left rtl:float-right`}
+            >
+              {t('text-shipping')}:
+            </dt>
+            <dd className="productView-info-value">
+              {t(`text-calculated-checkout`)}
+            </dd>
+          </dl>
+
           <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
             <Counter
               variant="single"
@@ -191,8 +265,8 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
               disabled={
                 isInCart(item.id)
                   ? getItemFromCart(item.id).quantity + selectedQuantity >=
-                    Number(item.quantity)
-                  : selectedQuantity >= Number(item.quantity)
+                    Number(item.stock)
+                  : selectedQuantity >= Number(item.stock)
               }
               lang={lang}
             />
@@ -245,29 +319,33 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
               </div>
             </div>
           </div>
-          <div className="pt-6 xl:pt-8">
-            <Heading className="mb-3 lg:mb-3.5">
-              Mahsulot haqida
-            </Heading>
-            <Text variant="small">
-              {data?.description}
-            </Text>
-          </div>
-          {/* {data?.tag && (
-            <ul className="pt-5 xl:pt-6">
-              <li className="relative inline-flex items-center justify-center text-sm md:text-15px text-brand-dark text-opacity-80 ltr:mr-2 rtl:ml-2 top-1">
-                <LabelIcon className="ltr:mr-2 rtl:ml-2" /> {t('text-tags')}:
-              </li>
-              {data?.tag?.map((item: any) => (
-                <li className="inline-block p-[3px]" key={`tag-${item.id}`}>
-                  <TagLabel data={item} />
-                </li>
-              ))}
-            </ul>
-          )} */}
         </div>
       </div>
-      <ProductDetailsTab lang={lang} dataProps={data?.body} />
+      {/* <ProductDetailsTab dataProps={<p>dsfdsfdsf</p>} lang={lang} /> */}
+      <Carousel
+        spaceBetween={6}
+        breakpoints={breakpoints}
+        grid={{ rows: 1, fill: 'row' }}
+        className="flex"
+        lang={lang}
+      >
+        {isLoading
+          ? Array.from({ length: 20! }).map((_, idx) => (
+              <SwiperSlide key={`${idx}`} className="p-2  rounded bg-white">
+                <ProductCardLoader uniqueKey={`${idx}`} />
+              </SwiperSlide>
+            ))
+          : dataProducts.map((product: any, idx: number) => (
+              <SwiperSlide key={idx}>
+                <ProductCard
+                  key={idx}
+                  product={product}
+                  lang={lang}
+                  variant={''}
+                />
+              </SwiperSlide>
+            ))}
+      </Carousel>
     </div>
   );
 };

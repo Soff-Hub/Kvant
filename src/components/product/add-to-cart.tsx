@@ -29,18 +29,21 @@ const AddToCart = ({
     isInCart,
   } = useCart();
   const item = generateCartItem(data!, variation);
+
   const handleAddClick = (
     e: React.MouseEvent<HTMLButtonElement | MouseEvent>
   ) => {
     e.stopPropagation();
     addItemToCart(item, 1);
   };
+
+  
+
   const handleRemoveClick = (e: any) => {
     e.stopPropagation();
     removeItemFromCart(item.id);
   };
   const outOfStock = isInCart(item?.id) && !isInStock(item.id);
-  const iconSize = width! > 480 ? '19' : '17';
 
   return !isInCart(item?.id) ? (
     variant === 'cardv2' ? (

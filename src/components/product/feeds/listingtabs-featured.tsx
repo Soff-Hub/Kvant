@@ -13,6 +13,7 @@ type BoxProps = {
   lang: string;
   variant?: string;
 };
+
 const ListingtabsFeatured: FC<BoxProps> = ({ lang, className, variant }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const tabArr = ['Featured', 'Top Trending', 'On Sale'];
@@ -35,6 +36,7 @@ const ListingtabsFeatured: FC<BoxProps> = ({ lang, className, variant }) => {
           ))}
         </Tab.List>
         <Tab.Panels>
+          
           <Tab.Panel>
             <BestSellerProductFeed lang={lang} variant={'noHeading'} />
           </Tab.Panel>
