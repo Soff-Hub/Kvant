@@ -12,12 +12,14 @@ export default function ProductDetailsTab({
   dataProps,
 }: {
   lang: string;
-  dataProps: any;
+  dataProps: string;
 }) {
   let [tabHeading] = useState({
     Product_Details: '',
     Review_Rating: '',
   });
+
+  
 
   return (
     <div className="w-full p-5 bg-white rounded mb-8 lg:mb-12">
@@ -42,7 +44,7 @@ export default function ProductDetailsTab({
         <Tab.Panels className="mt-6 lg:mt-9">
           <Tab.Panel className="lg:flex">
             <div className="text-sm sm:text-15px text-brand-muted leading-[2em] space-y-4 lg:space-y-5 xl:space-y-7">
-              {parse(dataProps)}
+              {dataProps && parse(dataProps)}
             </div>
           </Tab.Panel>
           <Tab.Panel>

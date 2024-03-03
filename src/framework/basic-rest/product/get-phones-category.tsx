@@ -5,12 +5,12 @@ import { useQuery } from 'react-query';
 
 export const fetchElectronictablesCategory = async ({ queryKey }: any) => {
   const [_key, _params] = queryKey;
-  const { data } = await http.get(API_ENDPOINTS.PHONES_CATEGORY);
+  const { data } = await http.get(API_ENDPOINTS.CATEGORIES_ALL);
   return data as Category[];
 };
 export const usePhonesCategoryQuery = (options: QueryOptionsType) => {
   return useQuery<Category[], Error>(
-    [API_ENDPOINTS.PHONES_CATEGORY, options],
+    [API_ENDPOINTS.CATEGORIES_ALL, options],
       fetchElectronictablesCategory
   );
 };

@@ -172,6 +172,8 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     },
   };
 
+  
+
   return (
     <div className="pt-6 pb-2 md:pt-7">
       <div className="grid-cols-10 lg:grid gap-7 2xl:gap-7 mb-8 lg:mb-12 bg-white p-5 rounded">
@@ -321,7 +323,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
           </div>
         </div>
       </div>
-      {/* <ProductDetailsTab dataProps={<p>dsfdsfdsf</p>} lang={lang} /> */}
+      <ProductDetailsTab dataProps={data?.body} lang={lang} />
       <Carousel
         spaceBetween={6}
         breakpoints={breakpoints}
