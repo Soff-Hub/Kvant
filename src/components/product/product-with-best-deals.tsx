@@ -1,5 +1,5 @@
 "use client";
-import {usePopularProductsQuery} from '@framework/product/get-all-popular-products';
+import {usePopularProductsQuery} from '@framework/product/get-section-second';
 import SectionHeader from '@components/common/section-header';
 import ProductCardLoader from '@components/ui/loaders/product-card-loader';
 import {LIMITS} from '@framework/utils/limits';

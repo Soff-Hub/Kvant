@@ -24,6 +24,7 @@ const ImageLightBox: React.FC<ImgGalleryProps> = ({gallery}) => {
         }
     });
 
+    
     return (
         <div className={`absolute top-1 pe-5 z-10`}>
             <button type="button" onClick={() => setIsOpen(true)}>

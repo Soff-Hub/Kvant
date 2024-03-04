@@ -1,7 +1,7 @@
 'use client';
 
 import ProductsListBlock from '@components/product/products-list-block';
-import { useBestSellerProductsQuery } from '@framework/product/get-all-best-seller-products';
+import { useBestSellerProductsQuery } from '@framework/product/ge-section-first';
 import { LIMITS } from '@framework/utils/limits';
 import { ROUTES } from '@utils/routes';
 

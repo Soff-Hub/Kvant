@@ -1,7 +1,7 @@
 'use client';
 
 import ProductsCarousel from '@components/product/products-carousel';
-import { useBestSellerProductsQuery } from '@framework/product/get-all-best-seller-products';
+import { useBestSellerProductsQuery } from '@framework/product/ge-section-first';
 import { LIMITS } from '@framework/utils/limits';
 import { ROUTES } from '@utils/routes';
 import {FC} from "react";
@@ -11,6 +11,7 @@ interface Props {
     className?: string;
     variant?: string;
 }
+
 
 const BestSellerProductFeed: FC<Props> = ({
    lang,

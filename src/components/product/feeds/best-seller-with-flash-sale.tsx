@@ -1,6 +1,6 @@
 'use client';
 
-import { usePopularProductsQuery } from '@framework/product/get-all-popular-products';
+import { usePopularProductsQuery } from '@framework/product/get-section-second';
 import SectionHeader from '@components/common/section-header';
 import ProductCard from '@components/product/product-cards/product-card';
 import ProductCardLoader from '@components/ui/loaders/product-card-loader';
@@ -38,6 +38,7 @@ const options = {
     },
   },
 };
+
 
 export default function BestSellerWithFlashSale({
   lang,

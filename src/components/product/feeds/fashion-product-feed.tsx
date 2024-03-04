@@ -12,9 +12,11 @@ interface Props {
 }
 
 const FashionProductFeed: FC<Props> = ({ lang, className, variant }) => {
+
   const { data, isLoading, error } = usefashionProductsQuery({
-    limit: LIMITS.ELETRONIC_PRODUCTS_LIMITS,
+    sorty_by:'top_trending'
   });
+
   return (
     <ProductsCarousel
       sectionHeading="text-popcorn-jerky"

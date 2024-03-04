@@ -5,12 +5,12 @@ import { useQuery } from 'react-query';
 
 export const fetchPopularProducts = async ({ queryKey }: any) => {
   const [_key, _params] = queryKey;
-  const { data } = await http.get(API_ENDPOINTS.FASHION_PRODUCTS);
+  const { data } = await http.get(API_ENDPOINTS.PRODUCTS_SECTION_3);
   return data as Product[];
 };
 export const usePopularProductsQuery = (options: QueryOptionsType) => {
   return useQuery<Product[], Error>(
-    [API_ENDPOINTS.FASHION_PRODUCTS, options],
+    [API_ENDPOINTS.PRODUCTS_SECTION_3, options],
     fetchPopularProducts
   );
 };

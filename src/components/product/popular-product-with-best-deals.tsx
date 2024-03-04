@@ -1,6 +1,6 @@
 'use client';
 
-import { usePopularProductsQuery } from '@framework/product/get-all-popular-products';
+import { usePopularProductsQuery } from '@framework/product/get-section-second';
 import SectionHeader from '@components/common/section-header';
 import ProductCardAlpine from '@components/product/product-cards/product-card-medium';
 import ProductCardLoader from '@components/ui/loaders/product-card-loader';
@@ -47,6 +47,7 @@ export default function PopularProductWithBestDeals({
               product={data?.[0]!}
               date={Date.now() + 4000000 * 60}
               lang={lang}
+
             />
           </div>
         </div>
