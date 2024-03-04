@@ -13,7 +13,7 @@ export const fetchFashionProducts = async ({ queryKey }: any) => {
 
   const url = `${API_ENDPOINTS.FASHION_PRODUCTS}?${queryParams.toString()}`;
   const { data } = await http.get(url);
-  return data as Product[];
+  return data?.results as Product[];
 };
 export const usefashionProductsQuery = (options: QueryOptionsType) => {
   return useQuery<Product[], Error>(

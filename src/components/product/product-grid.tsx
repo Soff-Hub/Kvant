@@ -32,7 +32,6 @@ export const ProductGrid: FC<ProductGridProps> = ({
     `${baseURL}${query}`,
   );
 
-  console.log(newQuery);
   
 
   const {
@@ -47,6 +46,7 @@ export const ProductGrid: FC<ProductGridProps> = ({
     // @ts-ignore
     newQuery,
   });
+  
   
 
   return (

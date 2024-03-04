@@ -11,7 +11,7 @@ const fetchProducts = async ({ queryKey }: any) => {
   const [_key, _params] = queryKey;
   const { data } = await http.get(API_ENDPOINTS.FASHION_PRODUCTS);
   return {
-    data: shuffle(data) as Product[],
+    data: shuffle(data?.results) as Product[],
     paginatorInfo: {
       nextPageUrl: API_ENDPOINTS.FASHION_PRODUCTS + 1,
     },

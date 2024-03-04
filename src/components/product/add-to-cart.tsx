@@ -12,6 +12,7 @@ interface Props {
   disabled?: boolean;
   variant?: any;
 }
+
 const AddToCart = ({
   lang,
   data,
