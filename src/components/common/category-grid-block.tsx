@@ -117,3 +117,4 @@ const CategoryGridBlock: React.FC<CategoriesProps> = ({
 };
 
 export default CategoryGridBlock;
+

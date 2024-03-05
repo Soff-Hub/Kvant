@@ -11,6 +11,7 @@ interface BannerProps {
   variant: string;
 }
 
+
 export default function HeroBannerCard({
   lang,
   banner,
