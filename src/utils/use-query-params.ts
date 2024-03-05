@@ -25,6 +25,7 @@ export default function useQueryParam(pathname: string = '/') {
     }, 500);
     return () => clearTimeout(l);
   }, [query]);
+  
 
   const clearQueryParam = (key: string[]) => {
     let url = new URL(location.href);
