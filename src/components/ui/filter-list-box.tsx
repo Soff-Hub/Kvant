@@ -19,7 +19,7 @@ export default function ListBox({
   const { t } = useTranslation(lang, 'common');
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { updateQueryparams, query } = useQueryParam(pathname ?? '/');
+  const { updateQueryparams } = useQueryParam(pathname ?? '/');
   const hasQueryKey = searchParams?.get('sort_by');
 
   const currentSelectedItem = hasQueryKey

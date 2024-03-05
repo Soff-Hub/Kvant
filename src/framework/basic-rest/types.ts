@@ -26,7 +26,7 @@ export type QueryOptionsType = {
   category?: string;
   status?: string;
   limit?: number;
-  sorty_by?:string
+  sort_by?:string
 };
 export type Attachment = {
   id: string | number;

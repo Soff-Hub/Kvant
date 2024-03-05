@@ -14,7 +14,7 @@ interface Props {
 const FashionProductFeed: FC<Props> = ({ lang, className, variant }) => {
 
   const { data, isLoading, error } = usefashionProductsQuery({
-    sorty_by:'order'
+    sort_by:'order'
   });
 
   return (

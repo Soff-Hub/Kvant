@@ -6,13 +6,11 @@ import Heading from '@components/ui/heading';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'src/app/i18n/client';
 import { useState } from 'react';
-import { useUI } from '@contexts/ui.context';
 import { getToken } from '@framework/utils/get-token';
-import Cookies from 'js-cookie';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 interface ChangePasswordInputType {
   newPassword: string;
@@ -21,7 +19,6 @@ interface ChangePasswordInputType {
 const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang);
   const [loader, setLoader] = useState<boolean>(false);
-  const { authorize } = useUI();
   const token = getToken();
   const router = useRouter();
 
