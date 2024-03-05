@@ -9,7 +9,6 @@ export const ROUTES = {
   ORDERS: '/my-account/orders',
   LOGIN: '/signin',
   SIGN_UP: '/signup',
-  SEARCH: '/search',
   PRODUCTS: '/products',
   BUNDLE: '/bundles',
   CATEGORY: '/category',

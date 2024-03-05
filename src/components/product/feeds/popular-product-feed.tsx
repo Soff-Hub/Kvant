@@ -1,7 +1,7 @@
 'use client';
 
 import type { FC } from 'react';
-import { usePopularProductsQuery } from '@framework/product/get-all-popular-products';
+import { usePopularProductsQuery } from '@framework/product/get-section-second';
 import ProductsCarousel from '@components/product/products-carousel';
 import { LIMITS } from '@framework/utils/limits';
 

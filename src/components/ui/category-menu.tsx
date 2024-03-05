@@ -4,18 +4,16 @@ import Link from '@components/ui/link';
 import Image from '@components/ui/image';
 import {
   IoIosAddCircleOutline,
-  IoIosArrowBack,
-  IoIosArrowForward,
   IoIosRemoveCircleOutline,
 } from 'react-icons/io';
 
-import { ROUTES } from '@utils/routes';
 import { useTranslation } from 'src/app/i18n/client';
 import SubMegaVertical from '@components/ui/mega/sub-mega-vertical';
 
 function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
-  const { title, image, children: items, type } = item;
+  const { title, image, children: items, type,slug } = item;
 
+  
   return (
     <>
       <li
@@ -26,7 +24,7 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
         }`}
       >
         <Link
-          href={`/${lang}${ROUTES.SEARCH}`}
+          href={`/${lang}/${slug}`}
           className={cn(
             'flex items-center w-full py-3 demo  text-start outline-none focus:outline-none focus:ring-0 focus:text-skin-base',
             {

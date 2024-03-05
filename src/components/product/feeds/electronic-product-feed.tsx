@@ -2,8 +2,8 @@
 import ProductsCarousel from '@components/product/products-carousel';
 import { ROUTES } from '@utils/routes';
 import { LIMITS } from '@framework/utils/limits';
-import {useElectronicProductsQuery} from "@framework/product/get-all-electronic-products";
 import {FC} from "react";
+import { usefashionProductsQuery } from '@framework/product/get-all-fashion-products';
 
 interface Props {
     lang: string;
@@ -16,8 +16,8 @@ const ElectronicProductFeed: FC<Props> = ({
      className,
      variant,
  }) => {
-  const { data, isLoading, error } = useElectronicProductsQuery({
-    limit: LIMITS.ELETRONIC_PRODUCTS_LIMITS,
+  const { data, isLoading, error } = usefashionProductsQuery({
+    sorty_by:'discount'
   });
   return (
     <ProductsCarousel

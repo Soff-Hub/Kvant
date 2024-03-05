@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import { LIMITS } from '@framework/utils/limits';
 import { FC } from 'react';
 import cn from 'classnames';
 import { Tab } from '@headlessui/react';
@@ -14,9 +13,11 @@ type BoxProps = {
   variant?: string;
 };
 
+
 const ListingtabsFeatured: FC<BoxProps> = ({ lang, className, variant }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const tabArr = ['Featured', 'Top Trending', 'On Sale'];
+
 
   return (
     <div className={cn('my-8 lg:my-15', className)}>

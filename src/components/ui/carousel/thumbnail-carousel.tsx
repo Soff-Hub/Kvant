@@ -125,6 +125,7 @@ const ThumbnailCarousel: React.FC<Props> = ({
           ))}
         </Swiper>
       </div>
+      
     </div>
   );
 };
