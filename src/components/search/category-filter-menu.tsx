@@ -1,39 +1,33 @@
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import cn from 'classnames';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from '@components/ui/image';
 import { useTranslation } from 'src/app/i18n/client';
 import { FaCheck } from 'react-icons/fa';
-import useQueryParam from '@utils/use-query-params';
 
 function CategoryFilterMenuItem({
   className = 'border-t border-border-base first:border-t-0  py-3 xl:py-3.5 2xl:py-2.5 3xl:py-3',
   item,
-  depth = 0,
   lang,
 }: any) {
   const { t } = useTranslation(lang, 'common');
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const { getParams, updateQueryparams } = useQueryParam(pathname ?? '/');
-  const [formStatechild, setFormStateChild] = useState<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
-  const [query, setQuery] = useState<any>({});
+  const router = useRouter();
 
   const { slug, title, children: items, icon } = item;
 
-
   function onClick() {
-    updateQueryparams('parent', slug);
+    router.push(`/${lang}/category__parent__slug=${slug}`);
   }
 
   function handleChange(currentItem: any) {
-    updateQueryparams('child', currentItem?.slug);
+    router.push(
+      `/${lang}/category__parent__slug=${slug}&category__slug=${currentItem?.slug}`,
+    );
   }
-
-  // console.log(params);
 
   let expandIcon;
   if (Array.isArray(items) && items.length) {
@@ -44,15 +38,23 @@ function CategoryFilterMenuItem({
     );
   }
 
-  useEffect(() => {
-    const params = getParams();
-    setQuery(params)
-    if (query?.parent === slug) {
-      setOpen(true);
-    } else {
-      setOpen(false);
+  // Parametrlarni ajratish uchun yo'l nomini "&" ga bo'ling
+  const params = pathname.split('&');
+
+  // Ota-ona va bolalar qiymatlarini saqlash uchun o'zgaruvchilarni ishga tushiring
+  let parent = '';
+  let child = '';
+
+  // "Ota" va "bola" ni topish uchun har bir parametrni takrorlang.
+  params.forEach((param) => {
+    if (param.includes('category__parent__slug=')) {
+      // "Ota" parametrining qiymatini chiqarib oling
+      parent = param.split('=')[1];
+    } else if (param.includes('category__slug=')) {
+      // "Child" parametrining qiymatini chiqarib oling
+      child = param.split('=')[1];
     }
-  }, [query?.parent]);
+  });
 
   return (
     <>
@@ -87,7 +89,7 @@ function CategoryFilterMenuItem({
         </button>
       </li>
 
-      {isOpen && (
+      {parent === slug && (
         <li>
           <ul key="content" className="text-xs pb-4">
             {items?.map((currentItem: any) => {
@@ -100,11 +102,11 @@ function CategoryFilterMenuItem({
                 >
                   <span
                     className={`w-[20px] h-[20px] text-[11px] flex items-center justify-center border-2 border-border-four rounded-full transition duration-500 ease-in-out group-hover:border-yellow-100 text-brand-light ${
-                      formStatechild === currentItem?.id &&
+                      child === currentItem?.slug &&
                       'border-yellow-100 bg-yellow-100'
                     }`}
                   >
-                    <FaCheck />
+                    {child === currentItem?.slug && <FaCheck />}
                   </span>
                   <span className="capitalize py-0.5">
                     {currentItem?.title}

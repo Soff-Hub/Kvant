@@ -34,55 +34,55 @@ export const Status: React.FC<{ item?: any }> = ({ item }) => {
   );
 };
 
-const columns = [
-  {
-    title: 'Order Number',
-    dataIndex: 'tracking_number',
-    key: 'tracking_number',
-    className: 'id-cell',
-    width: 140,
-  },
-  {
-    title: 'Order Date',
-    dataIndex: 'created_at',
-    key: 'created_at',
-    width: 140,
-    render: function createdAt(items: any) {
-      return <CreatedAt createdAt={items} />;
-    },
-  },
-  {
-    title: 'Status',
-    key: 'status',
-    width: 145,
-    render: function status(item: any) {
-      return <Status item={item} />;
-    },
-  },
-  {
-    title: 'Delivery Time',
-    dataIndex: 'delivery_time',
-    key: 'delivery_time',
-    width: 140,
-  },
-  {
-    title: 'Total Price',
-    key: 'total',
-    width: 130,
-    render: function totalPrice(items: any) {
-      return <TotalPrice items={items} />;
-    },
-  },
-  {
-    dataIndex: '',
-    key: 'operations',
-    width: 80,
-    render: function actionsButton(item: any) {
-      return <ActionsButton item={item} />;
-    },
-    className: 'operations-cell',
-  },
-];
+// const columns = [
+//   {
+//     title: 'Order Number',
+//     dataIndex: 'tracking_number',
+//     key: 'tracking_number',
+//     className: 'id-cell',
+//     width: 140,
+//   },
+//   {
+//     title: 'Order Date',
+//     dataIndex: 'created_at',
+//     key: 'created_at',
+//     width: 140,
+//     render: function createdAt(items: any) {
+//       return <CreatedAt createdAt={items} />;
+//     },
+//   },
+//   {
+//     title: 'Status',
+//     key: 'status',
+//     width: 145,
+//     render: function status(item: any) {
+//       return <Status item={item} />;
+//     },
+//   },
+//   {
+//     title: 'Delivery Time',
+//     dataIndex: 'delivery_time',
+//     key: 'delivery_time',
+//     width: 140,
+//   },
+//   {
+//     title: 'Total Price',
+//     key: 'total',
+//     width: 130,
+//     render: function totalPrice(items: any) {
+//       return <TotalPrice items={items} />;
+//     },
+//   },
+//   {
+//     dataIndex: '',
+//     key: 'operations',
+//     width: 80,
+//     render: function actionsButton(item: any) {
+//       return <ActionsButton item={item} />;
+//     },
+//     className: 'operations-cell',
+//   },
+// ];
 
 const OrderTable: React.FC<{ orders?: any; lang: string }> = ({
   orders,
@@ -91,13 +91,13 @@ const OrderTable: React.FC<{ orders?: any; lang: string }> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [value, setValue] = useState('');
   const countPerPage = 5;
-  let [filterData, setDataValue] = useState(orders.slice(0, countPerPage));
+  // let [filterData, setDataValue] = useState(orders.slice(0, countPerPage));
 
   const updatePage = (p: any) => {
     setCurrentPage(p);
     const to = countPerPage * p;
     const from = to - countPerPage;
-    setDataValue(orders.slice(from, to));
+    // setDataValue(orders.slice(from, to));
   };
 
   const onChangeSearch = (e: any) => {
@@ -113,7 +113,7 @@ const OrderTable: React.FC<{ orders?: any; lang: string }> = ({
     if (!e.target.value) {
       updatePage(1);
     }
-    setDataValue(filter);
+    // setDataValue(filter);
   };
   const onSubmitHandle = (e: any) => {
     e.preventDefault();
@@ -141,13 +141,13 @@ const OrderTable: React.FC<{ orders?: any; lang: string }> = ({
         </form>
       </div>
       <div className="order-list-table-wraper">
-        <Table
+        {/* <Table
           className="order-list-table"
           columns={columns}
           data={filterData}
           rowKey="id"
           scroll={{ x: 750 }}
-        />
+        /> */}
       </div>
       {!value.trim() && (
         <div className="mt-5 ltr:text-right rtl:text-left">

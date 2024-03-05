@@ -10,6 +10,7 @@ import { useTranslation } from 'src/app/i18n/client';
 import { baseURL } from '@framework/utils/http';
 import axios from 'axios';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import useQueryParam from '@utils/use-query-params';
 
 interface ProductGridProps {
   lang: string;
@@ -27,13 +28,17 @@ export const ProductGrid: FC<ProductGridProps> = ({
   const [error, setError] = useState(null);
   const [isLoading, setIsloading] = useState(true);
   const pathname = usePathname();
+  const { query } = useQueryParam(pathname ?? '/');
+
   const newPath = pathname.split('/').pop();
+  const newquery = query.split('?').pop();
+  const query_get = newPath + '&' + newquery;
 
   async function getAllProducts() {
     try {
       setIsloading(true);
       const response = await axios.get(
-        baseURL + API_ENDPOINTS.FASHION_PRODUCTS,
+        baseURL + API_ENDPOINTS.FASHION_PRODUCTS + '?' + query_get,
       );
       setData(response.data?.results);
       setIsloading(false);
@@ -44,9 +49,10 @@ export const ProductGrid: FC<ProductGridProps> = ({
   }
 
 
+
   useEffect(() => {
     getAllProducts();
-  }, []);
+  }, [query_get]);
 
   return (
     <>

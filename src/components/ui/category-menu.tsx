@@ -9,11 +9,18 @@ import {
 
 import { useTranslation } from 'src/app/i18n/client';
 import SubMegaVertical from '@components/ui/mega/sub-mega-vertical';
+import { useRouter } from 'next/navigation';
 
 function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
-  const { title, image, children: items, type,slug } = item;
+  const { title, children: items, type, slug } = item;
+  const router = useRouter();
 
-  
+  function handleClick(currentItem: any) {
+    if (slug) {
+      router.push(`/${lang}/category__parent__slug=${slug}&category__slug=${currentItem?.slug}`);
+    }
+  }
+
   return (
     <>
       <li
@@ -23,8 +30,8 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
           className ? className : 'text-sm hover:text-brand px-3.5 2xl:px-4 '
         }`}
       >
-        <Link
-          href={`/${lang}/${slug}`}
+        <button
+          onClick={() => router.push(`/${lang}/category__parent__slug=${slug}`)}
           className={cn(
             'flex items-center w-full py-3 demo  text-start outline-none focus:outline-none focus:ring-0 focus:text-skin-base',
             {
@@ -33,7 +40,7 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
             },
           )}
         >
-          {image && (
+          {/* {image && (
             <div className="inline-flex w-8 shrink-0 3xl:h-auto">
               <Image
                 src={image ?? '/assets/placeholder/category-small.svg'}
@@ -43,9 +50,10 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
                 style={{ width: 'auto' }}
               />
             </div>
-          )}
+          )} */}
+
           <span className="capitalize">{title}</span>
-        </Link>
+        </button>
         {Array.isArray(items) ? (
           <>
             {type != 'mega' ? (
@@ -54,17 +62,31 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
               >
                 <ul key="content" className="text-xs px-1.5 py-3">
                   {items?.map((currentItem) => {
-                    const childDepth = depth + 1;
                     return (
-                      <SidebarMenuItem
-                        key={`${currentItem.title}${currentItem.slug}`}
-                        item={currentItem}
-                        depth={childDepth}
-                        lang={lang}
-                        className={cn(
-                          'text-sm px-3 ltr:pl-4 rtl:pr-4 text-brand-muted hover:text-brand ',
-                        )}
-                      />
+                      <li
+                        className={`flex justify-between items-center transition  ${
+                          type != 'mega' && 'relative'
+                        } ${
+                          className
+                            ? className
+                            : 'text-sm hover:text-brand px-3.5 2xl:px-4 '
+                        }`}
+                      >
+                        <button
+                          onClick={() => handleClick(currentItem)}
+                          className={cn(
+                            'flex items-center w-full py-3 demo  text-start outline-none focus:outline-none focus:ring-0 focus:text-skin-base',
+                            {
+                              'text-brand-dark font-medium  border-border-base ':
+                                depth === 0,
+                            },
+                          )}
+                        >
+                          <span className="capitalize">
+                            {currentItem?.title}
+                          </span>
+                        </button>
+                      </li>
                     );
                   })}
                 </ul>

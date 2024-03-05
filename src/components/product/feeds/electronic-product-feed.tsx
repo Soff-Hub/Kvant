@@ -17,7 +17,7 @@ const ElectronicProductFeed: FC<Props> = ({
      variant,
  }) => {
   const { data, isLoading, error } = usefashionProductsQuery({
-    sorty_by:'discount'
+    sort_by:'discount'
   });
   return (
     <ProductsCarousel

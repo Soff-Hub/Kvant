@@ -21,6 +21,7 @@ export default function ListBox({
   const searchParams = useSearchParams();
   const { updateQueryparams } = useQueryParam(pathname ?? '/');
   const hasQueryKey = searchParams?.get('sort_by');
+
   const currentSelectedItem = hasQueryKey
     ? options.find((o) => o.value === hasQueryKey)!
     : options[0];
@@ -38,6 +39,8 @@ export default function ListBox({
   function handleItemClick(value: string) {
     updateQueryparams('sort_by', value);
   }
+
+  
 
   return (
     <Listbox
@@ -69,7 +72,7 @@ export default function ListBox({
           >
             <Listbox.Options
               static
-              className="absolute z-20 w-full py-1 mt-1 overflow-auto text-sm rounded-md shadow-lg bg-brand-light max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none"
+              className="absolute z-20 w-full py-1 mt-1 overflow-auto text-sm rounded-md shadow-lg bg-brand-light max-h-80 ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
               {options?.map((option, personIdx) => (
                 <Listbox.Option

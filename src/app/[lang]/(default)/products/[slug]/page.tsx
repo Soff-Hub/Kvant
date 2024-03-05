@@ -1,7 +1,5 @@
 import Container from '@components/ui/container';
 import ProductSingleDetails from '@components/product/product';
-import ElectronicProductFeed from '@components/product/feeds/electronic-product-feed';
-import RelatedProductFeedOld from '@components/product/feeds/related-product-feed-old';
 import Breadcrumb from '@components/ui/breadcrumb';
 
 export default async function Page({
