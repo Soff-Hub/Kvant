@@ -20,12 +20,11 @@ type ForgetPasswordType = {
 };
 
 export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
-  const { t } = useTranslation(lang);
+  const { t } = useTranslation(lang, 'login');
   const { closeModal } = useModalAction();
   const [loader, setLoader] = useState(false);
   const { authorize } = useUI();
-  const router = useRouter()
- 
+  const router = useRouter();
 
   const {
     register,
@@ -40,6 +39,7 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept-Language': lang,
         },
         body: JSON.stringify({ phone: phone }),
       });
@@ -50,7 +50,7 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
         Cookies.set('phone', phone); // Yangi raqam o'rnatamiz
         authorize();
         setLoader(true);
-        toast.success('Muvaffaqiyatli!', {
+        toast.success(t('Успешный!'), {
           style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
           progressClassName: 'fancy-progress-bar',
           autoClose: 1500,
@@ -59,8 +59,9 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
           pauseOnHover: true,
           draggable: true,
         });
-
         router.push('/en/forget-password'); // Boshqa sahifaga yo'naltiramiz
+        closeModal()
+
       } else {
         toast.error(data?.msg[0] + '', {
           style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
@@ -82,7 +83,7 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
       <CloseButton onClick={closeModal} />
       <div className="text-center mb-9 pt-2.5">
         <p className="mt-3 mb-8 text-sm md:text-base text-body sm:mt-4 sm:mb-10">
-          Parolingizni tiklash uchun sizga kod yuboramiz
+          {t("Мы вышлем вам код для сброса пароля")}
         </p>
       </div>
       <form
@@ -91,19 +92,22 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
         noValidate
       >
         <Input
-          label={t('Telefon raqam') as string}
+          label={t('Номер телефона')}
           type="phone"
           variant="solid"
           {...register('phone', {
-            required: `${t('forms:phone-required')}`,
+            required: `${t('Номер телефона введен неверно!')}`,
             pattern: {
-              value: /^(\+\d{1,3}\s?)?\d{9,}$/,
-              message: t('Invalid phone number'),
+              value: /^\+998\s?\d{9}$/,
+              message: `${t('Номер телефона указан неверно')}`,
             },
           })}
           error={errors.phone?.message}
           lang={lang}
+          defaultValue="+998"
+          maxLength={13} // +998 kodi va 9 ta raqam uchun
         />
+
         <Button
           loading={loader}
           disabled={loader}
@@ -111,7 +115,7 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
           variant="formButton"
           className="w-full h-11 md:h-12 mt-3"
         >
-          Yuborish
+         {t('Отправка')} 
         </Button>
       </form>
     </div>

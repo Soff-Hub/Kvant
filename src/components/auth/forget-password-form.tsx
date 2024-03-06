@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 export default function ForgetPasswordForm({ lang }: { lang: string }) {
-  const { t } = useTranslation(lang);
+  const { t } = useTranslation(lang, 'login');
   const [countdown, setCountdown] = useState<number>(120);
   const [loader, setLoader] = useState<boolean>(false);
   const [firstSendCode, setFirstSendCode] = useState<boolean>(true);
@@ -34,12 +34,13 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
+            'Accept-Language':lang,
           },
           body: JSON.stringify({ code: codeValues }),
         });
         if (response.ok) {
-          toast.success('Muvaffaqiyatli yuborildi!', {
+          toast.success(t('Отправлено успешно!'), {
             style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
             progressClassName: 'fancy-progress-bar',
             autoClose: 1500,
@@ -75,7 +76,8 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
+            'Accept-Language':lang,
           },
           body: JSON.stringify({ code: codeValues }),
         });
@@ -84,7 +86,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
           authorize();
           setLoader(true);
-          toast.success('Muvaffaqiyatli kirdingiz!', {
+          toast.success(t("Вы успешно вошли в систему!"), {
             style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
             progressClassName: 'fancy-progress-bar',
             autoClose: 1500,
@@ -126,7 +128,8 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
+            'Accept-Language':lang,
           },
           body: JSON.stringify({ phone: phoneCookie }),
         });
@@ -136,7 +139,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           authorize();
           setFirstSendCode(true);
           setCountdown(120);
-          toast.success('Muvaffaqiyatli!', {
+          toast.success(t("Успешный!"), {
             style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
             progressClassName: 'fancy-progress-bar',
             autoClose: 1500,
@@ -167,7 +170,8 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
+            'Accept-Language':lang,
           },
         });
         setFirstSendCode(true);
@@ -202,7 +206,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
     <div className="w-full px-5 py-6 mx-auto rounded-lg sm:p-8 bg-brand-light sm:w-96 md:w-450px">
       <div className="text-center mb-9 pt-2.5">
         <p className="mt-3 mb-8 text-sm md:text-base text-body sm:mt-4 sm:mb-10">
-          {t('common:forgot-password-helper')}
+          {t('Мы вышлем вам ссылку для сброса пароля')}
         </p>
       </div>
       <form className="flex flex-col justify-center" noValidate>
@@ -214,6 +218,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           onChange={(e) => (
             setCodeValues(e.target.value), setFirstSendCode(false)
           )}
+          maxLength={4}
         />
         <div className="mb-3 text-red-600 ">
           {`${Math.floor(countdown / 60)
@@ -228,7 +233,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
             variant="formButton"
             className="w-full mt-0 h-11 md:h-12"
           >
-            Yuborish
+            {t("Отправка")}
           </Button>
         ) : (
           <Button
@@ -238,7 +243,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
             variant="formButton"
             className="w-full mt-0 h-11 md:h-12"
           >
-            Qayta kod olish
+           {t('Получить перекодирование')}
           </Button>
         )}
       </form>

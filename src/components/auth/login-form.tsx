@@ -23,8 +23,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
   className,
   isPopup = true,
 }) => {
-  const { t } = useTranslation(lang);
-  const { mutate: login, isLoading } = useLoginMutation();
+  const { t } = useTranslation(lang, 'login');
+  const { mutate: login, isLoading , } = useLoginMutation(lang);
   const { closeModal, openModal } = useModalAction();
 
   const {
@@ -37,6 +37,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
     login({
       phone,
       password,
+      lang
     });
   }
   function handleForgetPassword() {
@@ -86,14 +87,16 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 type="phone"
                 variant="solid"
                 {...register('phone', {
-                  required:`${t('Номер телефона введен неверно!')}`,
+                  required: `${t('Номер телефона введен неверно!')}`,
                   pattern: {
-                    value: /^(\+\d{1,3}\s?)?\d{9,}$/,
+                    value: /^\+998\s?\d{9}$/,
                     message: `${t('Номер телефона указан неверно')}`,
                   },
                 })}
                 error={errors.phone?.message}
                 lang={lang}
+                defaultValue="+998"
+                maxLength={13} // +998 kodi va 9 ta raqam uchun
               />
               <PasswordInput
                 label={t('Пароль')}

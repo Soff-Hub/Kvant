@@ -18,8 +18,8 @@ interface SignUpFormProps {
 }
 
 export default function SignUpForm({ lang, className }: SignUpFormProps) {
-  const { t } = useTranslation(lang);
-  const { mutate: signUp, isLoading } = useSignUpMutation();
+  const { t } = useTranslation(lang,'login');
+  const { mutate: signUp, isLoading } = useSignUpMutation(lang);
   const {
     register,
     handleSubmit,
@@ -31,6 +31,7 @@ export default function SignUpForm({ lang, className }: SignUpFormProps) {
       first_name,
       phone,
       password,
+      lang
     });
   }
 
@@ -53,15 +54,15 @@ export default function SignUpForm({ lang, className }: SignUpFormProps) {
         <div className="w-full md:w-1/2 lg:w-[45%] xl:w-[40%] py-6 sm:py-10 px-4 sm:px-8 md:px-6 lg:px-8 xl:px-12 rounded-md shadow-dropDown flex flex-col justify-center">
           <div className="text-center mb-6 pt-2.5">
             <h4 className="text-xl font-semibold text-brand-dark sm:text-2xl sm:pt-3 ">
-              SignUp for free!
+              {t('Бесплатно зарегестрироваться!')}
             </h4>
             <div className="mt-3 mb-1 text-sm text-center sm:text-base text-body">
-              Already registered?
+              {t('Уже зарегистрирован?')}
               <Link
                 href={`/${lang}${ROUTES.LOGIN}`}
                 className="text-sm ltr:ml-1 rtl:mr-1 sm:text-base text-brand hover:no-underline focus:outline-none"
               >
-                Sign In Now
+                {t('Войдите сейчас')}
               </Link>
             </div>
           </div>
@@ -72,39 +73,37 @@ export default function SignUpForm({ lang, className }: SignUpFormProps) {
           >
             <div className="flex flex-col space-y-4">
               <Input
-                label="Name"
+                label={t('Имя')}
                 type="text"
                 variant="solid"
                 {...register('first_name', {
-                  required: 'Name errorr',
+                  required:`${t('Имя не введено')}`,
                 })}
                 error={errors.first_name?.message}
                 lang={lang}
               />
               <Input
-                label="Phone number"
+                label={t('Номер телефона')}
                 type="phone"
                 variant="solid"
                 {...register('phone', {
-                  required: `Telefon raqam xato `,
+                  required: `${t('Номер телефона введен неверно!')}`,
                   pattern: {
-                    value: /^(\+\d{1,3}\s?)?\d{11}$/,
-                    message: 'Telefon raqam xato',
+                    value: /^\+998\s?\d{9}$/,
+                    message: `${t('Номер телефона указан неверно')}`,
                   },
-                  validate: (value: string) =>
-                    value.match(/^(\+\d{1,3}\s?)?\d{11}$/)
-                      ? true
-                      : 'Phone number must be 11 digits or more',
                 })}
                 error={errors.phone?.message}
                 lang={lang}
+                defaultValue="+998"
+                maxLength={13} // +998 kodi va 9 ta raqam uchun
               />
 
               <PasswordInput
-                label="Password"
+                label={t('Пароль')}
                 error={errors.password?.message}
                 {...register('password', {
-                  required: `Password error}`,
+                  required: `${t('Пароль не введен')}`,
                 })}
                 lang={lang}
               />
@@ -116,7 +115,7 @@ export default function SignUpForm({ lang, className }: SignUpFormProps) {
                   className="w-full mt-2 tracking-normal h-11 md:h-12 font-15px md:font-15px"
                   variant="formButton"
                 >
-                  Register
+                  {t('Pегистр')}
                 </Button>
               </div>
             </div>
