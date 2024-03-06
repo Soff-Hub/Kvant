@@ -4,9 +4,12 @@ export interface Item {
   quantity?: number;
   stock?: number;
   [key: string]: any;
+  image: string;
+  discount:number;
+  discount_price:number;
 }
 
-export interface UpdateItemInput extends Partial<Omit<Item, 'id'>> {}
+export interface UpdateItemInput extends Partial<Omit<Item, 'id'>> { }
 
 export function addItemWithQuantity(
   items: Item[],
@@ -75,11 +78,12 @@ export function inStock(items: Item[], id: Item['id']) {
 export const calculateItemTotals = (items: Item[]) =>
   items.map((item) => ({
     ...item,
-    itemTotal: item.price * item.quantity!,
+    price: item.discount_price !== item.price  ? item.discount_price * item.quantity! : item.price * item.quantity! ,
+    
   }));
 
 export const calculateTotal = (items: Item[]) =>
-  items.reduce((total, item) => total + item.quantity! * item.price, 0);
+  items.reduce((total, item) =>item.discount_price !== item.price ? total + item.quantity! * item.discount_price : total + item.quantity! * item.price, 0);
 
 export const calculateTotalItems = (items: Item[]) =>
   items.reduce((sum, item) => sum + item.quantity!, 0);

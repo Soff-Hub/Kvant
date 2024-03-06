@@ -2,52 +2,54 @@ import isEmpty from 'lodash/isEmpty';
 
 interface Item {
   id: string | number;
-  name: string;
+  title: string;
   slug: string;
-  image: {
-    thumbnail: string;
-    [key: string]: unknown;
-  };
+  image: string;
   price: number;
-  sale_price?: number;
+  discount_price?: number;
   quantity?: number;
+  discount?: number;
   [key: string]: unknown;
 }
 
 interface Variation {
   id: string | number;
   title: string;
+  slug: string;
+  image: string;
   price: number;
-  sale_price?: number;
-  quantity: number;
+  discount_price?: number;
+  quantity?: number;
+  discount?: number;
   [key: string]: unknown;
 }
 
 export function generateCartItem(item: Item, variation: Variation) {
-  const { id, name, slug, image, price, sale_price, quantity, unit } = item;
+  const { id, title, slug, image, price, discount, discount_price, quantity } = item;
 
   // isEmpty funksiyasi orqali variation obyekti bo'sh bo'lsa true qaytariladi
   if (!isEmpty(variation)) {
     return {
-      id: `${id}.${variation.id}`,
-      productId: id,
-      name: `${name} - ${variation.title}`,
+      id:variation.id,
+      title:variation.title,
       slug,
-      unit,
+      quantity,
       stock: variation.quantity,
-      price: variation.sale_price ? variation.sale_price : variation.price,
-      image: image?.thumbnail,
+      price:  variation.price,
+      image: variation?.image,
       variationId: variation.id,
     };
   }
 
   return {
     id,
-    name,
+    title,
     slug,
-    unit,
-    image: image?.thumbnail,
+    quantity,
+    image,
     stock: quantity,
-    price: sale_price ? sale_price : price,
+    price,
+    discount,
+    discount_price,
   };
 }

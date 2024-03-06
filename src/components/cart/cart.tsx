@@ -17,10 +17,10 @@ export default function Cart({ lang }: { lang: string }) {
   const { t } = useTranslation(lang, 'common');
   const { closeDrawer } = useUI();
   const { items, total, isEmpty, resetCart } = useCart();
-  const { price: cartTotal } = usePrice({
-    amount: total,
-    currencyCode: 'USD',
-  });
+
+  console.log(items);
+  
+
   return (
     <div className="flex flex-col justify-between w-full h-full">
       <div className="relative flex items-center justify-between w-full border-b ltr:pl-5 rtl:pr-5 md:ltr:pl-7 md:rtl:pr-7 border-border-base">
@@ -69,7 +69,7 @@ export default function Cart({ lang }: { lang: string }) {
             </Text>
           </div>
           <div className="shrink-0 font-semibold text-base md:text-lg text-brand-dark -mt-0.5 min-w-[80px] ltr:text-right rtl:text-left">
-            {cartTotal}
+            {total}
           </div>
         </div>
         <div className="flex flex-col" onClick={closeDrawer}>
@@ -80,7 +80,7 @@ export default function Cart({ lang }: { lang: string }) {
               {
                 'cursor-not-allowed !text-brand-dark !text-opacity-25 bg-fill-four hover:bg-fill-four':
                   isEmpty,
-              }
+              },
             )}
           >
             <span className="py-0.5">{t('text-proceed-to-checkout')}</span>
