@@ -5,8 +5,7 @@ export interface Item {
   stock?: number;
   [key: string]: any;
   image: string;
-  discount:number;
-  discount_price:number;
+
 }
 
 export interface UpdateItemInput extends Partial<Omit<Item, 'id'>> { }

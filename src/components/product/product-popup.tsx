@@ -77,7 +77,6 @@ export default function ProductPopup({ lang }: { lang: string }) {
   }
   const item = generateCartItem(data, selectedVariation);
 
-console.log(item);
 
 
   function addToCart() {
