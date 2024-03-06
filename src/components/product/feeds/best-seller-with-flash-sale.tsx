@@ -55,7 +55,7 @@ export default function BestSellerWithFlashSale({
       <div className="grid grid-cols-1 gap-y-6 md:gap-5 md:grid-cols-2 xl:grid-cols-12 lg:gap-5 ">
         <div className="md:top-16 lg:top-20 xl:col-span-4  mb-3 md:mb-0 bg-white  rounded border-2 border-red-600">
           <SectionHeader
-            sectionHeading="text-best-deal-with-money"
+            sectionHeading="СЕГОДНЯШНЕЕ ПРЕДЛОЖЕНИЕ"
             className={'mt-1.5 mx-5 py-3 uppercase border-b border-black/10'}
             lang={lang}
           />

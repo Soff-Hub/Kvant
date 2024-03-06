@@ -16,7 +16,7 @@ type BoxProps = {
 
 const ListingtabsFeatured: FC<BoxProps> = ({ lang, className, variant }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const tabArr = ['Featured', 'Top Trending', 'On Sale'];
+  const tabArr = ['Рекомендуемые', 'Самые популярные', 'В продаже'];
 
 
   return (

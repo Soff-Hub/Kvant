@@ -32,7 +32,7 @@ export default function CategoryDropdownSidebar({
     >
       <div className=" mb-3 ">
         <SectionHeader
-          sectionHeading={`text-all-categories`}
+          sectionHeading={`Просмотреть все категории`}
           className="mb-0 block-title uppercase"
           lang={lang}
         />

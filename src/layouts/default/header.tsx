@@ -134,7 +134,7 @@ const Header = ({ className, lang }: HeaderProps) => {
                     onClick={handleCategoryMenu}
                   >
                     <FiMenu className="text-2xl me-3" />
-                    {t('text-all-categories')}
+                    {t('Просмотреть все категории')}
                   </button>
                   {categoryMenu && <CategoryDropdownMenu lang={lang} />}
                 </div>
