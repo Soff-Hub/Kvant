@@ -45,6 +45,8 @@ const AddAddressForm: React.FC<{ lang: string }> = ({ lang }) => {
     },
   });
 
+
+
   return (
     <div className="w-full md:w-[600px] lg:w-[900px] xl:w-[1000px] mx-auto p-5 sm:p-8 bg-brand-light rounded-md">
       <CloseButton onClick={closeModal} />
@@ -63,8 +65,8 @@ const AddAddressForm: React.FC<{ lang: string }> = ({ lang }) => {
         </div>
         <div className="grid grid-cols-1 mb-6 gap-7">
           <Map
-            lat={data?.address?.lat || 1.295831}
-            lng={data?.address?.lng || 103.76261}
+            lat={1.295831}
+            lng={103.76261}
             height={'420px'}
             zoom={15}
             showInfoWindow={false}

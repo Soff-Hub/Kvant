@@ -15,38 +15,41 @@ import { useIsMounted } from '@utils/use-is-mounted';
 const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'common');
   const [bindIndex, setBindIndex] = useState(0);
+
+  
   const data = [
     {
       id: 1,
-      title: 'text-delivery-address',
+      title: 'Адрес доставки',
       component: <Address lang={lang} />,
     },
     {
       id: 2,
-      title: 'text-delivery-schedule',
+      title: 'Расписание доставки',
       component: <DeliverySchedule lang={lang} />,
     },
     {
       id: 3,
-      title: 'text-contact-number',
+      title: 'Контактный номер',
       component: <Contact lang={lang} />,
     },
     {
       id: 4,
-      title: 'text-payment-option',
+      title: 'Вариант оплаты',
       component: <StripeCheckoutInlineForm lang={lang} />,
     },
     {
       id: 5,
-      title: 'text-delivery-instructions',
+      title: 'Инструкции по доставке (необязательно)',
       component: <DeliveryNotes lang={lang} />,
     },
     {
       id: 6,
-      title: 'text-delivery-tip',
+      title: 'Совет по доставке',
       component: <DeliveryTips lang={lang} />,
     },
   ];
+  
   const changeItem = (itemIndex: any) => {
     if (itemIndex !== bindIndex) {
       setBindIndex(itemIndex);

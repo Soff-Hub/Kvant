@@ -3,7 +3,7 @@ import { useCart } from '@contexts/cart/cart.context';
 import { useUI } from '@contexts/ui.context';
 import usePrice from '@framework/product/use-price';
 import { IoClose } from 'react-icons/io5';
-import CartItem from './cart-item';
+import CartItem, { addPeriodToThousands } from './cart-item';
 import EmptyCart from './empty-cart';
 import Link from '@components/ui/link';
 import { ROUTES } from '@utils/routes';
@@ -13,29 +13,29 @@ import Text from '@components/ui/text';
 import DeleteIcon from '@components/icons/delete-icon';
 import { useTranslation } from 'src/app/i18n/client';
 
+
+
 export default function Cart({ lang }: { lang: string }) {
   const { t } = useTranslation(lang, 'common');
+  
   const { closeDrawer } = useUI();
   const { items, total, isEmpty, resetCart } = useCart();
-
-  console.log(items);
-  
 
   return (
     <div className="flex flex-col justify-between w-full h-full">
       <div className="relative flex items-center justify-between w-full border-b ltr:pl-5 rtl:pr-5 md:ltr:pl-7 md:rtl:pr-7 border-border-base">
-        <Heading variant="titleMedium">{t('text-shopping-cart')}</Heading>
+        <Heading variant="titleMedium">{t('Корзина')}</Heading>
         <div className="flex items-center">
           {!isEmpty && (
             // @ts-ignore
             <button
               className="flex flex-shrink items-center text-15px transition duration-150 ease-in focus:outline-none text-brand-dark opacity-50 hover:opacity-100 ltr:-mr-1.5 rtl:-ml-1.5"
-              aria-label={t('text-clear-all')}
+              aria-label={t('Очистить все')}
               onClick={resetCart}
             >
               <DeleteIcon />
               <span className="ltr:pl-1 lg:rtl:pr-1">
-                {t('text-clear-all')}
+                {t('Очистить все')}
               </span>
             </button>
           )}
@@ -63,13 +63,13 @@ export default function Cart({ lang }: { lang: string }) {
       <div className="px-5 pt-5 pb-5 border-t border-border-base md:px-7 md:pt-6 md:pb-6">
         <div className="flex pb-5 md:pb-7">
           <div className="ltr:pr-3 rtl:pl-3">
-            <Heading className="mb-2.5">{t('text-sub-total')}:</Heading>
+            <Heading className="mb-2.5">{t('Промежуточный итог')}:</Heading>
             <Text className="leading-6">
-              {t('text-cart-final-price-discount')}
+              {t('Окончательная цена и скидки будут определены во время обработки платежа.')}
             </Text>
           </div>
           <div className="shrink-0 font-semibold text-base md:text-lg text-brand-dark -mt-0.5 min-w-[80px] ltr:text-right rtl:text-left">
-            {total}
+          {addPeriodToThousands(total)?.replace(/\.\d+$/, '') + " " + "so'm"}
           </div>
         </div>
         <div className="flex flex-col" onClick={closeDrawer}>
@@ -83,7 +83,7 @@ export default function Cart({ lang }: { lang: string }) {
               },
             )}
           >
-            <span className="py-0.5">{t('text-proceed-to-checkout')}</span>
+            <span className="py-0.5">{t('Перейти к оформлению заказа')}</span>
           </Link>
         </div>
       </div>

@@ -10,10 +10,27 @@ type CartItemProps = {
   lang: string;
 };
 
+export function addPeriodToThousands(number: any) {
+  const numStr = String(number);
+
+  const [integerPart, decimalPart] = numStr.split('.');
+
+  const formattedIntegerPart = integerPart.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    ' ',
+  );
+
+  const formattedNumber =
+    decimalPart !== undefined
+      ? `${formattedIntegerPart}.${decimalPart}`
+      : formattedIntegerPart;
+
+  return formattedNumber;
+}
+
 const CartItem: React.FC<CartItemProps> = ({ lang, item }) => {
   const { isInStock, addItemToCart, removeItemFromCart, clearItemFromCart } =
     useCart();
-  
 
   const outOfStock = !isInStock(item.id);
   return (
@@ -48,7 +65,7 @@ const CartItem: React.FC<CartItemProps> = ({ lang, item }) => {
             {item?.title}
           </Link>
           <div className="text-13px sm:text-sm text-brand-muted mt-1.5 block mb-2">
-            {item.unit} X {item.quantity}
+            {item.discount_price !== item?.price ? addPeriodToThousands(item?.discount_price)?.replace(/\.\d+$/, '') + " " + "so'm" : addPeriodToThousands(item?.price)?.replace(/\.\d+$/, '') + " " + "so'm" } X {item.quantity}
           </div>
           <Counter
             value={item.quantity}
@@ -61,7 +78,7 @@ const CartItem: React.FC<CartItemProps> = ({ lang, item }) => {
         </div>
 
         <div className="flex font-semibold text-sm md:text-base text-brand-dark leading-5 shrink-0 min-w-[65px] md:min-w-[80px] justify-end">
-          {item?.price}
+          {addPeriodToThousands(item?.price)?.replace(/\.\d+$/, '') + " " + "so'm"}
         </div>
       </div>
     </div>

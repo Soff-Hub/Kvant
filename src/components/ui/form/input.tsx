@@ -7,7 +7,7 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   inputClassName?: string;
   labelClassName?: string;
-  label?: string;
+  label?: any;
   placeholder?: string;
   name: string;
   error?: any;
