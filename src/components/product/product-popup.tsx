@@ -77,6 +77,8 @@ export default function ProductPopup({ lang }: { lang: string }) {
   }
   const item = generateCartItem(data, selectedVariation);
 
+
+
   function addToCart() {
     if (!isSelected) return;
     // to show btn feedback while product carting

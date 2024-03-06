@@ -14,6 +14,7 @@ import { useTranslation } from 'src/app/i18n/client';
 import { useIsMounted } from '@utils/use-is-mounted';
 import { useEffect, useState } from 'react';
 import SearchResultLoader from '@components/ui/loaders/search-result-loader';
+import { addPeriodToThousands } from '@components/cart/cart-item';
 
 const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'common');
@@ -24,40 +25,37 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
     setLoading(false);
   }, []);
   const { items, total, isEmpty } = useCart();
-  const { price: subtotal } = usePrice({
-    amount: total,
-    currencyCode: 'USD',
-  });
+
   function orderHeader() {
     !isEmpty && router.push(`/${lang}${ROUTES.ORDER}`);
   }
   const checkoutFooter = [
     {
       id: 1,
-      name: t('text-sub-total'),
-      price: subtotal,
+      title: t('Промежуточный итог'),
+      price: addPeriodToThousands(total)?.replace(/\.\d+$/, '') + ' ' + "so'm",
     },
     {
       id: 2,
-      name: t('text-shipping'),
-      price: '$0',
+      title: t('Перевозки'),
+      price: " 15 000 so'm",
     },
     {
       id: 3,
-      name: t('text-total'),
-      price: subtotal,
+      title: t('Общий'),
+      price: addPeriodToThousands(total)?.replace(/\.\d+$/, '') + ' ' + "so'm",
     },
   ];
   const mounted = useIsMounted();
   return (
     <>
-      <div className="px-4 pt-4 border rounded-md border-border-base text-brand-light xl:py-6 xl:px-7 bg-white rounded">
+      <div className="px-4 pt-4 border  border-border-base text-brand-light xl:py-6 xl:px-7 bg-white rounded">
         <div className="flex pb-2 text-sm font-semibold rounded-md text-heading">
           <span className="font-medium text-15px text-brand-dark">
-            {t('text-product')}
+            {t('Продукт')}
           </span>
           <span className="font-medium ltr:ml-auto rtl:mr-auto shrink-0 text-15px text-brand-dark">
-            {t('text-sub-total')}
+            {t('Промежуточный итог')}
           </span>
         </div>
         {isLoading ? (
@@ -81,29 +79,13 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
             'w-full mt-8 mb-5 rounded font-semibold px-4 py-3 transition-all',
             mounted && isEmpty
               ? 'opacity-40 cursor-not-allowed'
-              : '!bg-brand !text-brand-light'
+              : '!bg-brand !text-brand-light',
           )}
           onClick={orderHeader}
         >
-          {t('button-order-now')}
+          {t('Заказать Cейчас')}
         </Button>
       </div>
-      <Text className="mt-8">
-        {t('text-by-placing-your-order')}{' '}
-        <Link href={`/${lang}${ROUTES.TERMS}`} legacyBehavior>
-          <a className="font-medium underline text-brand">
-            {t('text-terms-of-service')}{' '}
-          </a>
-        </Link>
-        {t('text-and')}{' '}
-        <Link href={`/${lang}${ROUTES.PRIVACY}`} legacyBehavior>
-          <a className="font-medium underline text-brand">
-            {t('text-privacy')}
-          </a>
-        </Link>
-        . {t('text-credit-debit')}
-      </Text>
-      <Text className="mt-4">{t('text-bag-fee')}</Text>
     </>
   );
 };

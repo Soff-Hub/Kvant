@@ -77,6 +77,7 @@ const Map: React.FC<Props> = ({
       })
       .catch((e: any) => window.alert('Geocoder failed due to: ' + e));
   };
+  
   return isLoaded ? (
     <>
       <GoogleMap

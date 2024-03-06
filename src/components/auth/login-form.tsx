@@ -23,8 +23,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
   className,
   isPopup = true,
 }) => {
-  // const { t } = useTranslation(lang);
-  const { mutate: login, isLoading } = useLoginMutation();
+  const { t } = useTranslation(lang, 'login');
+  const { mutate: login, isLoading , } = useLoginMutation(lang);
   const { closeModal, openModal } = useModalAction();
 
   const {
@@ -37,6 +37,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
     login({
       phone,
       password,
+      lang
     });
   }
   function handleForgetPassword() {
@@ -63,15 +64,15 @@ const LoginForm: React.FC<LoginFormProps> = ({
         <div className="w-full md:w-1/2 lg:w-[45%] xl:w-[40%] py-6 sm:py-10 px-4 sm:px-8 md:px-6 lg:px-8 xl:px-12 rounded-md flex flex-col justify-center">
           <div className="mb-6 text-center">
             <h4 className="text-xl font-semibold text-brand-dark sm:text-2xl sm:pt-3 ">
-              Sign into you account
+              {t('Войдите в свой аккаунт')}
             </h4>
             <div className="mt-3 mb-1 text-sm text-center sm:text-15px text-body">
-              Don’t have an account?
+              {t('У вас нет учетной записи?')}
               <Link
                 href={`/${lang}${ROUTES.SIGN_UP}`}
                 className="text-sm text-brand sm:text-15px ltr:ml-1 rtl:mr-1 hover:no-underline focus:outline-none"
               >
-                Create Account
+                {t('Зарегистрироваться')}
               </Link>
             </div>
           </div>
@@ -82,24 +83,26 @@ const LoginForm: React.FC<LoginFormProps> = ({
           >
             <div className="flex flex-col space-y-3.5">
               <Input
-                label="Phone number"
+                label={t('Номер телефона')}
                 type="phone"
                 variant="solid"
                 {...register('phone', {
-                  required: `Telefon raqami noto‘g‘ri kiritilgan!`,
+                  required: `${t('Номер телефона введен неверно!')}`,
                   pattern: {
-                    value: /^(\+\d{1,3}\s?)?\d{9,}$/,
-                    message: 'Telefon raqami noto‘g‘ri',
+                    value: /^\+998\s?\d{9}$/,
+                    message: `${t('Номер телефона указан неверно')}`,
                   },
                 })}
                 error={errors.phone?.message}
                 lang={lang}
+                defaultValue="+998"
+                maxLength={13} // +998 kodi va 9 ta raqam uchun
               />
               <PasswordInput
-                label="Password"
+                label={t('Пароль')}
                 error={errors.password?.message}
                 {...register('password', {
-                  required: `Parol kiriting!`,
+                  required: `${t('Введите пароль!')}`,
                 })}
                 lang={lang}
               />
@@ -110,7 +113,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                     onClick={handleForgetPassword}
                     className="text-sm text-brand rtl:text-left text-heading ltr:pl-3 lg:rtl:pr-3 hover:no-underline hover:text-brand-dark focus:outline-none focus:text-brand-dark"
                   >
-                    Forgot password?
+                    {t('Забыли пароль?')}
                   </button>
                 </div>
               </div>
@@ -122,7 +125,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                   className="w-full mt-2 tracking-normal h-11 md:h-12 font-15px md:font-15px"
                   variant="formButton"
                 >
-                  Kirish
+                  {t('Входить')}
                 </Button>
               </div>
             </div>

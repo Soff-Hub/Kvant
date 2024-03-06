@@ -17,7 +17,7 @@ interface ChangePasswordInputType {
 }
 
 const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
-  const { t } = useTranslation(lang);
+  const { t } = useTranslation(lang,'login');
   const [loader, setLoader] = useState<boolean>(false);
   const token = getToken();
   const router = useRouter();
@@ -35,7 +35,8 @@ const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
+          'Accept-Language':lang,
         },
         body: JSON.stringify({
           password1: newPassword,
@@ -44,7 +45,7 @@ const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
       });
       setLoader(true);
       if (response.ok) {
-        toast.success('Muvaffaqiyatli!', {
+        toast.success(t('Успешный пароль изменен!'), {
           style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
           progressClassName: 'fancy-progress-bar',
           autoClose: 1500,
@@ -63,7 +64,7 @@ const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
   return (
     <div className="mx-auto w-[600px] p-12 my-12 bg-white ">
       <Heading className="mt-5" variant="titleLarge">
-        {t("Parolni o'zgartirish")}
+        {t("Изменить пароль")}
       </Heading>
       <div className="flex flex-col w-full mt-6 ">
         <form
@@ -72,19 +73,19 @@ const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
         >
           <div className="w-full">
             <PasswordInput
-              label={t('Parol 1')}
+              label={t('Старый пароль')}
               error={errors.newPassword?.message}
               {...register('newPassword', {
-                required: `${t('forms:password-old-required')}`,
+                required: `${t('Вам необходимо будет предоставить свой старый пароль')}`,
               })}
               lang={lang}
               className="mb-5"
             />
             <PasswordInput
-              label={t('Parol 2')}
+              label={t('Новый пароль')}
               error={errors.newPassword?.message}
               {...register('newPassword', {
-                required: `${t('forms:password-new-required')}`,
+                required: `${t('Вам необходимо будет предоставить новый пароль')}`,
               })}
               lang={lang}
             />
@@ -97,7 +98,7 @@ const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
                 variant="formButton"
                 className="w-full sm:w-auto"
               >
-                {t('common:text-change-password')}
+                {t('Изменить пароль')}
               </Button>
             </div>
           </div>

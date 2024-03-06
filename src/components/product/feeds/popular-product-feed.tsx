@@ -22,7 +22,7 @@ const PopularProductFeed: FC<ProductFeedProps> = ({
   });
   return (
     <ProductsCarousel
-      sectionHeading="text-popular-product"
+      sectionHeading="ПОПУЛЯРНЫЕ ПРОДУКТЫ"
       className={className}
       products={data}
       loading={isLoading}

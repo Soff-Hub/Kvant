@@ -22,6 +22,9 @@ export default function CartSidebar({ lang }: { lang: string }) {
     amount: total,
     currencyCode: 'USD',
   });
+
+  
+
   return (
     <div className="flex flex-col justify-between w-full h-full">
       <div className="relative flex items-center justify-between w-full px-5 py-5 border-b border-gray-base md:px-7">

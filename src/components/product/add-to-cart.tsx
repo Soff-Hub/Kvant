@@ -1,7 +1,6 @@
 import Counter from '@components/ui/counter';
 import { useCart } from '@contexts/cart/cart.context';
 import { generateCartItem } from '@utils/generate-cart-item';
-import PlusIcon from '@components/icons/plus-icon';
 import useWindowSize from '@utils/use-window-size';
 import { useTranslation } from 'src/app/i18n/client';
 

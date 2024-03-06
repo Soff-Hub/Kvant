@@ -1,16 +1,15 @@
 import { SAFlag } from '@components/icons/language/SAFlag';
 import { USFlag } from '@components/icons/language/USFlag';
-import siteLogo from 'public/assets/images/logo.svg';
-import siteLogoBlack from 'public/assets/images/logo.svg';
+import siteLogo from 'public/assets/images/Kvant_horz_logo.svg';
+import siteLogoBlack from 'public/assets/images/Kvant_horz_logo.svg';
 
 export const siteSettings = {
   name: 'Kvant',
-  description:
-    'Fastest E-commerce template built with React, NextJS, TypeScript, React-Query and Tailwind CSS.',
+  description:'Fastest E-commerce template built with React, NextJS, TypeScript, React-Query and Tailwind CSS.',
   author: {
     name: 'Wikithemes, Inc.',
-    websiteUrl: '#',
-    address: '',
+    websiteUrl: '/en',
+    address: '/en',
   },
   logo: {
     url: siteLogo,
@@ -44,29 +43,29 @@ export const siteSettings = {
       {
         id: 1,
         path: '/',
-        label: 'menu-demos',
+        label: 'Главный',
       },
       {
         id: 2,
         path: '/',
-        label: 'menu-pages',
+        label: 'Страницы',
         subMenu: [
           {
             id: 2,
             path: '/faq',
-            label: 'menu-faq',
+            label: 'ТСС',
           },
           {
             id: 6,
             path: '/checkout',
-            label: 'menu-checkout',
+            label: 'Проверить',
           },
         ],
       },
       {
         id: 7,
         path: '/contact-us',
-        label: 'menu-contact-us',
+        label: 'Связаться с нами',
       },
     ],
     languageMenu: [

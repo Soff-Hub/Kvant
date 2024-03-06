@@ -3,14 +3,12 @@ import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { useQuery } from 'react-query';
 
 const fetchContact = async () => {
-  const { data } = await http.get(API_ENDPOINTS.CONTACT);
-  return {
-    data: data,
-  };
+  const { data } = await http.get(API_ENDPOINTS.PRODUCTS_SECTION_1);
+  return data
 };
 
 const useContactQuery = () => {
-  return useQuery([API_ENDPOINTS.CONTACT], fetchContact);
+  return useQuery([API_ENDPOINTS.PRODUCTS_SECTION_1], fetchContact);
 };
 
 export { useContactQuery, fetchContact };

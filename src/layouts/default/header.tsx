@@ -104,13 +104,13 @@ const Header = ({ className, lang }: HeaderProps) => {
                           className="text-sm  "
                           href={`/${lang}${ROUTES.LOGIN}`}
                         >
-                          {t('Kirish')}
+                          {t('Входить')}
                         </Link>
                         <Link
                           className="text-sm "
                           href={`/${lang}${ROUTES.SIGN_UP}`}
                         >
-                          {t('Register')}
+                          {t('Pегистр')}
                         </Link>
                       </div>
                     ) : (
@@ -134,7 +134,7 @@ const Header = ({ className, lang }: HeaderProps) => {
                     onClick={handleCategoryMenu}
                   >
                     <FiMenu className="text-2xl me-3" />
-                    {t('text-all-categories')}
+                    {t('Просмотреть все категории')}
                   </button>
                   {categoryMenu && <CategoryDropdownMenu lang={lang} />}
                 </div>

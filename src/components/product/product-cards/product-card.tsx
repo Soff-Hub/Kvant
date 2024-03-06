@@ -31,10 +31,11 @@ function RenderPopupOrAddToCart({ props }: { props: Object }) {
   let { data, lang }: any = props;
   // console.log(variant);
   const { t } = useTranslation(lang, 'common');
-  const { id, quantity, product_type } = data ?? {};
+  const { id, quantity, product_type,  } = data ?? {};
   const { openModal } = useModalAction();
   const { isInCart, isInStock } = useCart();
   const outOfStock = isInCart(id) && !isInStock(id);
+
 
 
   function handlePopupView() {

@@ -4,14 +4,17 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { RadioGroup } from '@headlessui/react';
 import { useModalAction } from '@components/common/modal/modal.context';
 import { useTranslation } from 'src/app/i18n/client';
+import { IoMdClose } from 'react-icons/io';
 
 const ContactBox: React.FC<{ items?: any; lang: string }> = ({
-  items: { data },
+  items ,
   lang,
 }) => {
   const { t } = useTranslation(lang, 'common');
-  let [contactData, setContactData] = useState(data);
+  let [contactData, setContactData] = useState(items);
   const { openModal } = useModalAction();
+
+  
 
   function handlePopupView(item: any) {
     openModal('PHONE_NUMBER', item);
@@ -25,7 +28,7 @@ const ContactBox: React.FC<{ items?: any; lang: string }> = ({
       setContactData(array);
     }
   };
-  const [selected, setSelected] = useState(data[0]);
+  const [selected, setSelected] = useState(items[0]);
   return (
     <>
       <div className="text-[15px] text-brand-dark ">
@@ -37,10 +40,10 @@ const ContactBox: React.FC<{ items?: any; lang: string }> = ({
           <RadioGroup.Label className="sr-only">
             {t('text-default')}
           </RadioGroup.Label>
-          {contactData?.map((item: any, index: any) => (
+          {Array(2).fill(0)?.map((_: any, index: any) => (
             <RadioGroup.Option
               key={index}
-              value={item}
+              value={"aa"}
               className={({ active, checked }) =>
                 `${active ? 'border-brand' : 'border-border-base'}
                   ${checked ? 'border-brand' : 'border-border-base'}
@@ -48,24 +51,24 @@ const ContactBox: React.FC<{ items?: any; lang: string }> = ({
               }
             >
               <RadioGroup.Label as="h2" className="mb-2 font-semibold">
-                {item?.title}
+              Primary Number
               </RadioGroup.Label>
               <RadioGroup.Description as="div" className="opacity-70">
-                {item?.number}
+                +998 93 102 30 42
               </RadioGroup.Description>
               <div className="absolute z-30 flex transition-all ltr:right-3 rtl:left-3 top-3 lg:opacity-0 address__actions">
                 <button
-                  onClick={() => handlePopupView(item)}
+                  onClick={() => handlePopupView('salom')}
                   className="flex items-center justify-center w-6 h-6 text-base rounded-full bg-brand text-brand-light text-opacity-80"
                 >
                   <TiPencil />
                 </button>
-                {/* <button
+                <button
                   className="flex justify-center items-center bg-[#F35C5C] h-5 w-5 rounded-full"
-                  onClick={() => removeItem(item?.id, item?.title)}
+                  onClick={() => removeItem('item?.id', 'item?.title')}
                 >
-                  <IoMdClose size={12} fill={'#fff'} />
-                </button> */}
+                  <IoMdClose  size={12} fill={'#fff'} />
+                </button>
               </div>
             </RadioGroup.Option>
           ))}

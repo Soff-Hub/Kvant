@@ -149,7 +149,7 @@ function SidebarMenu({ items, className, categoriesLimit, lang }: any) {
                 <IoIosAddCircleOutline className="text-xl text-skin-base text-opacity-80" />
               )}
             </div>
-            <span className="capitalize ">{t('text-all-categories')}</span>
+            <span className="capitalize ">{t('Просмотреть все категории')}</span>
           </div>
         </li>
       )}
