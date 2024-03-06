@@ -32,7 +32,7 @@ const SearchBox = React.forwardRef<HTMLInputElement, SearchProps>(
     },
     ref
   ) => {
-    const { t } = useTranslation(lang, 'forms');
+    const { t } = useTranslation(lang, 'home');
     
     return (
       <form
@@ -51,7 +51,7 @@ const SearchBox = React.forwardRef<HTMLInputElement, SearchProps>(
                 'border-0 bg-fill-two': variant === 'fill',
               }
             )}
-            placeholder={t('placeholder-search') as string}
+            placeholder={t('Поиск в магазине') as string}
             aria-label={searchId}
             autoComplete="off"
             value={value}

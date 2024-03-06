@@ -47,7 +47,7 @@ export const BreadcrumbItems = (props: any) => {
         child,
         <BreadcrumbSeparator key={`breadcrumb_sep${index}`}>
           {props.separator}
-        </BreadcrumbSeparator>
+        </BreadcrumbSeparator>,
       );
     } else {
       acc.push(child);
@@ -69,6 +69,9 @@ const Breadcrumb: React.FC<{ separator?: string; lang: string }> = ({
   lang,
 }) => {
   const breadcrumbs = useBreadcrumb();
+
+  
+  
   const { t } = useTranslation(lang, 'common');
   return (
     <BreadcrumbItems separator={separator}>
@@ -86,7 +89,7 @@ const Breadcrumb: React.FC<{ separator?: string; lang: string }> = ({
 
       {breadcrumbs?.map((breadcrumb: any) => (
         <ActiveLink
-            href={`${breadcrumb.href}`}
+          href={`${breadcrumb.href}`}
           activeClassName="text-heading"
           key={breadcrumb.href}
           legacyBehavior

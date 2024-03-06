@@ -7,8 +7,8 @@ export const siteSettings = {
   name: 'Kvant',
   description:'Fastest E-commerce template built with React, NextJS, TypeScript, React-Query and Tailwind CSS.',
   author: {
-    name: 'Wikithemes, Inc.',
-    websiteUrl: '/en',
+    name: 'SoffHub',
+    websiteUrl: 'https://soffhub.uz/',
     address: '/en',
   },
   logo: {
@@ -19,19 +19,19 @@ export const siteSettings = {
     width: 195,
     height: 26,
   },
-  defaultLanguage: 'en',
+  defaultLanguage: 'ru',
   currencyCode: 'USD',
   site_header: {
     topmenu: [
       {
         id: 1,
         path: '/my-account/wishlist/',
-        label: 'menu-wishlists',
+        label: 'Список желаний',
       },
       {
         id: 2,
         path: '/checkout/',
-        label: 'menu-checkout',
+        label: 'Проверить',
       },
       {
         id: 3,

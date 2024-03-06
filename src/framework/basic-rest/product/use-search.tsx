@@ -13,7 +13,7 @@ export const fetchSearchedProducts = async ({ queryKey }: any) => {
     return product.title.toLowerCase().indexOf(_params.text.toLowerCase()) > -1;
   }
 
-  return (data.filter(searchProduct));
+  return (data?.results.filter(searchProduct));
 };
 export const useSearchQuery = (options: QueryOptionsType) => {
   return useQuery<Product[], Error>(

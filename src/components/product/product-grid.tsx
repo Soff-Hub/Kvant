@@ -48,8 +48,6 @@ export const ProductGrid: FC<ProductGridProps> = ({
     }
   }
 
-
-
   useEffect(() => {
     getAllProducts();
   }, [query_get]);

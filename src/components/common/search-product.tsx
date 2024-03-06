@@ -2,7 +2,6 @@ import Image from '@components/ui/image';
 import Link from '@components/ui/link';
 import { ROUTES } from '@utils/routes';
 import { searchProductPlaceholder } from '@assets/placeholders';
-import usePrice from '@framework/product/use-price';
 
 type SearchProductProps = {
   lang: string;
@@ -21,6 +20,8 @@ const SearchProduct: React.FC<SearchProductProps> = ({ lang, item }) => {
     discount_price,
     quantity,
   } = item ?? {};
+
+  
 
   return (
     <Link
