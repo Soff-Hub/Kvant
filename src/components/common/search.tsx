@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
-import { useSearchQuery } from '@framework/product/use-search';
 import SearchBox from '@components/common/search-box';
 import SearchProduct from '@components/common/search-product';
 import SearchResultLoader from '@components/ui/loaders/search-result-loader';
 import useFreezeBodyScroll from '@utils/use-freeze-body-scroll';
 import Scrollbar from '@components/ui/scrollbar';
 import { useUI } from '@contexts/ui.context';
+import axios from 'axios';
+import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import { baseURL } from '@framework/utils/http';
 
 type Props = {
   lang: string;
@@ -33,10 +35,8 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
     } = useUI();
     const [searchText, setSearchText] = useState('');
     const [inputFocus, setInputFocus] = useState<boolean>(false);
-    const { data, isLoading } = useSearchQuery({
-      text: searchText,
-    });
-
+    const [data, setData] = useState([]);
+    const [isLoading, setIsloading] = useState<boolean>(true);
     useFreezeBodyScroll(
       inputFocus === true || displaySearch || displayMobileSearch,
     );
@@ -60,6 +60,22 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
       setInputFocus(true);
     }
 
+    async function fetchData() {
+      setIsloading(true);
+      try {
+        const response = await axios.get(
+          `${baseURL + API_ENDPOINTS.FASHION_PRODUCTS}/?search=${searchText}`,
+        );
+        setData(response.data?.results); // Olingan ma'lumotlar
+      } catch (error) {
+        console.error('Xatolik yuz berdi:', error);
+      }
+      setIsloading(false);
+    }
+
+    useEffect(() => {
+      fetchData();
+    }, [searchText]);
 
     return (
       <div
