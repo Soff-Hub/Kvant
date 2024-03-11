@@ -16,7 +16,7 @@ export default function ListBox({
   options: Option[];
   lang: string;
 }) {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { updateQueryparams } = useQueryParam(pathname ?? '/');
@@ -51,7 +51,7 @@ export default function ListBox({
         <div className="relative ltr:ml-2 rtl:mr-2 lg:ltr:ml-0 lg:rtl:mr-0 min-w-[160px]">
           <div className="flex items-center">
             <div className="shrink-0 text-15px ltr:mr-2 rtl:ml-2 text-brand-dark text-opacity-70">
-              {t('text-sort-by')}:
+              {t('Сортировать по')}:
             </div>
             <Listbox.Button className="relative w-full text-sm font-medium rounded-lg cursor-pointer ltr:pr-5 rtl:pl-5 text-brand-dark ltr:text-left rtl:text-right focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-brand focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
               <span className="block truncate">{t(selectedItem.name)}</span>

@@ -43,6 +43,7 @@ const SocialShareBox: React.FC<Props> = ({
   const { register } = useForm<NewsLetterFormValues>({
     defaultValues,
   });
+
   useEffect(() => {
     if (copyText.copied) {
       setTimeout(() => {
@@ -53,6 +54,8 @@ const SocialShareBox: React.FC<Props> = ({
       }, 1500);
     }
   }, [copyText]);
+
+  
   return (
     <div
       className={cn(

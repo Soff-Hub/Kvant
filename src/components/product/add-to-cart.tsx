@@ -20,7 +20,7 @@ const AddToCart = ({
   variant = 'mercury',
 }: Props) => {
   const { width } = useWindowSize();
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const {
     addItemToCart,
     removeItemFromCart,
@@ -53,7 +53,7 @@ const AddToCart = ({
         onClick={handleAddClick}
         disabled={disabled || outOfStock}
       >
-        {t('text-add-to-cart')}
+        {t('Добавить в корзину')}
       </button>
     ) : (
       <button
@@ -62,7 +62,7 @@ const AddToCart = ({
         onClick={handleAddClick}
         disabled={disabled || outOfStock}
       >
-        {t('text-add-to-cart')}
+        {t('Добавить в корзину')}
       </button>
     )
   ) : (

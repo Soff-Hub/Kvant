@@ -29,7 +29,7 @@ import { baseURL } from '@framework/utils/http';
 
 
 export default function ProductPopup({ lang }: { lang: string }) {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { data } = useModalState();
   const { width } = useWindowSize();
   const { closeModal } = useModalAction();
@@ -201,7 +201,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
                   loading={addToCartLoader}
                 >
                   <CartIcon color="#ffffff" className="ltr:mr-3 rtl:ml-3" />
-                  {t('text-add-to-cart')}
+                  {t('Добавить в корзину')}
                 </Button>
                 <div className="grid grid-cols-2 gap-2.5">
                   <Button

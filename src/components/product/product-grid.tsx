@@ -23,9 +23,11 @@ export const ProductGrid: FC<ProductGridProps> = ({
   lang,
   viewAs,
 }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
+  const [count, setCount] = useState(0);
+  const [countPage, setCountPage] = useState(15);
   const [isLoading, setIsloading] = useState(true);
   const pathname = usePathname();
   const { query } = useQueryParam(pathname ?? '/');
@@ -38,19 +40,28 @@ export const ProductGrid: FC<ProductGridProps> = ({
     try {
       setIsloading(true);
       const response = await axios.get(
-        baseURL + API_ENDPOINTS.FASHION_PRODUCTS + '?' + query_get,
+        baseURL +
+          API_ENDPOINTS.FASHION_PRODUCTS +
+          '?' +
+          query_get +
+          `&limit=${countPage}&offset=${count}`,
       );
       setData(response.data?.results);
-      setIsloading(false);
     } catch (error: any) {
       setError(error);
       console.error('Error fetching data:', error);
     }
+    setIsloading(false);
+  }
+
+  function fetchNextPage() {
+    setCount(countPage);
+    setCountPage(countPage + 15);
   }
 
   useEffect(() => {
     getAllProducts();
-  }, [query_get]);
+  }, [query_get, countPage]);
 
   return (
     <>
@@ -95,11 +106,11 @@ export const ProductGrid: FC<ProductGridProps> = ({
         <Button
           loading={isLoading}
           disabled={isLoading}
-          // onClick={() => fetchNextPage()}
+          onClick={fetchNextPage}
           className={'w-60 '}
           variant={'primary'}
         >
-          {t('button-load-more')}
+          {t('Загрузи больше')}
         </Button>
       </div>
     </>

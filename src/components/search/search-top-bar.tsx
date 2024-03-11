@@ -15,7 +15,7 @@ interface Props {
 
 const SearchTopBar: React.FC<Props> = ({ onNavClick, viewAs, lang }) => {
   const { openFilter, displayFilter, closeFilter } = useUI();
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const dir = getDirection(lang);
   const contentWrapperCSS = dir === 'ltr' ? { left: 0 } : { right: 0 };
   return (
@@ -31,7 +31,7 @@ const SearchTopBar: React.FC<Props> = ({ onNavClick, viewAs, lang }) => {
       <div className="flex items-center justify-end w-full lg:justify-between">
         <div className="list-view">
           <div className="btn btn-gridview text-skin-base text-opacity-70">
-            View as:
+            {t("Договариваться")}
           </div>
           <button
             type="button"
@@ -60,11 +60,11 @@ const SearchTopBar: React.FC<Props> = ({ onNavClick, viewAs, lang }) => {
         </div>
         <ListBox
           options={[
-            { name: "Yangi qo'shilgan", value: 'new' },
-            { name: 'Qimmat', value: 'expensive' },
-            { name: 'Arzon', value: 'cheap' },
-            { name: 'Chegrima', value: 'discount' },
-            { name: "Eng ko'p buyurtma berilgan", value: 'order' },
+            { name: t('Недавно добавлено'), value: 'new' },
+            { name: t('Дорогой'), value: 'expensive' },
+            { name: t('Дешевый'), value: 'cheap' },
+            { name: t('Вычет'), value: 'discount' },
+            { name: t('Самые заказываемые'), value: 'order' },
           ]}
           lang={lang}
         />

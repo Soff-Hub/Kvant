@@ -77,7 +77,7 @@ export const siteSettings = {
       },
       {
         id: 'en',
-        name: 'English',
+        name: 'EN',
         value: 'en',
         icon: <USFlag />,
       },
