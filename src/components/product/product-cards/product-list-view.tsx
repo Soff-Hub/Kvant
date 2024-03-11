@@ -1,17 +1,14 @@
 import cn from 'classnames';
 import Image from '@components/ui/image';
 import Link from '@components/ui/link';
-import usePrice from '@framework/product/use-price';
 import { Product } from '@framework/types';
 import { useModalAction } from '@components/common/modal/modal.context';
 import useWindowSize from '@utils/use-window-size';
-import SearchIcon from '@components/icons/search-icon';
 import { useCart } from '@contexts/cart/cart.context';
 import { useTranslation } from 'src/app/i18n/client';
 import { productPlaceholder } from '@assets/placeholders';
 import { ROUTES } from '@utils/routes';
 import dynamic from 'next/dynamic';
-import { title } from 'process';
 
 const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
   ssr: false,

@@ -1,7 +1,7 @@
 'use client';
-import { QueryOptionsType, Product } from '@framework/types';
-import http from '@framework/utils/http';
-import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import { QueryOptionsType, Product } from '../types';
+import http from '../utils/http';
+import { API_ENDPOINTS } from '../utils/api-endpoints';
 import { useQuery } from 'react-query';
 
 export const fetchBestSellerProducts = async ({ queryKey }: any) => {

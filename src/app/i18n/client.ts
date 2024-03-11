@@ -22,7 +22,7 @@ i18next
   )
   .init({
     ...getOptions(),
-    lng: "en", // let detect the language on client side
+    lng: "ru", // let detect the language on client side
     detection: {
       order: ['path', 'htmlTag', 'cookie', 'navigator'],
     },

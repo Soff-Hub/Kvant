@@ -1,7 +1,8 @@
-import { QueryOptionsType, Product } from '@framework/types';
-import http from '@framework/utils/http';
-import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import { QueryOptionsType, Product } from '../types';
+
 import { useQuery } from 'react-query';
+import { API_ENDPOINTS } from '../utils/api-endpoints';
+import http from '../utils/http';
 
 export const fetchFashionProducts = async ({ queryKey }: any) => {
   const [_key, options] = queryKey;

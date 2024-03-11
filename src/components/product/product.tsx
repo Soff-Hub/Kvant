@@ -8,6 +8,7 @@ import { ROUTES } from '@utils/routes';
 import useWindowSize from '@utils/use-window-size';
 import { getVariations } from '@framework/utils/get-variations';
 import { useCart } from '@contexts/cart/cart.context';
+import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
 import { generateCartItem } from '@utils/generate-cart-item';
 import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
@@ -32,10 +33,10 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const pathname = useParams();
   const { slug } = pathname;
   const { width } = useWindowSize();
-  const { addItemToCart, isInCart, getItemFromCart, isInStock } = useCart();
+  const { addItemToCart, isInCart, getItemFromCart } = useCart();
+  const { addItemToWishst, removeItemFromCart, items } = useCartWishtlists();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
-  const [favorite, setFavorite] = useState<boolean>(false);
   const [quantity, setQuantity] = useState(1);
   const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
   const [addToWishlistLoader, setAddToWishlistLoader] =
@@ -103,7 +104,32 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
       ),
     );
   }
+
+  interface Data {
+    id: string;
+    title: string;
+    slug: string;
+    image: string;
+    price: number;
+    discount?: number;
+    discount_price?: number;
+  }
+
+  function generateCartItemWishst(item: Data) {
+    const { id, title, slug, image, price, discount, discount_price } = item;
+    return {
+      id,
+      title,
+      slug,
+      image,
+      price,
+      discount,
+      discount_price,
+    };
+  }
+
   const item = generateCartItem(data!, selectedVariation);
+  const itemWishst = generateCartItemWishst(data);
 
   function addToCart() {
     if (!isSelected) return;
@@ -129,22 +155,36 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
   function addToWishlist() {
     // to show btn feedback while product wishlist
-    setAddToWishlistLoader(true);
-    setFavorite(!favorite);
-    const toastStatus: string =
-      favorite === true ? t('text-remove-favorite') : t('text-added-favorite');
-    setTimeout(() => {
-      setAddToWishlistLoader(false);
-    }, 1500);
-    toast(toastStatus, {
-      progressClassName: 'fancy-progress-bar',
-      position: width! > 768 ? 'bottom-right' : 'top-right',
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
+    if (items?.length > 0) {
+      removeItemFromCart(itemWishst?.id);
+      const toastStatus: string = t('text-remove-favorite');
+      toast(toastStatus, {
+        progressClassName: 'fancy-progress-bar',
+        position: width! > 768 ? 'bottom-right' : 'top-right',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } else {
+      setAddToWishlistLoader(true);
+      addItemToWishst(itemWishst);
+      const toastStatus: string = t('text-added-favorite');
+
+      setTimeout(() => {
+        setAddToWishlistLoader(false);
+      }, 1500);
+      toast(toastStatus, {
+        progressClassName: 'fancy-progress-bar',
+        position: width! > 768 ? 'bottom-right' : 'top-right',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
   }
 
   const breakpoints = {
@@ -167,8 +207,6 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
       slidesPerView: 1,
     },
   };
-
-
 
   return (
     <div className="pt-6 pb-2 md:pt-7">
@@ -223,11 +261,9 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
           <dl className="productView-info  text-[14px] leading-8 pb-5 mb-5 border-b border-border-base">
             {data?.characteristics?.map((item: any) => (
-              <ul className='flex gap-3 justify-between w-40 unsty'>
+              <ul className="flex gap-3 justify-between w-40 unsty">
                 <li>{item?.title}: </li>
-                <li>
-                  {item?.value}
-                </li>
+                <li>{item?.value}</li>
               </ul>
             ))}
           </dl>
@@ -263,10 +299,10 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
                 onClick={addToWishlist}
                 loading={addToWishlistLoader}
                 className={`group hover:text-brand ${
-                  favorite === true && 'text-brand'
+                  items?.length > 0 && 'text-brand'
                 }`}
               >
-                {favorite === true ? (
+                {items?.length > 0 ? (
                   <IoIosHeart className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all" />
                 ) : (
                   <IoIosHeartEmpty className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />

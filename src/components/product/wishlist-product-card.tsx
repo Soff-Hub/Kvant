@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import type { FC } from 'react';
 import Image from '@components/ui/image';
 import { Product } from '@framework/types';
-import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
-import { useTranslation } from 'src/app/i18n/client';
+import {IoIosHeartEmpty } from 'react-icons/io';
+import { toast } from 'react-toastify';
+import { useWindowSize } from 'react-use';
+import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
 
 interface ProductProps {
   product: Product;
@@ -18,8 +19,9 @@ const WishlistProductCard: FC<ProductProps> = ({
   className,
   lang,
 }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { width } = useWindowSize();
   const {
+    id,
     title,
     image,
     price,
@@ -29,7 +31,21 @@ const WishlistProductCard: FC<ProductProps> = ({
     quantity,
   } = product ?? {};
   const placeholderImage = `/assets/placeholder/product.svg`;
-  const [favorite, setFavorite] = useState<boolean>(false);
+  const { removeItemFromCart, items } = useCartWishtlists();
+
+  function addToWishlist() {
+    removeItemFromCart(id);
+    const toastStatus: string = 'Savatdan mahsulot olib tashlandi';
+    toast(toastStatus, {
+      progressClassName: 'fancy-progress-bar',
+      position: width! > 768 ? 'bottom-right' : 'top-right',
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  }
 
   return (
     <div className="flex flex-col py-4 border-b md:flex-row border-border-base 2xl:py-5 wishlist-card last:pb-0 first:-mt-8 lg:first:-mt-4 2xl:first:-mt-7">
@@ -70,28 +86,19 @@ const WishlistProductCard: FC<ProductProps> = ({
               </>
             )}
           </div>
-          <span className='text-[13px]'>{description}</span>
+          <span className="text-[13px]">{description}</span>
         </div>
       </div>
       <div
         className="flex cursor-pointer ltr:ml-auto rtl:mr-auto md:pt-7"
-        onClick={() => {
-          setFavorite(!favorite);
-        }}
+        onClick={addToWishlist}
       >
-        {favorite ? (
+        {items?.length < 0 && (
           <>
             <IoIosHeartEmpty className="w-5 h-5 mt-0.5" />
 
             <span className=" ltr:ml-3 rtl:mr-3 text-brand-dark font-medium text-15px -mt-0.5 md:mt-0">
-              {t('text-favorite')}
-            </span>
-          </>
-        ) : (
-          <>
-            <IoIosHeart className="text-brand w-5 h-5 mt-0.5" />
-            <span className="text-brand ltr:ml-3 rtl:mr-3 font-semibold text-15px -mt-0.5 md:mt-0">
-              {t('text-favorited')}
+              Избранное
             </span>
           </>
         )}
