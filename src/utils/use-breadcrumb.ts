@@ -17,7 +17,6 @@ export function convertBreadcrumbTitle(string: string) {
 export default function useBreadcrumb() {
   const pathname = usePathname();
   const [breadcrumbs, setBreadcrumbs] = useState<any>(null);
-  console.log(breadcrumbs);
 
 
   useEffect(() => {

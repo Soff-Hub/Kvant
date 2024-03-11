@@ -1,6 +1,6 @@
-import { QueryOptionsType, Category } from '@framework/types';
-import http from '@framework/utils/http';
-import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import { QueryOptionsType, Category } from '../types';
+import http from '../utils/http';
+import { API_ENDPOINTS } from '../utils/api-endpoints';
 import { useQuery } from 'react-query';
 
 export const fetchElectronictablesCategory = async ({ queryKey }: any) => {

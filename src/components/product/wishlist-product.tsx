@@ -1,6 +1,4 @@
 import WishlistProductCard from '@components/product/wishlist-product-card';
-import { useWishlistProductsQuery } from '@framework/product/get-wishlist-product';
-import ProductCardLoader from '@components/ui/loaders/product-card-loader';
 import Alert from '@components/ui/alert';
 import cn from 'classnames';
 import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
