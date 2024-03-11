@@ -20,20 +20,21 @@ const Copyright: React.FC<CopyrightProps> = ({
   payment,
   variant = 'default',
 }) => {
-  const { t } = useTranslation(lang, 'footer');
+  const { t } = useTranslation(lang, 'home');
+  
   return (
     <div className="border-t border-black/10  pt-5 pb-16 sm:pb-20 md:pb-5 mb-2 sm:mb-0">
       <Container>
         <div className="flex flex-col md:flex-row text-center md:justify-between">
           <p className="text-sm leading-7 lg:leading-[27px]">
-            &copy;&nbsp;{t('text-copyright')} {year}&nbsp;
+            &copy;&nbsp;{t('Авторское право')} {year}&nbsp;
             <a
               className="transition-colors duration-200 ease-in-out text-brand "
               href={siteSettings.author.websiteUrl}
             >
               {siteSettings.author.name}
             </a>
-            &nbsp; {t('text-all-rights-reserved')}
+            &nbsp; {t('Все права защищены')}
           </p>
 
           {payment && (

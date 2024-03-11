@@ -9,12 +9,17 @@ export function convertBreadcrumbTitle(string: string) {
     .replace(/oe/g, 'ö')
     .replace(/ae/g, 'ä')
     .replace(/ue/g, 'ü')
-    .toLowerCase();
+    .toLowerCase()
+  // .split('=')[1]     
+
 }
 
 export default function useBreadcrumb() {
   const pathname = usePathname();
   const [breadcrumbs, setBreadcrumbs] = useState<any>(null);
+  console.log(breadcrumbs);
+
+
   useEffect(() => {
     if (pathname) {
       const linkPath = pathname.split('/');

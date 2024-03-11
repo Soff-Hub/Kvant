@@ -67,17 +67,17 @@ export default function Page({
 
       <Container>
         <ListingtabsFeatured lang={lang} />
-        <BannerGrid
+        {/* <BannerGrid
           lang={lang}
           grid={3}
           className="mb-8 lg:mb-15"
-        />
+        /> */}
         <BestSellerWithFlashSale lang={lang} />
-        <BannerGrid
+        {/* <BannerGrid
           lang={lang}
           grid={3}
           className="mb-8 lg:mb-15"
-        />
+        /> */}
         <PopularProductFeed
           lang={lang}
           className="mb-8 lg:mb-15"

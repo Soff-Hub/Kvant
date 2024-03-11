@@ -16,7 +16,7 @@ export default function ProductDetailsTab({
 }) {
   let [tabHeading] = useState({
     Product_Details: '',
-    Review_Rating: '',
+    // Review_Rating: '',
   });
 
   
@@ -47,9 +47,9 @@ export default function ProductDetailsTab({
               {dataProps && parse(dataProps)}
             </div>
           </Tab.Panel>
-          <Tab.Panel>
+          {/* <Tab.Panel>
             <ProductReviewRating lang={lang} />
-          </Tab.Panel>
+          </Tab.Panel> */}
         </Tab.Panels>
       </Tab.Group>
     </div>

@@ -6,8 +6,8 @@ import Text from '@components/ui/text';
 import { useTranslation } from 'src/app/i18n/client';
 
 interface Props {
-  lang?: string;
-  sectionHeading?: string;
+  lang?: any;
+  sectionHeading:string;
   sectionSubHeading?: string;
   className?: string;
   headingPosition?: string;
@@ -15,12 +15,12 @@ interface Props {
 
 const SectionHeader: React.FC<Props> = ({
   lang,
-  sectionHeading = 'text-section-title',
+  sectionHeading ='СЕГОДНЯШНЕЕ ПРЕДЛОЖЕНИЕ',
   sectionSubHeading,
   className = 'mb-8',
   headingPosition = 'left',
 }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   return (
     <div
       className={cn(` ${className}`, {

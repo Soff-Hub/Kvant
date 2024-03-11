@@ -1,15 +1,11 @@
 'use client';
 
-import Link from 'next/link';
-import usePrice from '@framework/product/use-price';
-import cn from 'classnames';
+
 import { useCart } from '@contexts/cart/cart.context';
-import Text from '@components/ui/text';
-import Button from '@components/ui/button';
+
 import { CheckoutItem } from '@components/checkout/checkout-card-item';
 import { CheckoutCardFooterItem } from './checkout-card-footer-item';
-import { useRouter } from 'next/navigation';
-import { ROUTES } from '@utils/routes';
+
 import { useTranslation } from 'src/app/i18n/client';
 import { useIsMounted } from '@utils/use-is-mounted';
 import { useEffect, useState } from 'react';
@@ -18,7 +14,6 @@ import { addPeriodToThousands } from '@components/cart/cart-item';
 
 const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'common');
-  const router = useRouter();
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,9 +21,7 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
   }, []);
   const { items, total, isEmpty } = useCart();
 
-  function orderHeader() {
-    !isEmpty && router.push(`/${lang}${ROUTES.ORDER}`);
-  }
+
   const checkoutFooter = [
     {
       id: 1,
@@ -73,18 +66,6 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
           checkoutFooter.map((item: any) => (
             <CheckoutCardFooterItem item={item} key={item.id} />
           ))}
-        <Button
-          variant="formButton"
-          className={cn(
-            'w-full mt-8 mb-5 rounded font-semibold px-4 py-3 transition-all',
-            mounted && isEmpty
-              ? 'opacity-40 cursor-not-allowed'
-              : '!bg-brand !text-brand-light',
-          )}
-          onClick={orderHeader}
-        >
-          {t('Заказать Cейчас')}
-        </Button>
       </div>
     </>
   );

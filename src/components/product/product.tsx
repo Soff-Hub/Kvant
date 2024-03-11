@@ -28,7 +28,7 @@ import ProductCardLoader from '@components/ui/loaders/product-card-loader';
 import Carousel from '@components/ui/carousel/carousel';
 
 const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const pathname = useParams();
   const { slug } = pathname;
   const { width } = useWindowSize();
@@ -115,8 +115,6 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
     const item = generateCartItem(data!, selectedVariation);
 
-    
-
     addItemToCart(item, quantity);
     toast('Added to the bag', {
       progressClassName: 'fancy-progress-bar',
@@ -128,6 +126,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
       draggable: true,
     });
   }
+
   function addToWishlist() {
     // to show btn feedback while product wishlist
     setAddToWishlistLoader(true);
@@ -169,7 +168,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     },
   };
 
-  
+
 
   return (
     <div className="pt-6 pb-2 md:pt-7">
@@ -223,34 +222,14 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
           </div>
 
           <dl className="productView-info  text-[14px] leading-8 pb-5 mb-5 border-b border-border-base">
-            <dt
-              className={`productView-info-name w-40 ltr:float-left rtl:float-right`}
-            >
-              {t('text-brand')}:
-            </dt>
-            <dd className="productView-info-value">{data?.brand}</dd>
-            <dt
-              className={`productView-info-name w-40 ltr:float-left rtl:float-right`}
-            >
-              {t('text-sku')}:
-            </dt>
-            <dd className="productView-info-value">200101</dd>
-            <dt
-              className={`productView-info-name w-40 ltr:float-left rtl:float-right`}
-            >
-              {t('text-weight')}:
-            </dt>
-            <dd className="productView-info-value" data-product-weight="">
-              {data?.weight} KGS
-            </dd>
-            <dt
-              className={`productView-info-name w-40 ltr:float-left rtl:float-right`}
-            >
-              {t('text-shipping')}:
-            </dt>
-            <dd className="productView-info-value">
-              {t(`text-calculated-checkout`)}
-            </dd>
+            {data?.characteristics?.map((item: any) => (
+              <ul className='flex gap-3 justify-between w-40 unsty'>
+                <li>{item?.title}: </li>
+                <li>
+                  {item?.value}
+                </li>
+              </ul>
+            ))}
           </dl>
 
           <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
@@ -276,7 +255,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
               loading={addToCartLoader}
             >
               <CartIcon color="#ffffff" className="ltr:mr-3 rtl:ml-3" />
-              {t('text-add-to-cart')}
+              {t('Добавить в корзину')}
             </Button>
             <div className="grid grid-cols-2 gap-2.5">
               <Button
