@@ -5,11 +5,9 @@ import { cartReducerWishst, State, initialState } from './wishst.reducer';
 import { Item } from './wishst.utils';
 import { useLocalStorage } from '@utils/use-local-storage';
 
-
 interface CartProviderState extends State {
   addItemToWishst: (item: Item) => void;
-
-  // removeItemFromCart: (id: Item['id']) => void;
+  removeItemFromCart: (id: Item['id']) => void;
 }
 export const cartContext = React.createContext<CartProviderState | undefined>(
   undefined,
@@ -42,17 +40,14 @@ export function CartProviderWishstLists(props: React.PropsWithChildren<any>) {
   const addItemToWishst = (item: Item) =>
     dispatchWist({ type: 'ADD_ITEM_WITH_WISHST', item });
 
-
-  // const removeItemFromCart = (id: Item['id']) =>
-  //   dispatch({ type: 'REMOVE_ITEM_OR_QUANTITY', id });
-
-
+  const removeItemFromCart = (id: Item['id']) =>
+    dispatchWist({ type: 'REMOVE_ITEM_WISHST', id });
 
   const value = React.useMemo(
     () => ({
       ...stateWisht,
       addItemToWishst,
-      // removeItemFromCart,
+      removeItemFromCart,
     }),
     [stateWisht],
   );

@@ -12,7 +12,7 @@ export function addItemWithWishst(
   return [...items, item];
 }
 
-// export function removeItem(items: Item[], id: Item['id']) {
-//   return items.filter((existingItem) => existingItem.id !== id);
-// }
+export function removeItem(items: Item[], id: Item['id']) {
+  return items.filter((existingItem) => existingItem.id !== id);
+}
 

@@ -33,11 +33,10 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const pathname = useParams();
   const { slug } = pathname;
   const { width } = useWindowSize();
-  const { addItemToCart, isInCart, getItemFromCart, isInStock } = useCart();
-  const { items, addItemToWishst } = useCartWishtlists();
+  const { addItemToCart, isInCart, getItemFromCart } = useCart();
+  const { addItemToWishst, removeItemFromCart, items } = useCartWishtlists();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
-  const [favorite, setFavorite] = useState<boolean>(false);
   const [quantity, setQuantity] = useState(1);
   const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
   const [addToWishlistLoader, setAddToWishlistLoader] =
@@ -105,7 +104,32 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
       ),
     );
   }
+
+  interface Data {
+    id: string;
+    title: string;
+    slug: string;
+    image: string;
+    price: number;
+    discount?: number;
+    discount_price?: number;
+  }
+
+  function generateCartItemWishst(item: Data) {
+    const { id, title, slug, image, price, discount, discount_price } = item;
+    return {
+      id,
+      title,
+      slug,
+      image,
+      price,
+      discount,
+      discount_price,
+    };
+  }
+
   const item = generateCartItem(data!, selectedVariation);
+  const itemWishst = generateCartItemWishst(data);
 
   function addToCart() {
     if (!isSelected) return;
@@ -131,26 +155,37 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
   function addToWishlist() {
     // to show btn feedback while product wishlist
-    setAddToWishlistLoader(true);
-    setFavorite(!favorite);
-    addItemToWishst(item);
-    const toastStatus: string =
-      favorite === true ? t('text-remove-favorite') : t('text-added-favorite');
-    setTimeout(() => {
-      setAddToWishlistLoader(false);
-    }, 1500);
-    toast(toastStatus, {
-      progressClassName: 'fancy-progress-bar',
-      position: width! > 768 ? 'bottom-right' : 'top-right',
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
-  }
-console.log(items);
+    if (items?.length > 0) {
+      removeItemFromCart(itemWishst?.id);
+      const toastStatus: string = t('text-remove-favorite');
+      toast(toastStatus, {
+        progressClassName: 'fancy-progress-bar',
+        position: width! > 768 ? 'bottom-right' : 'top-right',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } else {
+      setAddToWishlistLoader(true);
+      addItemToWishst(itemWishst);
+      const toastStatus: string = t('text-added-favorite');
 
+      setTimeout(() => {
+        setAddToWishlistLoader(false);
+      }, 1500);
+      toast(toastStatus, {
+        progressClassName: 'fancy-progress-bar',
+        position: width! > 768 ? 'bottom-right' : 'top-right',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  }
 
   const breakpoints = {
     '1536': {
@@ -264,10 +299,10 @@ console.log(items);
                 onClick={addToWishlist}
                 loading={addToWishlistLoader}
                 className={`group hover:text-brand ${
-                  favorite === true && 'text-brand'
+                  items?.length > 0 && 'text-brand'
                 }`}
               >
-                {favorite === true ? (
+                {items?.length > 0 ? (
                   <IoIosHeart className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all" />
                 ) : (
                   <IoIosHeartEmpty className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />

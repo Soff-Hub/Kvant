@@ -15,7 +15,7 @@ export default async function WishlistPage({
   return (
     <>
       <h2 className="text-base md:text-lg xl:text-[20px] font-semibold text-brand-dark  lg:pt-0">
-       wishlist
+        Список желаний
       </h2>
       <Wishlist lang={lang} />
     </>

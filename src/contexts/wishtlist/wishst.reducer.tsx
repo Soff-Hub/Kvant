@@ -1,11 +1,9 @@
-import {
-  Item,
-  addItemWithWishst,
-  // removeItem,
-} from './wishst.utils';
+import { Item, addItemWithWishst, removeItem } from './wishst.utils';
 
-type Action = { type: 'ADD_ITEM_WITH_WISHST'; item: Item };
-// | { type: 'REMOVE_ITEM'; id: Item['id'] }
+type AddItemAction = { type: 'ADD_ITEM_WITH_WISHST'; item: Item };
+type RemoveItemAction = { type: 'REMOVE_ITEM_WISHST'; id: Item['id'] };
+
+export type Action = AddItemAction | RemoveItemAction;
 
 export interface State {
   items: Item[];
@@ -21,10 +19,12 @@ export function cartReducerWishst(state: State, action: Action): State {
       const items = addItemWithWishst(state.items, action.item);
       return generateFinalState(state, items);
     }
-    // case 'REMOVE_ITEM': {
-    //   const items = removeItem(state.items, action.id);
-    //   return generateFinalState(state, items);
-    // }
+    case 'REMOVE_ITEM_WISHST': {
+      const items = removeItem(state.items, action.id);
+      return generateFinalState(state, items);
+    }
+    default:
+      return state;
   }
 }
 
