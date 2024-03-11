@@ -4,6 +4,7 @@ import React from 'react';
 import { getToken } from '@framework/utils/get-token';
 import { CartProvider } from './cart/cart.context';
 import { ModalProvider } from '@components/common/modal/modal.context';
+import { CartProviderWishstLists } from './wishtlist/wishst.context';
 
 export interface State {
   isAuthorized: boolean;
@@ -336,9 +337,11 @@ export const useUI = () => {
 export function ManagedUIContext({ children }: React.PropsWithChildren<{}>) {
   return (
     <CartProvider>
+    <CartProviderWishstLists>
       <UIProvider>
         <ModalProvider>{children}</ModalProvider>
       </UIProvider>
+    </CartProviderWishstLists>
     </CartProvider>
   );
 }

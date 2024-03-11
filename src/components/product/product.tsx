@@ -8,6 +8,7 @@ import { ROUTES } from '@utils/routes';
 import useWindowSize from '@utils/use-window-size';
 import { getVariations } from '@framework/utils/get-variations';
 import { useCart } from '@contexts/cart/cart.context';
+import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
 import { generateCartItem } from '@utils/generate-cart-item';
 import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
@@ -33,6 +34,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const { slug } = pathname;
   const { width } = useWindowSize();
   const { addItemToCart, isInCart, getItemFromCart, isInStock } = useCart();
+  const { items, addItemToWishst } = useCartWishtlists();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
   const [favorite, setFavorite] = useState<boolean>(false);
@@ -131,6 +133,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     // to show btn feedback while product wishlist
     setAddToWishlistLoader(true);
     setFavorite(!favorite);
+    addItemToWishst(item);
     const toastStatus: string =
       favorite === true ? t('text-remove-favorite') : t('text-added-favorite');
     setTimeout(() => {
@@ -146,6 +149,8 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
       draggable: true,
     });
   }
+console.log(items);
+
 
   const breakpoints = {
     '1536': {
@@ -167,8 +172,6 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
       slidesPerView: 1,
     },
   };
-
-
 
   return (
     <div className="pt-6 pb-2 md:pt-7">
@@ -223,11 +226,9 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
           <dl className="productView-info  text-[14px] leading-8 pb-5 mb-5 border-b border-border-base">
             {data?.characteristics?.map((item: any) => (
-              <ul className='flex gap-3 justify-between w-40 unsty'>
+              <ul className="flex gap-3 justify-between w-40 unsty">
                 <li>{item?.title}: </li>
-                <li>
-                  {item?.value}
-                </li>
+                <li>{item?.value}</li>
               </ul>
             ))}
           </dl>
