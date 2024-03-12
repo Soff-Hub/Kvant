@@ -27,8 +27,8 @@ const columns = [
   },
   {
     title: 'Тип заказа',
-    dataIndex: 'order_type',
-    key: 'order_type',
+    dataIndex: 'order_type_ln',
+    key: 'order_type_ln',
     className: 'id-cell',
     width: 140,
   },
@@ -41,14 +41,14 @@ const columns = [
   },
   {
     title: 'Положение дел',
-    key: 'status',
+    key: 'status_ln',
     width: 145,
-    dataIndex: 'status',
+    dataIndex: 'status_ln',
     render: (status: string) => (
       <span>
         <span
           className="bullet"
-          style={{ backgroundColor: status === 'approved' ? 'green' : 'red' }}
+          style={{ backgroundColor: status === 'Approved' ? 'green' : 'red' }}
         />
         {status}
       </span>

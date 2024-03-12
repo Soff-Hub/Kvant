@@ -48,7 +48,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
     if (token) {
       axios
-        .post(baseURL + API_ENDPOINTS.ORDERS, dataChecout, { headers })
+        .post(baseURL + API_ENDPOINTS.ORDERS_CREATE, dataChecout, { headers })
         .then((response) => {
           toast.success(t('Buyurtma muvaffaqiyatli yuborildi'), {
             style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi

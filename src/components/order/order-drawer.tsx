@@ -84,7 +84,7 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
                     <span className="font-medium text-sm">
                       Тип заказа :
                     </span>{' '}
-                    <span className="text-sm">{orderData?.order_type}</span>
+                    <span className="text-sm">{orderData?.order_type_ln}</span>
                   </div>
                   <div>
                     {' '}
@@ -103,10 +103,10 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
                         className="bullet"
                         style={{
                           backgroundColor:
-                            orderData?.status === 'approved' ? 'green' : 'red',
+                            orderData?.status_ln === 'Approved' ? 'green' : 'red',
                         }}
                       />
-                      {orderData?.status}
+                      {orderData?.status_ln}
                     </span>
                   </div>
                   <div>

@@ -3,8 +3,6 @@
 import Link from 'next/link';
 import Image from '@components/ui/image';
 import { useTranslation } from 'src/app/i18n/client';
-import { useRouter } from 'next/navigation';
-import { getDirection } from '@utils/get-direction';
 import Heading from '@components/ui/heading';
 
 interface AboutProps {

@@ -18,5 +18,6 @@ export const API_ENDPOINTS = {
   PRODUCTS_DETAILS: 'common/product/detail',
   PRODUCTS_DETAILS_SINGLE: 'common/similar/producdts',
   ORDERS: 'common/order-list/',
+  ORDERS_CREATE: 'payment/create/',
   ORDERS_DETAILS: 'common/order-detail',
 };
