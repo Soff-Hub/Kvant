@@ -8,7 +8,7 @@ export default function OrdersTablePage({ lang }: { lang: string }) {
       {!isLoading ? (
         <OrderTable orders={data?.data} lang={lang} />
       ) : (
-        <div>Loading...</div>
+        <div>nimmaaa...</div>
       )}
     </div>
   );

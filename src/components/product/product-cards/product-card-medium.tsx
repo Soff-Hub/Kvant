@@ -191,4 +191,5 @@ const ProductCardMedium: React.FC<ProductProps> = ({
   );
 };
 
+
 export default ProductCardMedium;

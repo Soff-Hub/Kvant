@@ -31,3 +31,4 @@ export default function ManagedDrawer({ lang }: { lang: string }) {
     </Drawer>
   );
 }
+

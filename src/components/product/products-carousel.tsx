@@ -47,9 +47,6 @@ const breakpoints = {
   },
 };
 
-
-
-
 const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
   sectionHeading,
   categorySlug,
@@ -65,9 +62,6 @@ const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
   borderCarousel,
   rowCarousel = 1,
 }) => {
-
-  
-
   return (
     <div className={cn('heightFull relative', className)}>
       {sectionHeading && (
@@ -131,35 +125,12 @@ const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
               <>
                 {products?.map((product: any, idx) => (
                   <SwiperSlide key={`${uniqueKey}-${idx}`} className="">
-                    {(() => {
-                      switch (variant) {
-                        // case 'medium':
-                        //   return (
-                        //     <ProductCardMedium
-                        //       key={`${uniqueKey}-${product.id}`}
-                        //       product={product}
-                        //       lang={lang}
-                        //     />
-                        //   );
-                        // case 'card-fur':
-                        //   return (
-                        //     <ProductCardV2
-                        //       key={`${uniqueKey}-${product.id}`}
-                        //       product={product}
-                        //       lang={lang}
-                        //     />
-                        //   );
-                        default:
-                          return (
-                            <ProductCard
-                              key={`${uniqueKey}-${product.id}`}
-                              product={product}
-                              lang={lang}
-                              variant={variant}
-                            />
-                          );
-                      }
-                    })()}
+                    <ProductCard
+                      key={`${uniqueKey}-${product.id}`}
+                      product={product}
+                      lang={lang}
+                      variant={variant}
+                    />
                   </SwiperSlide>
                 ))}
               </>

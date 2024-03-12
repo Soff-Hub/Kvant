@@ -13,6 +13,7 @@ type Option = {
   icon?: JSX.Element;
 };
 
+
 export default function AccountNavMobile({
   options,
   lang,

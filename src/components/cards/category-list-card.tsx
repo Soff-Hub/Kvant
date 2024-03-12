@@ -1,10 +1,8 @@
 import Link, { LinkProps } from 'next/link';
 import Image from '@components/ui/image';
-import { IoIosArrowForward } from 'react-icons/io';
 import { Category } from '@framework/types';
 import cn from 'classnames';
 import { useTranslation } from 'src/app/i18n/client';
-import { ROUTES } from '@utils/routes';
 interface Props {
   lang: string;
   category: Category;
@@ -60,7 +58,7 @@ const CategoryListCard: React.FC<Props> = ({
               return (
                 <li className="pb-1 hover:text-skin-primary" key={`${idx}`}>
                   <Link
-                    href={`/${lang}${ROUTES.SEARCH}?category=${currentItem.slug}`}
+                    href={`/${lang}/category__parent__slug=${currentItem.slug}`}
                   >
                     {currentItem.name}
                   </Link>

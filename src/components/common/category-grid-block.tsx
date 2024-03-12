@@ -79,7 +79,7 @@ const CategoryGridBlock: React.FC<CategoriesProps> = ({
                       lang={lang}
                       item={category}
                       variant={variant}
-                      href={`/${lang}${ROUTES.SEARCH}?category=${category.slug}`}
+                      href={`/${lang}/category__parent__slug=${category.slug}`}
                     />
                   </SwiperSlide>
                 ))
