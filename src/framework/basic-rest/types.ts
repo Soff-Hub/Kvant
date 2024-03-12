@@ -22,22 +22,20 @@ export type BannerQueryOptionsTypeImages = {
 };
 
 export type QueryOptionsType = {
-  text?: string;
-  category?: string;
+  id?:number;
   status?: string;
+  order_type?: string;
+  total_amount?: string;
+  provider?: string;
+  process?:string
   limit?: number;
-  sort_by?:string
 };
-export type Attachment = {
-  id: string | number;
-  thumbnail: string;
-  original: string;
-};
+
 export type Category = {
   id: number | string;
   title: string;
   slug: string;
-  image?: Attachment;
+  image?: any;
   children?: [Category];
   productCount?: number;
   [key: string]: unknown;
@@ -46,14 +44,14 @@ export type Category_Images = {
   id: number | string;
   title: string;
   slug: string;
-  image?: Attachment;
+  image?: string;
 };
 export type Collection = {
   id: number | string;
   name: string;
   slug: string;
   details?: string;
-  image?: Attachment;
+  image?: string;
   icon?: string;
   products?: Product[];
   productCount?: number;
@@ -62,7 +60,7 @@ export type Brand = {
   id: number | string;
   name: string;
   slug: string;
-  image?: Attachment;
+  image?: string;
   [key: string]: unknown;
 };
 export type Dietary = {

@@ -14,7 +14,7 @@ export default async function Page({
   };
 }) {
   function SearchBarFallback() {
-    return <>Loading...</>;
+    return <>Загрузка...</>;
   }
 
   return (

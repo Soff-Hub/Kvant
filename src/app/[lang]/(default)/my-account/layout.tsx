@@ -8,12 +8,12 @@ import AccountNavMobile from '@components/my-account/account-nav-mobile';
 const accountMenu = [
   {
     slug: ROUTES.ORDERS,
-    name: 'text-orders',
+    name: 'Заказы',
     icon: <OrdersIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
   },
   {
     slug: ROUTES.WISHLIST,
-    name: 'text-wishlist',
+    name: 'Список желаний',
     icon: <WishlistIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
   },
 ];
@@ -39,7 +39,7 @@ export default function AccountLayout({
               <AccountNav options={accountMenu} lang={lang} />
             </div>
 
-            <div className="w-full mt-4 lg:mt-0 border border-border-base p-4 sm:p-5 lg:py-8 2xl:py-10 lg:px-9 2xl:px-10 rounded bg-white">
+            <div className="w-full mt-4 p-4 lg:mt-0 border border-border-base rounded bg-white">
               {children}
             </div>
           </div>

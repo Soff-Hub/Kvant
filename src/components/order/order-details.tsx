@@ -52,7 +52,7 @@ const OrderDetails: React.FC<{ className?: string; lang: string }> = ({
       currencyCode: 'USD',
     }
   );
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p>Загрузка...</p>;
 
   return (
     <div className={className}>

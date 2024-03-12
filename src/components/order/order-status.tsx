@@ -10,7 +10,7 @@ const OrderStatus = ({ status }: Props) => {
   return !isLoading ? (
     <ProgressBox data={data} status={status} />
   ) : (
-    <div>Loading...</div>
+    <div>Загрузка...</div>
   );
 };
 

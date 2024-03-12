@@ -4,9 +4,7 @@ import { useQuery } from 'react-query';
 
 const fetchOrderStatus = async () => {
   const { data } = await http.get(API_ENDPOINTS.ORDERS);
-  return {
-    data: data,
-  };
+  return data?.results
 };
 
 const useOrderStatusQuery = () => {

@@ -218,7 +218,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
                       <IoIosHeartEmpty className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
                     )}
 
-                    {t('text-wishlist')}
+                    {t('Список желаний')}
                   </Button>
                   <div className="relative group">
                     <Button
@@ -229,7 +229,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
                       onClick={handleChange}
                     >
                       <IoArrowRedoOutline className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
-                      {t('text-share')}
+                      {t('Делиться')}
                     </Button>
                     <SocialShareBox
                       className={`absolute z-10 ltr:right-0 rtl:left-0 w-[300px] md:min-w-[400px] transition-all duration-300 ${

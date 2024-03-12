@@ -20,6 +20,7 @@ const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
   ssr: false,
 });
 
+
 interface ProductProps {
   lang: string;
   product: Product;

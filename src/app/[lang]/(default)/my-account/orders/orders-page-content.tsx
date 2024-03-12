@@ -5,12 +5,13 @@ import { useOrdersQuery } from '@framework/order/get-all-orders';
 
 export default function OrdersPageContent({ lang }: { lang: string }) {
   const { data, isLoading } = useOrdersQuery({});
+
   return (
     <>
       {!isLoading ? (
         <OrderTable orders={data} lang={lang} />
       ) : (
-        <div>Loading...</div>
+        <div>Загрузка...</div>
       )}
     </>
   );

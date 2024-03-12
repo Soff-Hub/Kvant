@@ -52,7 +52,7 @@ export default function AccountNav({
         <span className="flex justify-center w-6 me-1 ">
           <LogoutIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />
         </span>
-        <span className="ltr:pl-1 lg:rtl:pr-1.5">{t('text-logout')}</span>
+        <span className="ltr:pl-1 lg:rtl:pr-1.5">{t('Выйти')}</span>
       </button>
     </nav>
   );

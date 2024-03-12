@@ -85,7 +85,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     setShareButtonStatus(!shareButtonStatus);
   };
 
-  if (isLoading) return <p className={'pt-8 pb-8'}>Loading...</p>;
+  if (isLoading) return <p className={'pt-8 pb-8'}>Загрузка...</p>;
   const variations = getVariations(data?.variations);
 
   const isSelected = !isEmpty(variations)
@@ -308,7 +308,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
                   <IoIosHeartEmpty className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
                 )}
 
-                {t('text-wishlist')}
+                {t('Список желаний')}
               </Button>
               <div className="relative group">
                 <Button
@@ -319,7 +319,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
                   onClick={handleChange}
                 >
                   <IoArrowRedoOutline className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
-                  {t('text-share')}
+                  {t('Делиться')}
                 </Button>
                 <SocialShareBox
                   className={`absolute z-10 ltr:right-0 rtl:left-0 w-[300px] md:min-w-[400px] transition-all duration-300 ${

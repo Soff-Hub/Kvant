@@ -21,7 +21,7 @@ export default function OrderInformation({ lang }: { lang: string }) {
   if (isLoading)
     return (
       <div className="py-16 xl:px-32 2xl:px-44 3xl:px-56 lg:py-20">
-        Loading...
+        Загрузка...
       </div>
     );
   return (

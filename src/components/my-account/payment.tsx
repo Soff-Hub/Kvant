@@ -5,7 +5,7 @@ export default function Payment() {
   let { data, isLoading } = usePaymentQuery();
   return (
     <div className="pt-4">
-      {!isLoading ? <PaymentBox items={data} /> : <div>Loading...</div>}
+      {!isLoading ? <PaymentBox items={data} /> : <div>Загрузка...</div>}
     </div>
   );
 }

@@ -20,7 +20,7 @@ const PaymentPage: React.FC<{ lang: string }> = ({ lang }) => {
       </div>
     </div>
   ) : (
-    <div>Loading...</div>
+    <div>Загрузка...</div>
   );
 };
 
