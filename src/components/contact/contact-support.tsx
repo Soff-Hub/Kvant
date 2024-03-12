@@ -2,9 +2,7 @@
 
 import { FC } from 'react';
 import Text from '@components/ui/text';
-import Image from '@components/ui/image';
 import Heading from '@components/ui/heading';
-import Link from '@components/ui/link';
 import { useIsMounted } from '@utils/use-is-mounted';
 import { useTranslation } from 'src/app/i18n/client';
 import LocationIcon from '@components/icons/contact/location-icon';
