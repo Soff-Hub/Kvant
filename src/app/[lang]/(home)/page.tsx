@@ -63,21 +63,9 @@ export default function Page({
           </div>
         </Container>
       </div>
-
-
       <Container>
         <ListingtabsFeatured lang={lang} />
-        {/* <BannerGrid
-          lang={lang}
-          grid={3}
-          className="mb-8 lg:mb-15"
-        /> */}
         <BestSellerWithFlashSale lang={lang} />
-        {/* <BannerGrid
-          lang={lang}
-          grid={3}
-          className="mb-8 lg:mb-15"
-        /> */}
         <PopularProductFeed
           lang={lang}
           className="mb-8 lg:mb-15"

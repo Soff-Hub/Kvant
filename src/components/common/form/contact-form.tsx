@@ -14,6 +14,7 @@ interface ContactFormValues {
   message: string;
 }
 
+
 const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
   const {
     register,
