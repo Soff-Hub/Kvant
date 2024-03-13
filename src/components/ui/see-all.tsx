@@ -10,7 +10,7 @@ interface Props {
 }
 
 const SeeAll: React.FC<Props> = ({ lang, className, href = '/' }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   return (
     <Link
       href={`/${lang}/${href}`}

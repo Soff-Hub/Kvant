@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import isEmpty from 'lodash/isEmpty';
 import { ROUTES } from '@utils/routes';
 import Button from '@components/ui/button';
 import Counter from '@components/ui/counter';
 import { useCart } from '@contexts/cart/cart.context';
 import { generateCartItem } from '@utils/generate-cart-item';
-import { getVariations } from '@framework/utils/get-variations';
 import { useTranslation } from 'src/app/i18n/client';
 import ThumbnailCarousel from '@components/ui/carousel/thumbnail-carousel';
 import Image from '@components/ui/image';
@@ -23,10 +21,8 @@ import {
   useModalState,
 } from '@components/common/modal/modal.context';
 import CloseButton from '@components/ui/close-button';
-import isEqual from 'lodash/isEqual';
 import { productGalleryPlaceholder } from '@assets/placeholders';
 import { baseURL } from '@framework/utils/http';
-
 
 export default function ProductPopup({ lang }: { lang: string }) {
   const { t } = useTranslation(lang, 'home');
@@ -36,52 +32,27 @@ export default function ProductPopup({ lang }: { lang: string }) {
   const router = useRouter();
   const { addItemToCart, isInCart, getItemFromCart } = useCart();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
   const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
   const [favorite, setFavorite] = useState<boolean>(false);
   const [addToWishlistLoader, setAddToWishlistLoader] =
     useState<boolean>(false);
   const [shareButtonStatus, setShareButtonStatus] = useState<boolean>(false);
 
-  const variations = getVariations(data.variations);
-  const {
-    slug,
-    image,
-    title,
-    price,
-    description,
-    discount,
-    galleries,
-    discount_price,
-    quantity,
-  } = data;
+
+  const { slug, image, title, price, description, galleries, discount_price } =
+    data;
   const productUrl = `${baseURL}/${lang}${ROUTES.PRODUCT}/${slug}`;
   const handleChange = () => {
     setShareButtonStatus(!shareButtonStatus);
   };
 
-  const isSelected = !isEmpty(variations)
-    ? !isEmpty(attributes) &&
-      Object.keys(variations).every((variation) =>
-        attributes.hasOwnProperty(variation),
-      )
-    : true;
+
   let selectedVariation: any = {};
-  if (isSelected) {
-    selectedVariation = data?.variation_options?.find((o: any) =>
-      isEqual(
-        o.options.map((v: any) => v.value).sort(),
-        Object.values(attributes).sort(),
-      ),
-    );
-  }
+
   const item = generateCartItem(data, selectedVariation);
 
-
-
   function addToCart() {
-    if (!isSelected) return;
-    // to show btn feedback while product carting
+
     setAddToCartLoader(true);
     setTimeout(() => {
       setAddToCartLoader(false);
@@ -124,6 +95,13 @@ export default function ProductPopup({ lang }: { lang: string }) {
 
   useEffect(() => setSelectedQuantity(1), [data.id]);
 
+  console.log(
+    isInCart(item.id)
+      ? getItemFromCart(item.id).quantity + selectedQuantity >=
+          Number(item.stock)
+      : selectedQuantity >= Number(item.stock),
+  );
+
   return (
     <div className="md:w-[600px] lg:w-[940px] xl:w-[1180px] mx-auto p-1 lg:p-0 xl:p-3 bg-brand-light rounded-md">
       <CloseButton onClick={closeModal} />
@@ -162,16 +140,16 @@ export default function ProductPopup({ lang }: { lang: string }) {
                   {discount_price !== Number(price) ? (
                     <>
                       <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
-                        {discount_price} so'm
+                        {discount_price} {t('сум')}
                       </span>
                       <del className="text-sm text-opacity-50 md:text-15px ltr:pl-3 rtl:pr-3">
-                        {Number(price)} so'm
+                        {Number(price)} {t('сум')}
                       </del>
                     </>
                   ) : (
                     <>
                       <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
-                        {Number(price)} so'm
+                        {Number(price)} {t('сум')}
                       </span>
                     </>
                   )}
@@ -197,7 +175,12 @@ export default function ProductPopup({ lang }: { lang: string }) {
                 <Button
                   onClick={addToCart}
                   className="w-full px-1.5"
-                  disabled={!isSelected}
+                  disabled={
+                    isInCart(item.id)
+                      ? getItemFromCart(item.id).quantity + selectedQuantity >=
+                        Number(item.stock)
+                      : selectedQuantity >= Number(item.stock)
+                  }
                   loading={addToCartLoader}
                 >
                   <CartIcon color="#ffffff" className="ltr:mr-3 rtl:ml-3" />
@@ -220,6 +203,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
 
                     {t('Список желаний')}
                   </Button>
+
                   <div className="relative group">
                     <Button
                       variant="border"
@@ -246,7 +230,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
 
               <div className="pt-6 xl:pt-8">
                 <Heading className="mb-3 lg:mb-3.5">
-                  {t('text-product-details')}:
+                  {t('Краткое описание')}:
                 </Heading>
                 <Text variant="small">
                   {description.split(' ').slice(0, 40).join(' ')}

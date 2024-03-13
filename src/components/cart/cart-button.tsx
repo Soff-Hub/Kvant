@@ -19,7 +19,7 @@ const CartButton: React.FC<CartButtonProps> = ({
   hideLabel,
   // isShowing,
 }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { openDrawer, setDrawerView } = useUI();
   const { totalItems } = useCart();
 

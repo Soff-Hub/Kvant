@@ -5,19 +5,6 @@ import OrdersIcon from '@components/icons/account-order';
 import WishlistIcon from '@components/icons/account-wishlist';
 import AccountNavMobile from '@components/my-account/account-nav-mobile';
 
-const accountMenu = [
-  {
-    slug: ROUTES.ORDERS,
-    name: 'Заказы',
-    icon: <OrdersIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
-  },
-  {
-    slug: ROUTES.WISHLIST,
-    name: 'Список желаний',
-    icon: <WishlistIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
-  },
-];
-
 export default function AccountLayout({
   children,
   params: { lang },
@@ -27,6 +14,21 @@ export default function AccountLayout({
     lang: string;
   };
 }) {
+  const accountMenu = [
+    {
+      slug: ROUTES.ORDERS,
+      name: 'Заказы',
+      icon: <OrdersIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
+    },
+    {
+      slug: ROUTES.WISHLIST,
+      name: 'Список желаний',
+      icon: <WishlistIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
+    },
+  ];
+
+  // <IoIosHeart className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all" />
+
   return (
     <div className="border-t border-b border-border-base">
       <Container>

@@ -8,7 +8,7 @@ import Heading from '@components/ui/heading';
 import { useTranslation } from 'src/app/i18n/client';
 
 const FilterSidebar = ({ lang }: { lang: string }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { closeFilter } = useUI();
   const pathname = usePathname();
   const dir = getDirection(pathname);

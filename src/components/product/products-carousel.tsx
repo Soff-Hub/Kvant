@@ -121,10 +121,10 @@ const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
               ))
             ) : (
               <>
-                {products?.map((product: any, idx) => (
-                  <SwiperSlide key={`${uniqueKey}-${idx}`} className="">
+                {products?.map((product: any, idx:number) => (
+                  <SwiperSlide key={idx} >
                     <ProductCard
-                      key={`${uniqueKey}-${product.id}`}
+                      key={idx}
                       product={product}
                       lang={lang}
                       variant={variant}

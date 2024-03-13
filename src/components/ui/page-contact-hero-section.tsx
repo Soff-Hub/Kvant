@@ -17,7 +17,7 @@ const PageContactHeroSection: React.FC<HeaderProps> = ({
   heroDescription = 'text-contact-page-explore',
   backgroundThumbnail = '/assets/images/contact-page-banner.png',
 }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const mounted = useIsMounted();
   return (
     <div

@@ -4,6 +4,7 @@ import { IoIosCloseCircle } from 'react-icons/io';
 import { useCart } from '@contexts/cart/cart.context';
 import { ROUTES } from '@utils/routes';
 import Counter from '@components/ui/counter';
+import { useTranslation } from 'src/app/i18n/client';
 
 type CartItemProps = {
   item: any;
@@ -31,6 +32,7 @@ export function addPeriodToThousands(number: any) {
 const CartItem: React.FC<CartItemProps> = ({ lang, item }) => {
   const { isInStock, addItemToCart, removeItemFromCart, clearItemFromCart } =
     useCart();
+    const {t} = useTranslation(lang, 'home')
 
   const outOfStock = !isInStock(item.id);
   return (
@@ -65,7 +67,7 @@ const CartItem: React.FC<CartItemProps> = ({ lang, item }) => {
             {item?.title}
           </Link>
           <div className="text-13px sm:text-sm text-brand-muted mt-1.5 block mb-2">
-            {item.discount_price !== item?.price ? addPeriodToThousands(item?.discount_price)?.replace(/\.\d+$/, '') + " " + "so'm" : addPeriodToThousands(item?.price)?.replace(/\.\d+$/, '') + " " + "so'm" } X {item.quantity}
+            {item.discount_price !== item?.price ? addPeriodToThousands(item?.discount_price)?.replace(/\.\d+$/, '') + " " + t('сум') : addPeriodToThousands(item?.price)?.replace(/\.\d+$/, '') + " " + t('сум') } X {item.quantity}
           </div>
           <Counter
             value={item.quantity}
@@ -78,7 +80,7 @@ const CartItem: React.FC<CartItemProps> = ({ lang, item }) => {
         </div>
 
         <div className="flex font-semibold text-sm md:text-base text-brand-dark leading-5 shrink-0 min-w-[65px] md:min-w-[80px] justify-end">
-          {addPeriodToThousands(item?.price)?.replace(/\.\d+$/, '') + " " + "so'm"}
+          {addPeriodToThousands(item?.price)?.replace(/\.\d+$/, '') + " " + t('сум')}
         </div>
       </div>
     </div>

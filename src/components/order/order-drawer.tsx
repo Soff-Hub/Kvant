@@ -44,7 +44,7 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
     <>
       {!isLoading ? (
         <div className="w-full h-full flex justify-center items-center">
-          Загрузка...
+          {t('Загрузка...')}
         </div>
       ) : (
         orderData !== null && (
@@ -64,39 +64,39 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
               <div className="p-5 ">
                 <div className="mb-8">
                   <div>
-                    <span className="font-medium text-sm">Номер заказа :</span>{' '}
+                    <span className="font-medium text-sm">{t('Номер заказа')} :</span>{' '}
                     <span className="text-sm">{orderData?.id}</span>{' '}
                   </div>
                   <div>
                     {' '}
                     <span className="font-medium text-sm">
-                      Номер телефона :
+                      {t('Номер телефона')} :
                     </span>{' '}
                     <span className="text-sm">{orderData?.phone_number}</span>{' '}
                   </div>
                   <div>
                     {' '}
-                    <span className="font-medium text-sm">Адрес :</span>{' '}
+                    <span className="font-medium text-sm">{t('Адрес')} :</span>{' '}
                     <span className="text-sm">{orderData?.address}</span>
                   </div>
                   <div>
                     {' '}
                     <span className="font-medium text-sm">
-                      Тип заказа :
+                      {t('Тип заказа')} :
                     </span>{' '}
                     <span className="text-sm">{orderData?.order_type_ln}</span>
                   </div>
                   <div>
                     {' '}
                     <span className="font-medium text-sm">
-                      Способ оплаты :
+                      {t('Способ оплаты')} :
                     </span>{' '}
                     <span className="text-sm">{orderData?.provider}</span>
                   </div>
                   <div>
                     {' '}
                     <span className="font-medium text-sm">
-                      Положение дел :
+                      {t('Положение дел')} :
                     </span>{' '}
                     <span>
                       <span
@@ -112,35 +112,35 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
                   <div>
                     {' '}
                     <span className="font-medium text-sm">
-                      Дата заказа :
+                      {t("Дата заказа")} :
                     </span>{' '}
                     <span className="text-sm">{orderData?.created_at}</span>
                   </div>
                 </div>
                 {orderData &&
                   orderData?.product_orders?.map((item: any, index: string) => (
-                    <OrderDetailsContent key={index} item={item} />
+                    <OrderDetailsContent key={index} item={item} lang={lang} />
                   ))}
                 <div className="mt-3 ltr:text-right rtl:text-left">
                   <div className="text-black inline-flex flex-col text-[12px] md:text-[14px]">
                     <div className="pb-1 mb-2 border-b mt-3 border-border-base ltr:pl-20 rtl:pr-20">
                       <p className="flex justify-between mb-1">
-                        <span className="ltr:mr-8 rtl:ml-8">Цена продукта: </span>
+                        <span className="ltr:mr-8 rtl:ml-8">{t('Цена продукта')}: </span>
                         <span className="font-medium">
-                          {addPeriodToThousands(orderData?.amounts?.products_amount)} so'm
+                          {addPeriodToThousands(orderData?.amounts?.products_amount)} {t('сум')}
                         </span>
                       </p>
                       <p className="flex justify-between mb-1">
-                        <span className="ltr:mr-8 rtl:ml-8">Доставка: </span>
+                        <span className="ltr:mr-8 rtl:ml-8">{t('Доставка')}: </span>
                         <span className="font-medium">
-                          {addPeriodToThousands(orderData?.amounts?.shipping_amount)} so'm
+                          {addPeriodToThousands(orderData?.amounts?.shipping_amount)} {t('сум')}
                         </span>
                       </p>
                     </div>
                     <p className="ltr:pl-20 ">
-                        <span className="ltr:mr-8 rtl:ml-8">Общая сумма: </span>
+                        <span className="ltr:mr-8 rtl:ml-8">{t('Общая сумма')}: </span>
                         <span className="font-medium">
-                          {addPeriodToThousands(orderData?.total_amount)} so'm
+                          {addPeriodToThousands(orderData?.total_amount)} {t('сум')}
                         </span>
                       </p>
                   </div>

@@ -16,7 +16,7 @@ import { useTranslation } from 'src/app/i18n/client';
 
 
 export default function Cart({ lang }: { lang: string }) {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   
   const { closeDrawer } = useUI();
   const { items, total, isEmpty, resetCart } = useCart();
@@ -69,7 +69,7 @@ export default function Cart({ lang }: { lang: string }) {
             </Text>
           </div>
           <div className="shrink-0 font-semibold text-base md:text-lg text-brand-dark -mt-0.5 min-w-[80px] ltr:text-right rtl:text-left">
-          {addPeriodToThousands(total)?.replace(/\.\d+$/, '') + " " + "so'm"}
+          {addPeriodToThousands(total)?.replace(/\.\d+$/, '') + " " + t('сум')}
           </div>
         </div>
         <div className="flex flex-col" onClick={closeDrawer}>

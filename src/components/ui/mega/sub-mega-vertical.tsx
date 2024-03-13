@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { ROUTES } from '@utils/routes';
 
 function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { title, children: items} = item;
 
   return (

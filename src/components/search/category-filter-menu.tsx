@@ -12,7 +12,7 @@ function CategoryFilterMenuItem({
   item,
   lang,
 }: any) {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const pathname = usePathname();
   const [isOpen, setOpen] = useState<boolean>(false);
   const router = useRouter();

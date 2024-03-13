@@ -19,7 +19,7 @@ const CategoryListCard: React.FC<Props> = ({
   lang,
 }) => {
   const { title, image, children } = category;
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const SUBCATEGORIES_LIMITS = 5;
   return (
     <div className={`wb-categories__items pe-4`}>

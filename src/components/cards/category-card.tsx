@@ -20,7 +20,7 @@ const CategoryCard: React.FC<Props> = ({
   className,
   variant,
 }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { title, image, productCount } = item ?? {};
 
   return (

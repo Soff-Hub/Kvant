@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Tab } from '@headlessui/react';
 import parse from 'html-react-parser';
 import ProductReviewRating from './product-review-rating';
+import { useTranslation } from 'src/app/i18n/client';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
@@ -14,32 +15,24 @@ export default function ProductDetailsTab({
   lang: string;
   dataProps: string;
 }) {
-  let [tabHeading] = useState({
-    Product_Details: '',
-    // Review_Rating: '',
-  });
-
-  
+  const { t } = useTranslation(lang, 'home');
 
   return (
     <div className="w-full p-5 bg-white rounded mb-8 lg:mb-12">
       <Tab.Group>
         <Tab.List className="block border-b border-border-base">
-          {Object.keys(tabHeading).map((item) => (
-            <Tab
-              key={item}
-              className={({ selected }) =>
-                classNames(
-                  'relative inline-block transition-all text-14px font-bold uppercase leading-5  focus:outline-none pb-4 hover:text-brand ltr:mr-8 rtl:ml-8',
-                  selected
-                    ? 'text-brand-dark  after:absolute after:w-full after:h-0.5 after:bottom-0 after:translate-y-[1px] after:ltr:left-0 after:rtl:right-0 after:bg-brand'
-                    : 'text-gray-400',
-                )
-              }
-            >
-              {item.split('_').join(' ')}
-            </Tab>
-          ))}
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                'relative inline-block transition-all text-14px font-bold uppercase leading-5  focus:outline-none pb-4 hover:text-brand ltr:mr-8 rtl:ml-8',
+                selected
+                  ? 'text-brand-dark  after:absolute after:w-full after:h-0.5 after:bottom-0 after:translate-y-[1px] after:ltr:left-0 after:rtl:right-0 after:bg-brand'
+                  : 'text-gray-400',
+              )
+            }
+          >
+            {t('Информация о продукте')}
+          </Tab>
         </Tab.List>
         <Tab.Panels className="mt-6 lg:mt-9">
           <Tab.Panel className="lg:flex">

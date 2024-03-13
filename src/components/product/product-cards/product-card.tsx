@@ -31,7 +31,7 @@ interface ProductProps {
 function RenderPopupOrAddToCart({ props }: { props: Object }) {
   let { data, lang }: any = props;
   // console.log(variant);
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { id, quantity, product_type,  } = data ?? {};
   const { openModal } = useModalAction();
   const { isInCart, isInStock } = useCart();
@@ -57,7 +57,7 @@ function RenderPopupOrAddToCart({ props }: { props: Object }) {
         aria-label="Count Button"
         onClick={handlePopupView}
       >
-        {t('text-product-details')}
+        {t('Краткое описание')}
       </button>
     );
   }
@@ -66,28 +66,30 @@ function RenderPopupOrAddToCart({ props }: { props: Object }) {
 
 
 
+
 function RenderLabelStock({ props }: { props: Object }) {
   let { data, lang }: any = props;
   // console.log(variant);
-  const { t } = useTranslation(lang, 'common');
-  const { id, quantity, product_type } = data ?? {};
+  const { t } = useTranslation(lang, 'home');
+  const { id, quantity } = data ?? {};
   const { isInCart, isInStock } = useCart();
   const outOfStock = isInCart(id) && !isInStock(id);
+
 
   if (Number(quantity) < 1 || outOfStock) {
     return (
       <p className="font-medium flex items-center space-x-1 text-[12px] text-skin-label_out out_stock">
         <CheckIcon fill={'text-skin-label_in'} opacity="1" />
-        <span> {t('text-out-stock')} </span>
+        <span> {t('Распродано')} </span>
       </p>
     );
   }
   return (
     <p className="font-medium flex items-center space-x-1 text-[12px] text-skin-label_in in_stock">
       <CheckIcon fill={'text-skin-label_in'} opacity="1" />
-      <span> {t('text-in-stock')} </span>
+      <span> {t('В наличии')} </span>
       <span className="text-brand-dark">
-        <b>{quantity}</b> {t('text-items')}
+        <b>{quantity}</b> {t('продукты')}
       </span>
     </p>
   );
@@ -116,6 +118,7 @@ const ProductCard: React.FC<ProductProps> = ({
   const { isInCart, isInStock } = useCart();
   const outOfStock = isInCart(id) && !isInStock(id);
   const iconSize = width! > 1024 ? '20' : '17';
+  const {t}= useTranslation(lang, 'home')
 
   async function handlePopupView() {
     try {
@@ -135,7 +138,7 @@ const ProductCard: React.FC<ProductProps> = ({
   return (
     <article
       className={cn(
-        'flex flex-col gap-2 product-card relative p-2 sm:p-4  h-full  bg-white',
+        'flex flex-col gap-2 product-card relative p-2 sm:p-4  h-full  bg-white ',
         className,
         Number(quantity) < 1 || outOfStock
           ? 'card-image--nojump'
@@ -195,22 +198,22 @@ const ProductCard: React.FC<ProductProps> = ({
               />
             ))}
           </div>
-          <span className="text-[13px] leading-4">({view_count} review)</span>
+          <span className="text-[13px] leading-4">({view_count} {t('обзор')})</span>
         </div>
         <div className="space-s-2">
           {discount_price !== Number(price) ? (
             <>
               <span className="inline-block font-semibold text-[18px] text-brand">
-                {discount_price} so'm
+                {discount_price} {t('сум')}
               </span>
               <del className="mx-1  text-gray-400 text-opacity-70">
-                {Number(price)} so'm
+                {Number(price)} {t('сум')}
               </del>
             </>
           ) : (
             <>
               <span className="inline-block font-semibold text-[18px] text-brand">
-                {Number(price)} so'm
+                {Number(price)} {t('сум')}
               </span>
             </>
           )}

@@ -8,7 +8,7 @@ import useQueryParam from '@utils/use-query-params';
 
 export default function LanguageSwitcher({ lang }: { lang: string }) {
   const { site_header } = siteSettings;
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const options = site_header.languageMenu;
   const router:any = useRouter();
   const pathname:any = usePathname();

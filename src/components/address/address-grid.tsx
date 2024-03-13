@@ -13,7 +13,7 @@ const AddressGrid: React.FC<{ address?: any; lang: string }> = ({
   address,
   lang,
 }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { openModal } = useModalAction();
 
   function handlePopupView(item: any) {

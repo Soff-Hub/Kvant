@@ -10,7 +10,7 @@ interface DeliveryProps {
   className?: string;
 }
 const Delivery: React.FC<DeliveryProps> = ({ lang, className }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { isAuthorized } = useUI();
   const { openModal } = useModalAction();
   function handleDeliveryView() {

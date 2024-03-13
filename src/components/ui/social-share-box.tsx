@@ -35,7 +35,7 @@ const SocialShareBox: React.FC<Props> = ({
   className = '',
   shareUrl = '',
 }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const [copyText, setCopyText] = useState({
     value: shareUrl,
     copied: false,

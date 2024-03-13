@@ -15,14 +15,14 @@ const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
 });
 
 interface ProductProps {
-  lang?: string;
+  lang?: any;
   product: Product;
   className?: string;
 }
 
 function RenderPopupOrAddToCart({ props }: { props: Object }) {
   let { data, lang }: any = props;
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { id, quantity, product_type } = data ?? {};
   const { width } = useWindowSize();
   const { openModal } = useModalAction();
@@ -47,7 +47,7 @@ function RenderPopupOrAddToCart({ props }: { props: Object }) {
         aria-label="Count Button"
         onClick={handlePopupView}
       >
-        {t('text-product-details')}
+        {t('Краткое описание')}
       </button>
     );
   }
@@ -56,24 +56,18 @@ function RenderPopupOrAddToCart({ props }: { props: Object }) {
 
 const ProductList: React.FC<ProductProps> = ({ product, className, lang }) => {
   const {
-    id,
     title,
     image,
     discount_price,
     price,
-    quantity,
     slug,
-    discount,
     view_count,
     description,
   } = product ?? {};
-  const { openModal } = useModalAction();
+
   const { width } = useWindowSize();
   const iconSize = width! > 1024 ? '20' : '17';
-
-  function handlePopupView() {
-    openModal('PRODUCT_VIEW', product);
-  }
+  const { t } = useTranslation(lang, 'home');
 
   return (
     <article
@@ -86,7 +80,7 @@ const ProductList: React.FC<ProductProps> = ({ product, className, lang }) => {
       <div className="col-span-1 ">
         <Link
           href={`/${lang}${ROUTES.PRODUCTS}/${slug}`}
-          className="block h-full flex align-center"
+          className="h-full flex align-center"
         >
           <Image
             src={image ?? productPlaceholder}
@@ -105,23 +99,23 @@ const ProductList: React.FC<ProductProps> = ({ product, className, lang }) => {
           href={`/${lang}${ROUTES.PRODUCTS}/${slug}`}
           className="text-skin-base text-base font-semibold leading-5 min-h-[30px] line-clamp-2 mb-1.5 hover:text-skin-primary"
         >
-          {title} 
+          {title}
         </Link>
 
         <div className="space-s-2 mb-2">
           {discount_price !== Number(price) ? (
             <>
               <span className="inline-block font-semibold text-sm sm:text-15px lg:text-base text-skin-primary">
-                {discount_price} so'm
+                {discount_price} {t('сум')}
               </span>
               <del className="text-sm text-gray-400 text-opacity-70">
-                {Number(price)} so'm
+                {Number(price)} {t('сум')}
               </del>
             </>
           ) : (
             <>
               <span className="inline-block font-semibold text-sm sm:text-15px lg:text-base text-skin-primary">
-                {Number(price)} so'm
+                {Number(price)} {t('сум')}
               </span>
             </>
           )}

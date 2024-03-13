@@ -17,7 +17,7 @@ interface Props {
 }
 
 const FeaturedCard: React.FC<Props> = ({ lang, item, className, variant }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { icon, title, description } = item;
   return (
     <div

@@ -72,7 +72,7 @@ const Breadcrumb: React.FC<{ separator?: string; lang: string }> = ({
 
   
   
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   return (
     <BreadcrumbItems separator={separator}>
       <ActiveLink
@@ -83,7 +83,7 @@ const Breadcrumb: React.FC<{ separator?: string; lang: string }> = ({
       >
         <a className="inline-flex ">
           <IoHomeOutline className="ltr:mr-1.5 rtl:ml-1.5 text-brand-dark text-15px" />
-          {t('breadcrumb-home')}
+          {t('Главный')}
         </a>
       </ActiveLink>
 

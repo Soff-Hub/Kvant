@@ -18,7 +18,7 @@ const CartButton = dynamic(() => import('@components/cart/cart-button'), {
 const MobileMenu = dynamic(() => import('@layouts/header/mobile-menu'));
 
 export default function BottomNavigation({ lang }: { lang: string }) {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const {
     openSidebar,
     closeSidebar,
@@ -51,7 +51,7 @@ export default function BottomNavigation({ lang }: { lang: string }) {
           <SearchIcon />
         </button>
         <Link href={`/${lang}${ROUTES.HOME}`} className="shrink-0">
-          <span className="sr-only">{t('breadcrumb-home')}</span>
+          <span className="sr-only">{t('')}</span>
           <HomeIcon />
         </Link>
         <CartButton
