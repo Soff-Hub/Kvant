@@ -2,8 +2,7 @@ import { addPeriodToThousands } from '@components/cart/cart-item';
 import Image from '@components/ui/image';
 import { useTranslation } from 'src/app/i18n/client';
 
-
-export const OrderDetailsContent: React.FC<{ item?: any, lang:any }> = ({
+export const OrderDetailsContent: React.FC<{ item?: any; lang: any }> = ({
   lang,
   item,
 }) => {
@@ -26,7 +25,11 @@ export const OrderDetailsContent: React.FC<{ item?: any, lang:any }> = ({
         <h2 className="text-brand-dark">{item.product}</h2>
       </div>
       <div className="self-center col-span-3 text-center md:ltr:text-left md:rtl:text-right">
-        {typeof item.quantity === 'number' && <p>{item.quantity}x</p>}
+        {typeof item.quantity === 'number' && (
+          <p>
+            {addPeriodToThousands(Number(item?.price))} x {item.quantity}{' '}
+          </p>
+        )}
       </div>
       <div className="self-center col-span-2">
         {typeof item.amount === 'number' && (

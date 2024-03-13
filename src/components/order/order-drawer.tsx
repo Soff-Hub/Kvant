@@ -40,6 +40,8 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
     getOrders();
   }, [data]);
 
+  
+
   return (
     <>
       {!isLoading ? (
