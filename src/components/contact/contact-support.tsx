@@ -44,7 +44,7 @@ interface Props {
 }
 
 const ContactSupport: FC<Props> = ({ lang }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const mounted = useIsMounted();
   return (
     <div className="mb-0 3xl:ltr:pr-5 3xl:rtl:pl-5">

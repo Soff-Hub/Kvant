@@ -10,7 +10,7 @@ import { useTranslation } from 'src/app/i18n/client';
 import useQueryParam from '@utils/use-query-params';
 
 function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { updateQueryparams } = useQueryParam(pathname ?? '/');

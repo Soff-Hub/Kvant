@@ -15,7 +15,7 @@ import Text from '@components/ui/text';
 import DeleteIcon from '@components/icons/delete-icon';
 
 export default function CartSidebar({ lang }: { lang: string }) {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { closeDrawer } = useUI();
   const { items, total, isEmpty, resetCart } = useCart();
   const { price: cartTotal } = usePrice({

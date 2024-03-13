@@ -3,10 +3,11 @@
 import type { FC } from 'react';
 import Image from '@components/ui/image';
 import { Product } from '@framework/types';
-import {IoIosHeartEmpty } from 'react-icons/io';
+import { IoIosHeart} from 'react-icons/io';
 import { toast } from 'react-toastify';
 import { useWindowSize } from 'react-use';
 import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
+import { useTranslation } from 'src/app/i18n/client';
 
 interface ProductProps {
   product: Product;
@@ -14,29 +15,19 @@ interface ProductProps {
   lang: string;
 }
 
-const WishlistProductCard: FC<ProductProps> = ({
-  product,
-  className,
-  lang,
-}) => {
+const WishlistProductCard: FC<ProductProps> = ({ product, lang }) => {
   const { width } = useWindowSize();
-  const {
-    id,
-    title,
-    image,
-    price,
-    description,
-    discount,
-    discount_price,
-    quantity,
-  } = product ?? {};
+  const { id, title, image, price, description, discount_price } =
+    product ?? {};
   const placeholderImage = `/assets/placeholder/product.svg`;
   const { removeItemFromCart, items } = useCartWishtlists();
+  const { t } = useTranslation(lang, 'home');
 
   function addToWishlist() {
     removeItemFromCart(id);
-    const toastStatus: string = 'Savatdan mahsulot olib tashlandi';
+    const toastStatus: string = 'Удалить из списка избранного';
     toast(toastStatus, {
+      style:{backgroundColor:'red', color:"white"},
       progressClassName: 'fancy-progress-bar',
       position: width! > 768 ? 'bottom-right' : 'top-right',
       autoClose: 1500,
@@ -72,16 +63,16 @@ const WishlistProductCard: FC<ProductProps> = ({
             {discount_price !== Number(price) ? (
               <>
                 <span className="inline-block mx-1 text-sm font-semibold sm:text-15px lg:text-base text-brand-dark">
-                  {discount_price} so'm
+                  {discount_price} {t('сум')}
                 </span>
                 <del className="mx-1 text-sm text-opacity-50 text-brand-dark">
-                  {Number(price)} so'm
+                  {Number(price)} {t('сум')}
                 </del>
               </>
             ) : (
               <>
                 <span className="inline-block mx-1 text-sm font-semibold sm:text-15px lg:text-base text-brand-dark">
-                  {Number(price)} so'm
+                  {Number(price)} {t('сум')}
                 </span>
               </>
             )}
@@ -93,12 +84,11 @@ const WishlistProductCard: FC<ProductProps> = ({
         className="flex cursor-pointer ltr:ml-auto rtl:mr-auto md:pt-7"
         onClick={addToWishlist}
       >
-        {items?.length < 0 && (
+        {items?.some((item: any) => item.title == title) && (
           <>
-            <IoIosHeartEmpty className="w-5 h-5 mt-0.5" />
-
+            <IoIosHeart className="text-brand w-5 h-5 mt-0.5" />
             <span className=" ltr:ml-3 rtl:mr-3 text-brand-dark font-medium text-15px -mt-0.5 md:mt-0">
-              Избранное
+              {t('Избранное')}
             </span>
           </>
         )}

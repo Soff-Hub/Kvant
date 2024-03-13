@@ -105,7 +105,7 @@ const Map: React.FC<Props> = ({
       </GoogleMap>
     </>
   ) : (
-    <div>Loading....</div>
+    <div>Загрузка....</div>
   );
 };
 

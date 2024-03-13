@@ -1,3 +1,5 @@
+// File: AccountNav.tsx
+
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -19,7 +21,7 @@ export default function AccountNav({
   options: Option[];
   lang: string;
 }) {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { mutate: logout } = useLogoutMutation(lang);
   const pathname = usePathname();
   const newPathname = pathname.split('/').slice(3, 4);
@@ -35,12 +37,12 @@ export default function AccountNav({
             key={item.slug}
             href={`/${lang}${item.slug}`}
             className={`flex items-center cursor-pointer text-sm lg:text-15px text-brand-dark py-3.5 px-3.5 xl:px-4 2xl:px-5 mb-1 hover:text-brand ${
-              mainPath === menuPath ? 'bg-fill-secondary font-medium' : 'font-normal'
+              mainPath === menuPath
+                ? 'bg-fill-secondary font-medium'
+                : 'font-normal'
             }`}
           >
-            <span className="flex justify-center w-6 me-1 ">
-              {item.icon}
-            </span>
+            <span className="flex justify-center w-6 me-1 ">{item.icon}</span>
             <span className="ltr:pl-1 lg:rtl:pr-1.5">{t(item.name)}</span>
           </Link>
         );
@@ -52,7 +54,7 @@ export default function AccountNav({
         <span className="flex justify-center w-6 me-1 ">
           <LogoutIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />
         </span>
-        <span className="ltr:pl-1 lg:rtl:pr-1.5">{t('text-logout')}</span>
+        <span className="ltr:pl-1 lg:rtl:pr-1.5">{t('Выйти')}</span>
       </button>
     </nav>
   );

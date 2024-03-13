@@ -11,7 +11,7 @@ interface ReviewProps {
 }
 
 const ReviewCard: FC<ReviewProps> = ({ lang, item, className = '' }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   return (
     <div
       className={`border-b border-border-base last:border-0 pb-6 mb-6 last:mb-0 ${className}`}

@@ -7,7 +7,7 @@ import { useCategoriesQuery } from '@framework/category/get-all-categories';
 import { useTranslation } from 'src/app/i18n/client';
 
 export const CategoryFilter = ({ lang }: { lang: string }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const {
     data,
     isLoading: loading,

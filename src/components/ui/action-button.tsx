@@ -8,12 +8,12 @@ const ActionsButton: React.FC<{ item?: any }> = ({ item }) => {
 
   function handleCartOpen(item: any) {
     setDrawerView('ORDER_DETAILS');
-    return openDrawer(item);
+    return openDrawer(item); 
   }
 
   return (
     <>
-      <Popover className="relative actions_button_group">
+      <Popover className="relative actions_button_group ">
         {({ open }) => (
           <>
             <Popover.Button
@@ -35,15 +35,12 @@ const ActionsButton: React.FC<{ item?: any }> = ({ item }) => {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute top-[100%] ltr:right-4 ltr:top-full rtl:left-0 z-10 bg-white shadow-dropDown rounded py-2 table-more-menu">
+              <Popover.Panel className="absolute top-[100%] ltr:right-4 ltr:top-full rtl:left-0 z-50 bg-white shadow-dropDown rounded py-2 table-more-menu">
                 <div
                   className="text-[14px] whitespace-nowrap text-brand-dark py-2 px-5 hover:bg-[#F6F9FC] transition-all cursor-pointer"
                   onClick={() => handleCartOpen(item)}
                 >
-                  Order Details
-                </div>
-                <div className="text-[14px] whitespace-nowrap text-[#F35C5C] py-2 px-5 hover:bg-[#F6F9FC] transition-all cursor-pointer">
-                  Cancel Order
+                  Информация для заказа
                 </div>
               </Popover.Panel>
             </Transition>

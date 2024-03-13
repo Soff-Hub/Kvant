@@ -19,7 +19,7 @@ const PageHeroSection: React.FC<HeaderProps> = ({
   className = '',
   lang,
 }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { width } = useWindowSize();
   return (
     <div

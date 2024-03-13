@@ -13,7 +13,7 @@ import SearchResultLoader from '@components/ui/loaders/search-result-loader';
 import { addPeriodToThousands } from '@components/cart/cart-item';
 
 const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,17 +26,17 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
     {
       id: 1,
       title: t('Промежуточный итог'),
-      price: addPeriodToThousands(total)?.replace(/\.\d+$/, '') + ' ' + "so'm",
+      price: addPeriodToThousands(total)?.replace(/\.\d+$/, '') + ' ' + t('сум'),
     },
     {
       id: 2,
       title: t('Перевозки'),
-      price: " 15 000 so'm",
+      price: `15 000 ${t('сум')}`,
     },
     {
       id: 3,
       title: t('Общий'),
-      price: addPeriodToThousands(total)?.replace(/\.\d+$/, '') + ' ' + "so'm",
+      price: addPeriodToThousands(total)?.replace(/\.\d+$/, '') + ' ' + t('сум'),
     },
   ];
   const mounted = useIsMounted();
@@ -59,7 +59,7 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
           items.map((item) => <CheckoutItem item={item} key={item.id} />)
         ) : (
           <p className="py-4 text-brand-danger text-opacity-70">
-            {t('text-empty-cart')}
+            {t('Ваша корзина пуста')}
           </p>
         )}
         {mounted &&

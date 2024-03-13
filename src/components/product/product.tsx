@@ -6,11 +6,9 @@ import Counter from '@components/ui/counter';
 import { useParams } from 'next/navigation';
 import { ROUTES } from '@utils/routes';
 import useWindowSize from '@utils/use-window-size';
-import { getVariations } from '@framework/utils/get-variations';
 import { useCart } from '@contexts/cart/cart.context';
 import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
 import { generateCartItem } from '@utils/generate-cart-item';
-import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
 import ThumbnailCarousel from '@components/ui/carousel/thumbnail-carousel';
 import Image from '@components/ui/image';
@@ -19,7 +17,6 @@ import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import { IoArrowRedoOutline } from 'react-icons/io5';
 import SocialShareBox from '@components/ui/social-share-box';
 import ProductDetailsTab from '@components/product/product-details/product-tab';
-import isEqual from 'lodash/isEqual';
 import { useTranslation } from 'src/app/i18n/client';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
@@ -27,6 +24,8 @@ import ProductCard from './product-cards/product-card';
 import { SwiperSlide } from 'swiper/react';
 import ProductCardLoader from '@components/ui/loaders/product-card-loader';
 import Carousel from '@components/ui/carousel/carousel';
+import Heading from '@components/ui/heading';
+import Text from '@components/ui/text';
 
 const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'home');
@@ -36,8 +35,6 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const { addItemToCart, isInCart, getItemFromCart } = useCart();
   const { addItemToWishst, removeItemFromCart, items } = useCartWishtlists();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
-  const [quantity, setQuantity] = useState(1);
   const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
   const [addToWishlistLoader, setAddToWishlistLoader] =
     useState<boolean>(false);
@@ -85,25 +82,9 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     setShareButtonStatus(!shareButtonStatus);
   };
 
-  if (isLoading) return <p className={'pt-8 pb-8'}>Loading...</p>;
-  const variations = getVariations(data?.variations);
+  if (isLoading) return <p className={'pt-8 pb-8'}>Загрузка...</p>;
 
-  const isSelected = !isEmpty(variations)
-    ? !isEmpty(attributes) &&
-      Object.keys(variations).every((variation) =>
-        attributes.hasOwnProperty(variation),
-      )
-    : true;
   let selectedVariation: any = {};
-  if (isSelected) {
-    const dataVaiOption: any = data?.variation_options;
-    selectedVariation = dataVaiOption?.find((o: any) =>
-      isEqual(
-        o.options.map((v: any) => v.value).sort(),
-        Object.values(attributes).sort(),
-      ),
-    );
-  }
 
   interface Data {
     id: string;
@@ -132,7 +113,6 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const itemWishst = generateCartItemWishst(data);
 
   function addToCart() {
-    if (!isSelected) return;
     // to show btn feedback while product carting
     setAddToCartLoader(true);
     setTimeout(() => {
@@ -141,8 +121,8 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
     const item = generateCartItem(data!, selectedVariation);
 
-    addItemToCart(item, quantity);
-    toast('Added to the bag', {
+    addItemToCart(item, selectedQuantity);
+    toast(t('Добавлено в корзину'), {
       progressClassName: 'fancy-progress-bar',
       position: width! > 768 ? 'bottom-right' : 'top-right',
       autoClose: 1500,
@@ -155,10 +135,11 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
   function addToWishlist() {
     // to show btn feedback while product wishlist
-    if (items?.length > 0) {
+    if (items?.some((item: any) => item.title == data.title)) {
       removeItemFromCart(itemWishst?.id);
-      const toastStatus: string = t('text-remove-favorite');
+      const toastStatus: string = t('Удалить из списка избранного');
       toast(toastStatus, {
+        style: { color: 'white', background: 'red' },
         progressClassName: 'fancy-progress-bar',
         position: width! > 768 ? 'bottom-right' : 'top-right',
         autoClose: 1500,
@@ -170,7 +151,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     } else {
       setAddToWishlistLoader(true);
       addItemToWishst(itemWishst);
-      const toastStatus: string = t('text-added-favorite');
+      const toastStatus: string = t('Добавлено в список избранных');
 
       setTimeout(() => {
         setAddToWishlistLoader(false);
@@ -243,16 +224,16 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
               {data?.discount_price !== Number(data?.price) ? (
                 <>
                   <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
-                    {data?.discount_price} so'm
+                    {data?.discount_price} {t('сум')}
                   </span>
                   <del className="text-sm text-opacity-50 md:text-15px ltr:pl-3 rtl:pr-3 text-brand-dark ">
-                    {Number(data?.price)} so'm
+                    {Number(data?.price)} {t('сум')}
                   </del>
                 </>
               ) : (
                 <>
                   <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
-                    {Number(data?.price)} so'm
+                    {Number(data?.price)} {t('сум')}
                   </span>
                 </>
               )}
@@ -287,7 +268,12 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
             <Button
               onClick={addToCart}
               className="w-full px-1.5"
-              disabled={!isSelected}
+              disabled={
+                isInCart(item.id)
+                  ? getItemFromCart(item.id).quantity + selectedQuantity >=
+                    Number(item.stock)
+                  : selectedQuantity >= Number(item.stock)
+              }
               loading={addToCartLoader}
             >
               <CartIcon color="#ffffff" className="ltr:mr-3 rtl:ml-3" />
@@ -302,13 +288,13 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
                   items?.length > 0 && 'text-brand'
                 }`}
               >
-                {items?.length > 0 ? (
+                {items?.some((item: any) => item.title == data.title) ? (
                   <IoIosHeart className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all" />
                 ) : (
                   <IoIosHeartEmpty className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
                 )}
 
-                {t('text-wishlist')}
+                {t('Список желаний')}
               </Button>
               <div className="relative group">
                 <Button
@@ -319,7 +305,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
                   onClick={handleChange}
                 >
                   <IoArrowRedoOutline className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
-                  {t('text-share')}
+                  {t('Делиться')}
                 </Button>
                 <SocialShareBox
                   className={`absolute z-10 ltr:right-0 rtl:left-0 w-[300px] md:min-w-[400px] transition-all duration-300 ${
@@ -333,8 +319,17 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
               </div>
             </div>
           </div>
+          <div className="pt-6 xl:pt-8">
+            <Heading className="mb-3 lg:mb-3.5">
+              {t('Краткое описание')}:
+            </Heading>
+            <Text variant="small">
+              {data?.description?.split(' ').slice(0, 40).join(' ')}
+            </Text>
+          </div>
         </div>
       </div>
+
       <ProductDetailsTab dataProps={data?.body} lang={lang} />
       <Carousel
         spaceBetween={6}
@@ -349,16 +344,18 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
                 <ProductCardLoader uniqueKey={`${idx}`} />
               </SwiperSlide>
             ))
-          : dataProducts.map((product: any, idx: number) => (
-              <SwiperSlide key={idx}>
-                <ProductCard
-                  key={idx}
-                  product={product}
-                  lang={lang}
-                  variant={''}
-                />
-              </SwiperSlide>
-            ))}
+          : Array.from({ length: 20! }).map((_) =>
+              dataProducts.map((product: any) => (
+                <SwiperSlide key={product?.id}>
+                  <ProductCard
+                    key={product?.id}
+                    product={product}
+                    lang={lang}
+                    variant={''}
+                  />
+                </SwiperSlide>
+              )),
+            )}
       </Carousel>
     </div>
   );

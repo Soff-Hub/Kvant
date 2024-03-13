@@ -13,15 +13,6 @@ const ForgetPasswordFormModal = dynamic(
   () => import('@components/auth/forget-password-form-modal'),
 );
 const ProductPopup = dynamic(() => import('@components/product/product-popup'));
-const AddressPopup = dynamic(
-  () => import('@components/common/form/add-address'),
-);
-const PaymentPopup = dynamic(
-  () => import('@components/common/form/add-payment'),
-);
-const PhoneNumberPopup = dynamic(
-  () => import('@components/common/form/add-contact'),
-);
 const CategoryPopup = dynamic(
   () => import('@components/category/category-popup'),
 );
@@ -46,9 +37,6 @@ export default function ManagedModal({ lang }: { lang: string }) {
         <ForgetPasswordFormModal lang={lang} />
       )}
       {view === 'PRODUCT_VIEW' && <ProductPopup lang={lang} />}
-      {view === 'ADDRESS_VIEW_AND_EDIT' && <AddressPopup lang={lang} />}
-      {view === 'PAYMENT' && <PaymentPopup lang={lang} />}
-      {view === 'PHONE_NUMBER' && <PhoneNumberPopup lang={lang} />}
     </Modal>
   );
 }

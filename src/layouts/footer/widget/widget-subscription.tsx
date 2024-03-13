@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import Input from '@components/ui/form/input';
 import { useTranslation } from 'src/app/i18n/client';
 import EmailIcon from '@components/icons/email-icon';
-import SendIcon from '@components/icons/send-icon';
 import Text from '@components/ui/text';
 import Heading from '@components/ui/heading';
 import cn from 'classnames';
@@ -52,7 +51,7 @@ function SubscriptionForm({ lang }: { lang: string }) {
         <EmailIcon className="w-4 2xl:w-[18px] h-4 2xl:h-[18px]" />
       </span>
       <Input
-        placeholder={t('forms:placeholder-email-subscribe')}
+        placeholder={`${t('forms:placeholder-email-subscribe')}`}
         type="email"
         id="subscription-email"
         variant="solid"

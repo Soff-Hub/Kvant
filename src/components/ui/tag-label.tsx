@@ -15,7 +15,7 @@ const TagLabel: React.FC<Props> = ({ className, data }) => {
   const { closeModal } = useModalAction();
   function changeTags() {
     closeModal();
-    router.push(ROUTES.SEARCH);
+    router.push(ROUTES.HOME);
   }
   return (
     <div

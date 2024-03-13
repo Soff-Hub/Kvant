@@ -10,7 +10,7 @@ export default function AddressPageContent({ lang }: { lang: string }) {
       {!isLoading ? (
         <AddressGrid address={data?.data} lang={lang} />
       ) : (
-        <div>Loading...</div>
+        <div>Загрузка...</div>
       )}
     </>
   );

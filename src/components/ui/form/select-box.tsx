@@ -15,7 +15,7 @@ export default function ListBox({
   options: Option[];
   lang: string;
 }) {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

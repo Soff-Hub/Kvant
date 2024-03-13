@@ -48,7 +48,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
     if (token) {
       axios
-        .post(baseURL + API_ENDPOINTS.ORDERS, dataChecout, { headers })
+        .post(baseURL + API_ENDPOINTS.ORDERS_CREATE, dataChecout, { headers })
         .then((response) => {
           toast.success(t('Buyurtma muvaffaqiyatli yuborildi'), {
             style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
@@ -115,15 +115,15 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
             htmlFor="paymentMethod"
             className="block mb-2 text-sm font-bold text-gray-900 dark:text-white"
           >
-            Выберите способ оплаты
+            {t("Выберите способ оплаты")}
           </label>
           <select
             onChange={(e: any) => setSelectId(e.target.value)}
             id="paymentMethod"
             className="bg-gray-50 border py-3.5 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-700 focus:border-blue-700 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-700 dark:focus:border-blue-700"
           >
-            <option value="cash">Наличные</option>
-            <option value="click">Картой</option>
+            <option value="cash">{t("Наличные")}</option>
+            <option value="click">{t("Картой")}</option>
           </select>
           <div className="relative">
             <Button

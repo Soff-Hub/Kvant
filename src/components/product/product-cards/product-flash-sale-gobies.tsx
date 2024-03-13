@@ -24,7 +24,6 @@ const ProductFlashSaleGobies: React.FC<ProductProps> = ({
   const {
     title,
     image,
-    quantity,
     discount_price,
     discount,
     slug,
@@ -33,7 +32,7 @@ const ProductFlashSaleGobies: React.FC<ProductProps> = ({
     description,
   } = product ?? {};
   const { openModal } = useModalAction();
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
 
   async function handlePopupView() {
     try {
@@ -94,16 +93,16 @@ const ProductFlashSaleGobies: React.FC<ProductProps> = ({
           {discount_price !== Number(price) ? (
             <>
               <span className="inline-block mx-1 text-xl font-semibold  text-brand">
-                {discount_price} so'm
+                {discount_price} {t('сум')}
               </span>
               <del className="mx-1 text-base text-opacity-50 xl:text-lg text-gray-400">
-                {Number(price)} so'm
+                {Number(price)} {t('сум')}
               </del>
             </>
           ) : (
             <>
               <span className="inline-block mx-1 text-xl font-semibold  text-brand">
-                {Number(price)} so'm
+                {Number(price)} {t('сум')}
               </span>
             </>
           )}

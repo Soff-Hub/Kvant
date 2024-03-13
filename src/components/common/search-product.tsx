@@ -2,6 +2,7 @@ import Image from '@components/ui/image';
 import Link from '@components/ui/link';
 import { ROUTES } from '@utils/routes';
 import { searchProductPlaceholder } from '@assets/placeholders';
+import { useTranslation } from 'src/app/i18n/client';
 
 type SearchProductProps = {
   lang: string;
@@ -14,13 +15,10 @@ const SearchProduct: React.FC<SearchProductProps> = ({ lang, item }) => {
     image,
     title,
     price,
-    description,
-    discount,
-    galleries,
     discount_price,
-    quantity,
   } = item ?? {};
 
+  const {t} =useTranslation(lang, 'home')
   
 
   return (
@@ -45,16 +43,16 @@ const SearchProduct: React.FC<SearchProductProps> = ({ lang, item }) => {
           {discount_price !== Number(price) ? (
             <>
               <span className="inline-block font-semibold text-sm sm:text-15px lg:text-base text-skin-primary">
-                {discount_price} so'm
+                {discount_price} {t('сум')}
               </span>
               <del className="text-sm text-skin-base text-opacity-70">
-                {Number(price)} so'm
+                {Number(price)} {t('сум')}
               </del>
             </>
           ) : (
             <>
               <span className="inline-block font-semibold text-sm sm:text-15px lg:text-base text-skin-primary">
-                {Number(price)} so'm
+                {Number(price)} {t('сум')}
               </span>
             </>
           )}

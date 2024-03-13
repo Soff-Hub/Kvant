@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 
 export const fetchOrder = async (_id: string) => {
   const { data } = await http.get(`${API_ENDPOINTS.ORDERS}`);
-  return data;
+  return data?.results;
 };
 export const useOrderQuery = (id: string) => {
   return useQuery<Order, Error>([API_ENDPOINTS.ORDERS, id], () =>

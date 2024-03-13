@@ -3,7 +3,7 @@ import { useModalAction } from '@components/common/modal/modal.context';
 import { useTranslation } from 'src/app/i18n/client';
 
 const CategoryPopup: React.FC<{ lang: string }> = ({ lang }) => {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { closeModal } = useModalAction();
   return (
     <div className="relative flex flex-col w-full mx-auto overflow-hidden rounded-t bg-brand-light h-inherit">

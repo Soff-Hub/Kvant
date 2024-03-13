@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { ROUTES } from '@utils/routes';
 
 function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const { title, children: items} = item;
 
   return (
@@ -13,7 +13,7 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
         className={`relative transition  ${className ? className : 'text-sm '}`}
       >
         <Link
-          href={`/${lang}${ROUTES.SEARCH}`}
+          href={`/${lang}${ROUTES.HOME}`}
           className={`flex items-center w-full hover:text-skin-primary ${
             items ? 'text-base font-medium' : ' '
           }`}

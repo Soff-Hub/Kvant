@@ -17,8 +17,8 @@ import CategoryDropdownMenu from '@components/category/category-dropdown-menu';
 import { useTranslation } from 'src/app/i18n/client';
 import Link from 'next/link';
 import { getToken } from '@framework/utils/get-token';
-import AccountWishlistIcon from '@components/icons/account-wishlist';
 import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
+import { AccouttWishlist } from '@components/product/wishlist-product';
 
 const CartButton = dynamic(() => import('@components/cart/cart-button'), {
   ssr: false,
@@ -34,12 +34,11 @@ interface HeaderProps {
 const Header = ({ className, lang }: HeaderProps) => {
   const { openSidebar, displaySearch, displayMobileSearch } = useUI();
   const siteSearchRef = useRef() as DivElementRef;
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const siteHeaderRef = useRef() as DivElementRef;
   const [categoryMenu, setCategoryMenu] = useState(Boolean(false));
   const [isClient, setIsClient] = useState(Boolean(false));
-  const { items } = useCartWishtlists();
-  
+
   useActiveScroll(siteHeaderRef);
 
   const token = getToken();
@@ -97,24 +96,10 @@ const Header = ({ className, lang }: HeaderProps) => {
 
                 <div className="text-brand-icon-header flex text-sm space-x-5 xl:space-x-10 lg:max-w-[33%]">
                   <CartButton className="hidden lg:flex" lang={lang} />
-
-                  <button
-                    className={cn(
-                      'flex items-center justify-center shrink-0 h-auto focus:outline-none transform',
-                      className,
-                    )}
-                    aria-label="cart-button"
-                  >
-                    <div className="relative flex items-center">
-                      <div className="flex items-center relative cart-button">
-                        <AccountWishlistIcon className="w-5 border font-bold  md:w-[22px] h-5 md:h-[22px]" />
-                        <span className="cart-counter-badge  h-[18px] min-w-[18px] rounded-full flex items-center justify-center bg-red-600 text-brand-light absolute -top-1 ltr:left-3 rtl:right-3 text-11px">
-                          10
-                        </span>
-                      </div>
-                    </div>
-                  </button>
                 </div>
+
+                <AccouttWishlist />
+
                 <LanguageSwitcher lang="en" />
                 <div className="hidden lg:flex items-center  accountButton">
                   <AccountIcon />

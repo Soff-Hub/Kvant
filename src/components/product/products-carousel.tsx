@@ -5,9 +5,7 @@ import { SwiperSlide } from '@components/ui/carousel/slider';
 import Alert from '@components/ui/alert';
 import ProductCardLoader from '@components/ui/loaders/product-card-loader';
 import cn from 'classnames';
-import ProductCardV2 from '@components/product/product-cards/product-card-v2';
 import ProductCard from '@components/product/product-cards/product-card';
-import ProductCardMedium from '@components/product/product-cards/product-card-medium';
 import React from 'react';
 
 interface ProductsCarouselProps {
@@ -123,10 +121,10 @@ const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
               ))
             ) : (
               <>
-                {products?.map((product: any, idx) => (
-                  <SwiperSlide key={`${uniqueKey}-${idx}`} className="">
+                {products?.map((product: any, idx:number) => (
+                  <SwiperSlide key={idx} >
                     <ProductCard
-                      key={`${uniqueKey}-${product.id}`}
+                      key={idx}
                       product={product}
                       lang={lang}
                       variant={variant}

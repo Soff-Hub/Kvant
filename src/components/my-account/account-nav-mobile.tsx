@@ -21,7 +21,7 @@ export default function AccountNavMobile({
   options: Option[];
   lang: string;
 }) {
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
   const router = useRouter();
   const pathname = usePathname();
   const pathnameSplit = pathname.split('/');
@@ -111,7 +111,7 @@ export default function AccountNavMobile({
                   <LogoutIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />
                 </span>
                 <span className="block truncate ltr:pl-2.5 rtl:pr-2.5 md:ltr:pl-3 md:rtl:pr-3">
-                  {t('text-logout')}
+                  {t('Выйти')}
                 </span>
               </button>
             </Listbox.Options>

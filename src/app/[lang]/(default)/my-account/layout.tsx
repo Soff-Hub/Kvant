@@ -5,19 +5,6 @@ import OrdersIcon from '@components/icons/account-order';
 import WishlistIcon from '@components/icons/account-wishlist';
 import AccountNavMobile from '@components/my-account/account-nav-mobile';
 
-const accountMenu = [
-  {
-    slug: ROUTES.ORDERS,
-    name: 'text-orders',
-    icon: <OrdersIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
-  },
-  {
-    slug: ROUTES.WISHLIST,
-    name: 'text-wishlist',
-    icon: <WishlistIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
-  },
-];
-
 export default function AccountLayout({
   children,
   params: { lang },
@@ -27,6 +14,21 @@ export default function AccountLayout({
     lang: string;
   };
 }) {
+  const accountMenu = [
+    {
+      slug: ROUTES.ORDERS,
+      name: 'Заказы',
+      icon: <OrdersIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
+    },
+    {
+      slug: ROUTES.WISHLIST,
+      name: 'Список желаний',
+      icon: <WishlistIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
+    },
+  ];
+
+  // <IoIosHeart className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all" />
+
   return (
     <div className="border-t border-b border-border-base">
       <Container>
@@ -39,7 +41,7 @@ export default function AccountLayout({
               <AccountNav options={accountMenu} lang={lang} />
             </div>
 
-            <div className="w-full mt-4 lg:mt-0 border border-border-base p-4 sm:p-5 lg:py-8 2xl:py-10 lg:px-9 2xl:px-10 rounded bg-white">
+            <div className="w-full mt-4 p-4 lg:mt-0 border border-border-base rounded bg-white">
               {children}
             </div>
           </div>

@@ -103,7 +103,7 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
 
 function SidebarMenu({ items, className, categoriesLimit, lang }: any) {
   const [categoryMenuToggle, setcategoryMenuToggle] = useState(Boolean(false));
-  const { t } = useTranslation(lang, 'common');
+  const { t } = useTranslation(lang, 'home');
 
   function handleCategoryMenu() {
     setcategoryMenuToggle(!categoryMenuToggle);
