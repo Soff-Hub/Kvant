@@ -2,7 +2,6 @@ import WidgetLink from './widget-link';
 import WidgetAbout from './widget-about-us';
 import Container from '@components/ui/container';
 import { footer } from '../data';
-import FeatureCarousel from '@components/common/featured-carousel';
 
 interface WidgetsProps {
   lang: string;
@@ -18,19 +17,11 @@ interface WidgetsProps {
 const Widgets: React.FC<WidgetsProps> = ({
   lang,
   widgets,
-  showWidgetServices,
   variant = 'default',
 }) => {
   const { social } = footer;
   return (
     <Container>
-      {showWidgetServices && (
-        <FeatureCarousel
-          lang={lang}
-          variant={'default'}
-          className={'featuredCarousel border-b border-black/5'}
-        />
-      )}
 
       <div className="grid grid-cols-2 md:grid-cols-7 xl:grid-cols-12 gap-5 sm:gap-9 lg:gap-11 xl:gap-7 pb-[50px] pt-10 md:pt-16">
         <WidgetAbout

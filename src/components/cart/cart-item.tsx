@@ -19,7 +19,9 @@ export function addPeriodToThousands(number: any) {
   const formattedIntegerPart = integerPart.replace(
     /\B(?=(\d{3})+(?!\d))/g,
     ' ',
-  );
+  );    
+
+  
 
   const formattedNumber =
     decimalPart !== undefined
