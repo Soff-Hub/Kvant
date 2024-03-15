@@ -34,8 +34,8 @@ const Counter: React.FC<CounterProps> = ({
         'button--mutiqty  flex items-center justify-between rounded overflow-hidden shrink-0 ',
         {
           'h-8 md:h-10 bg-brand shadow-counter rounded-3xl':
-            variant === 'mercury' || variant === 'cardv2',
-          'h-11 md:h-14 bg-[#f3f5f9]': variant === 'single',
+            variant === 'mercury',
+          'h-11 md:h-14 bg-brand': variant === 'single',
           'inline-flex': variant === 'cart',
         },
         className
@@ -47,8 +47,8 @@ const Counter: React.FC<CounterProps> = ({
           'flex items-center justify-center shrink-0 transition-all ease-in-out duration-300 focus:outline-none focus-visible:outline-none',
           {
             'w-8 md:w-12 h-8 rounded-2xl text-white text-heading ms-1':
-              variant === 'mercury' || variant === 'cardv2',
-            '!w-10 !h-10 rounded-full transform scale-80 lg:scale-100 text-brand-dark hover:bg-fill-four ltr:ml-auto rtl:mr-auto':
+              variant === 'mercury',
+            '!w-10 !h-10 rounded-full transform scale-80 lg:scale-100 text-white  ltr:ml-auto rtl:mr-auto':
               variant === 'single',
             '!w-6 !h-6 pr-0 border border-border-three hover:bg-brand text-brand-muted hover:border-brand rounded-full hover:text-brand-light':
               variant === 'cart',
@@ -63,8 +63,8 @@ const Counter: React.FC<CounterProps> = ({
           'font-semibold flex items-center justify-center h-full transition-colors duration-250 ease-in-out cursor-default shrink-0',
           {
             'text-sm md:text-base w-6 text-white':
-              variant === 'mercury' || variant === 'cardv2',
-            'text-base md:text-[17px] w-12 md:w-20 xl:w-28 ':
+              variant === 'mercury',
+            'text-base md:text-[17px] w-12 md:w-20 xl:w-28 text-white':
               variant === 'single',
             'text-15px w-9': variant === 'cart',
           }
@@ -79,8 +79,8 @@ const Counter: React.FC<CounterProps> = ({
           'group flex items-center justify-center flex-shrink-0 transition-all ease-in-out duration-300 focus:outline-none focus-visible:outline-none',
           {
             'w-8 md:w-12 h-8 rounded-2xl text-heading text-white me-1':
-              variant === 'mercury' || variant === 'cardv2',
-            '!w-10 !h-10 rounded-full scale-80 lg:scale-100 text-heading hover:bg-fill-four ltr:mr-auto rtl:ml-auto !pr-0 justify-center':
+              variant === 'mercury',
+            '!w-10 !h-10 rounded-full scale-80 lg:scale-100 text-heading text-white ltr:mr-auto rtl:ml-auto !pr-0 justify-center':
               variant === 'single',
             '!w-6 !h-6 border text-brand-muted border-border-three hover:bg-brand hover:border-brand rounded-full hover:text-brand-light !pr-0':
               variant === 'cart',

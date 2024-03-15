@@ -1,52 +1,53 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { ROUTES } from '@utils/routes';
+'use client';
+
+import {useState } from 'react';
 import Button from '@components/ui/button';
-import Counter from '@components/ui/counter';
-import { useCart } from '@contexts/cart/cart.context';
-import { generateCartItem } from '@utils/generate-cart-item';
-import { useTranslation } from 'src/app/i18n/client';
+import { useParams, useRouter } from 'next/navigation';
+import { ROUTES } from '@utils/routes';
+import useWindowSize from '@utils/use-window-size';
+import { toast } from 'react-toastify';
 import ThumbnailCarousel from '@components/ui/carousel/thumbnail-carousel';
 import Image from '@components/ui/image';
-import CartIcon from '@components/icons/cart-icon';
-import Heading from '@components/ui/heading';
-import Text from '@components/ui/text';
+import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import { IoArrowRedoOutline } from 'react-icons/io5';
 import SocialShareBox from '@components/ui/social-share-box';
-import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
-import { toast } from 'react-toastify';
-import useWindowSize from '@utils/use-window-size';
-import {
-  useModalAction,
-  useModalState,
-} from '@components/common/modal/modal.context';
-import CloseButton from '@components/ui/close-button';
-import { productGalleryPlaceholder } from '@assets/placeholders';
+import { useTranslation } from 'src/app/i18n/client';
 import { baseURL } from '@framework/utils/http';
+import Heading from '@components/ui/heading';
+import Text from '@components/ui/text';
+import dynamic from 'next/dynamic';
+import Cookies from 'js-cookie';
+import { useModalAction, useModalState } from '@components/common/modal/modal.context';
+import CloseButton from '@components/ui/close-button';
 import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
 
-export default function ProductPopup({ lang }: { lang: string }) {
+const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
+  ssr: false,
+});
+
+function RenderPopupOrAddToCart({ props }: { props: Object }) {
+  let { data, lang }: any = props;
+  return <AddToCart data={data} variant="single" lang={lang} />;
+}
+
+const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'home');
   const { data } = useModalState();
+  const pathname = useParams();
+  const { slug } = pathname;
   const { width } = useWindowSize();
-  const { closeModal } = useModalAction();
   const { addItemToWishst, removeItemFromCart, items } = useCartWishtlists();
-  const router = useRouter();
-  const { addItemToCart, isInCart, getItemFromCart } = useCart();
-  const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
   const [addToWishlistLoader, setAddToWishlistLoader] =
     useState<boolean>(false);
   const [shareButtonStatus, setShareButtonStatus] = useState<boolean>(false);
+  const router = useRouter();
+  const { closeModal } = useModalAction();
 
-  const { slug, image, title, price, description, galleries, discount_price } =
-    data;
-  const productUrl = `${baseURL}/${lang}${ROUTES.PRODUCT}/${slug}`;
+  const productUrl = `${baseURL}${ROUTES.PRODUCT}/${slug}`;
+
   const handleChange = () => {
     setShareButtonStatus(!shareButtonStatus);
   };
-
-  let selectedVariation: any = {};
 
   interface Data {
     id: string;
@@ -71,27 +72,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
     };
   }
 
-
-  const item = generateCartItem(data, selectedVariation);
   const itemWishst = generateCartItemWishst(data);
-
-  function addToCart() {
-    setAddToCartLoader(true);
-    setTimeout(() => {
-      setAddToCartLoader(false);
-    }, 1500);
-    addItemToCart(item, selectedQuantity);
-    // @ts-ignore
-    toast(t('text-added-bag'), {
-      progressClassName: 'fancy-progress-bar',
-      position: width! > 768 ? 'bottom-right' : 'top-right',
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
-  }
 
   function addToWishlist() {
     // to show btn feedback while product wishlist
@@ -128,29 +109,38 @@ export default function ProductPopup({ lang }: { lang: string }) {
     }
   }
 
-  function navigateToProductPage() {
-    closeModal();
-    router.push(`${lang}/${ROUTES.PRODUCT}/${slug}`);
-  }
+  const products_click = {
+    image: data?.image,
+    title: data?.title,
+    price: data?.discount_price,
+  };
 
-  useEffect(() => setSelectedQuantity(1), [data.id]);
+  function handleClickPayme() {
+    Cookies.remove('products_click');
+    Cookies.set('products_click', JSON.stringify(products_click));
+    router.push(`/checkout/checkout?product=${data?.slug}`);
+  }
 
   return (
     <div className="md:w-[600px] lg:w-[940px] xl:w-[1180px] mx-auto p-1 lg:p-0 xl:p-3 bg-brand-light rounded-md">
-      <CloseButton onClick={closeModal} />
+       <CloseButton onClick={closeModal} />
       <div className="overflow-hidden">
         <div className="px-2 md:px-5 mb-2 lg:mb-2 pt-4 md:pt-7">
           <div className="lg:flex items-stretch justify-between gap-8">
             <div className="xl:flex  justify-center overflow-hidden">
-              {!!galleries ? (
-                <ThumbnailCarousel gallery={galleries} lang={lang} />
+              {!!data?.galleries?.[0]?.image?.length ? (
+                <ThumbnailCarousel
+                  gallery={data?.galleries}
+                  galleryClassName="xl:w-[100px]"
+                  lang={lang}
+                />
               ) : (
                 <div className="flex items-center justify-center w-auto">
                   <Image
-                    src={image ?? productGalleryPlaceholder}
-                    alt={title!}
-                    width={650}
-                    height={590}
+                    src={data?.image ?? '/product-placeholder.svg'}
+                    alt={data?.title!}
+                    width={900}
+                    height={680}
                     style={{ width: 'auto' }}
                   />
                 </div>
@@ -158,74 +148,59 @@ export default function ProductPopup({ lang }: { lang: string }) {
             </div>
 
             <div className="flex-shrink-0 flex flex-col lg:w-[430px] xl:w-[520px] 2xl:w-[520px]">
-              <div className="pt-5 lg:pt-0 pb-5">
-                <div
-                  className="mb-2 md:mb-2.5 block -mt-1.5"
-                  onClick={navigateToProductPage}
-                  role="button"
-                >
-                  <h2 className="text-lg font-medium transition-colors duration-300 text-brand-dark md:text-xl xl:text-2xl hover:text-brand">
-                    {title}
+              <div className="pb-4 lg:pb-8">
+                <div className="md:mb-2.5 block -mt-1.5">
+                  <h2 className="text-lg font-medium transition-colors duration-300 text-brand-dark md:text-xl xl:text-2xl">
+                    {data?.title}
                   </h2>
                 </div>
 
                 <div className="flex items-center mt-5">
-                  {discount_price !== Number(price) ? (
+                  {data?.discount_price !== Number(data?.price) ? (
                     <>
                       <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
-                        {discount_price} {t('сум')}
+                        {data?.discount_price} {t('сум')}
                       </span>
-                      <del className="text-sm text-opacity-50 md:text-15px ltr:pl-3 rtl:pr-3">
-                        {Number(price)} {t('сум')}
+                      <del className="text-sm text-opacity-50 md:text-15px ltr:pl-3 rtl:pr-3 text-brand-dark ">
+                        {Number(data?.price)} {t('сум')}
                       </del>
                     </>
                   ) : (
                     <>
                       <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
-                        {Number(price)} {t('сум')}
+                        {Number(data?.price)} {t('сум')}
                       </span>
                     </>
                   )}
                 </div>
               </div>
 
+              <dl className="productView-info  text-[14px] leading-8 pb-5 mb-5 border-b border-border-base">
+                {data?.characteristics?.map((item: any) => (
+                  <ul className="flex gap-3 justify-between w-40 unsty">
+                    <li>{item?.title}: </li>
+                    <li>{item?.value}</li>
+                  </ul>
+                ))}
+              </dl>
+
               <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
-                <Counter
-                  variant="single"
-                  value={selectedQuantity}
-                  onIncrement={() => setSelectedQuantity((prev) => prev + 1)}
-                  onDecrement={() =>
-                    setSelectedQuantity((prev) => (prev !== 1 ? prev - 1 : 1))
-                  }
-                  disabled={
-                    isInCart(item.id)
-                      ? getItemFromCart(item.id).quantity + selectedQuantity >=
-                        Number(item.stock)
-                      : selectedQuantity >= Number(item.stock)
-                  }
-                  lang={lang}
-                />
+                <RenderPopupOrAddToCart props={{ data: data, lang: lang }} />
                 <Button
-                  onClick={addToCart}
-                  className="w-full px-1.5"
-                  disabled={
-                    isInCart(item.id)
-                      ? getItemFromCart(item.id).quantity + selectedQuantity >=
-                        Number(item.stock)
-                      : selectedQuantity >= Number(item.stock)
-                  }
-                  loading={addToCartLoader}
+                  onClick={handleClickPayme}
+                  variant="border"
+                  className={`w-full hover:border hover:text-brand hover:border-brand font-bold  bg-gray-200`}
                 >
-                  <CartIcon color="#ffffff" className="ltr:mr-3 rtl:ml-3" />
-                  {t('Добавить в корзину')}
+                  {t('Купить сейчас')}
                 </Button>
+
                 <div className="grid grid-cols-2 gap-2.5">
                   <Button
                     variant="border"
                     onClick={addToWishlist}
                     loading={addToWishlistLoader}
                     className={`group hover:text-brand ${
-                      items?.some((item: any) => item.title == data.title) && 'text-brand'
+                      items?.length > 0 && 'text-brand'
                     }`}
                   >
                     {items?.some((item: any) => item.title == data.title) ? (
@@ -236,7 +211,6 @@ export default function ProductPopup({ lang }: { lang: string }) {
 
                     {t('Список желаний')}
                   </Button>
-
                   <div className="relative group">
                     <Button
                       variant="border"
@@ -260,13 +234,12 @@ export default function ProductPopup({ lang }: { lang: string }) {
                   </div>
                 </div>
               </div>
-
               <div className="pt-6 xl:pt-8">
                 <Heading className="mb-3 lg:mb-3.5">
                   {t('Краткое описание')}:
                 </Heading>
                 <Text variant="small">
-                  {description.split(' ').slice(0, 40).join(' ')}
+                  {data?.description?.split(' ').slice(0, 40).join(' ')}
                 </Text>
               </div>
             </div>
@@ -275,4 +248,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
       </div>
     </div>
   );
-}
+};
+
+export default ProductSingleDetails;
+

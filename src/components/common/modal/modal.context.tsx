@@ -7,11 +7,8 @@ type MODAL_VIEWS =
   | 'LOGIN_VIEW'
   | 'FORGET_PASSWORD_MODAL'
   | 'PAYMENT'
-  | 'ADDRESS_VIEW_AND_EDIT'
-  | 'PHONE_NUMBER'
-  | 'DELIVERY_VIEW'
   | 'PRODUCT_VIEW'
-  | 'CATEGORY_VIEW';
+  | 'CATEGORY_VIEW'
 
 interface State {
   view?: MODAL_VIEWS;

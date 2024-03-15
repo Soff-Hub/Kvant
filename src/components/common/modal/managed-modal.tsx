@@ -13,6 +13,7 @@ const ForgetPasswordFormModal = dynamic(
   () => import('@components/auth/forget-password-form-modal'),
 );
 const ProductPopup = dynamic(() => import('@components/product/product-popup'));
+const ProductsModal = dynamic(()=> import('@components/product/product-details/products-modal'))
 const CategoryPopup = dynamic(
   () => import('@components/category/category-popup'),
 );
@@ -37,6 +38,7 @@ export default function ManagedModal({ lang }: { lang: string }) {
         <ForgetPasswordFormModal lang={lang} />
       )}
       {view === 'PRODUCT_VIEW' && <ProductPopup lang={lang} />}
+      {view === 'PAYMENT' && <ProductsModal lang={lang} />}
     </Modal>
   );
 }

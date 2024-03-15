@@ -5,7 +5,7 @@ import { useTranslation } from 'src/app/i18n/client';
 import Input from '@components/ui/input';
 import { useForm } from 'react-hook-form';
 import { useCart } from '@contexts/cart/cart.context';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
@@ -13,12 +13,14 @@ import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import Map from '@components/ui/map';
+import ListBox from '@components/ui/filter-list-box';
 
 const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'login');
   const { items, resetCart } = useCart();
   const [selectID, setSelectId] = useState<string>('naqt');
   const [filail, setFilail] = useState<number>(1);
+  const [branches, setBarnches] = useState<any>([]);
   const [check, setCheck] = useState<number>(0);
   const router = useRouter();
 
@@ -26,6 +28,16 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
     phone: number;
     address: string;
     paymentMethod: string;
+  }
+
+  async function getBranches() {
+    try {
+      const response = await fetch(baseURL + API_ENDPOINTS.BRANCHES);
+      const product = await response.json();
+      setBarnches(product);
+    } catch (error) {
+      console.error('Xatolik yuz berdi:', error);
+    }
   }
 
   const {
@@ -37,6 +49,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
   function onSubmit({ phone, address }: SignUpInputCheckout) {
     const token = Cookies.get('auth_token');
+    Cookies.remove('products_click');
     const dataChecout = {
       phone_number: phone,
       address: address,
@@ -79,21 +92,21 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
   );
 
   const dateCard = [
-    {
-      id: 1,
-      name: 'Visa',
-      image: '../assets/Visa.png',
-    },
+    // {
+    //   id: 1,
+    //   name: 'Visa',
+    //   image: '../assets/Visa.png',
+    // },
     {
       id: 2,
       name: 'Payme',
       image: '../assets/Pyme.png',
     },
-    {
-      id: 3,
-      name: 'Iman',
-      image: '../assets/iman.webp',
-    },
+    // {
+    //   id: 3,
+    //   name: 'Iman',
+    //   image: '../assets/iman.webp',
+    // },
     {
       id: 4,
       name: 'Click',
@@ -124,9 +137,15 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
     },
   ];
 
+  useEffect(() => {
+    getBranches();
+  }, []);
+
+  console.log(branches);
+
   return (
     <>
-      <h1 className='font-bold mb-3'>Оформление заказа</h1>
+      <h1 className="font-bold mb-3">Оформление заказа</h1>
       <div className="border rounded-md border-border-base bg-white p-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -166,6 +185,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
             />
             <div className="col-span-6 ">
               <h1 className="font-bold *">Тип поступления продукции</h1>
+              {/* <ListBox options={branches?.length > 0 && branches} lang={lang} /> */}
               <div className=" w-full flex mt-2 justify-between gap-4">
                 <div
                   onClick={() => setCheck(1)}
@@ -204,7 +224,10 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                   className="w-full border rounded border-blue-700 mt-2"
                 >
                   {dateFila?.map((item) => (
-                    <option value={item.id}>{item.name}</option>
+                    <option value={item.id} className="py-5 flex flex-col gap-4">
+                      <span>{item.name}</span>
+                      <span>{item.name}</span>
+                    </option>
                   ))}
                 </select>
               </div>
@@ -250,7 +273,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                 {dateCard.map((item) => (
                   <div
                     key={item.id}
-                    className={`w-full shadow-cardHover rounded-lg cursor-pointer py-2 bg-${item.name === selectID ? 'yellow' : 'white'}-300 flex justify-center items-center`}
+                    className={`w-full shadow-cardHover rounded-lg cursor-pointer py-2 bg-${item.name === selectID ? 'yellow' : 'white'}-100 flex justify-center items-center`}
                     onClick={() => setSelectId(item.name)}
                   >
                     <img

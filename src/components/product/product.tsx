@@ -399,17 +399,13 @@
 
 import { useEffect, useState } from 'react';
 import Button from '@components/ui/button';
-import Counter from '@components/ui/counter';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { ROUTES } from '@utils/routes';
 import useWindowSize from '@utils/use-window-size';
-import { useCart } from '@contexts/cart/cart.context';
 import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
-import { generateCartItem } from '@utils/generate-cart-item';
 import { toast } from 'react-toastify';
 import ThumbnailCarousel from '@components/ui/carousel/thumbnail-carousel';
 import Image from '@components/ui/image';
-import CartIcon from '@components/icons/cart-icon';
 import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import { IoArrowRedoOutline } from 'react-icons/io5';
 import SocialShareBox from '@components/ui/social-share-box';
@@ -423,22 +419,31 @@ import ProductCardLoader from '@components/ui/loaders/product-card-loader';
 import Carousel from '@components/ui/carousel/carousel';
 import Heading from '@components/ui/heading';
 import Text from '@components/ui/text';
+import dynamic from 'next/dynamic';
+import Cookies from 'js-cookie';
+
+const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
+  ssr: false,
+});
+
+function RenderPopupOrAddToCart({ props }: { props: Object }) {
+  let { data, lang }: any = props;
+  return <AddToCart data={data} variant="single" lang={lang} />;
+}
 
 const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'home');
   const pathname = useParams();
   const { slug } = pathname;
   const { width } = useWindowSize();
-  const { addItemToCart, isInCart, getItemFromCart } = useCart();
   const { addItemToWishst, removeItemFromCart, items } = useCartWishtlists();
-  const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
   const [addToWishlistLoader, setAddToWishlistLoader] =
     useState<boolean>(false);
   const [shareButtonStatus, setShareButtonStatus] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
   const [dataProducts, setDataProducts] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   const productUrl = `${baseURL}${ROUTES.PRODUCT}/${slug}`;
 
@@ -481,8 +486,6 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
   if (isLoading) return <p className={'pt-8 pb-8'}>Загрузка...</p>;
 
-  let selectedVariation: any = {};
-
   interface Data {
     id: string;
     title: string;
@@ -506,29 +509,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     };
   }
 
-  const item = generateCartItem(data!, selectedVariation);
   const itemWishst = generateCartItemWishst(data);
-
-  function addToCart() {
-    // to show btn feedback while product carting
-    setAddToCartLoader(true);
-    setTimeout(() => {
-      setAddToCartLoader(false);
-    }, 1500);
-
-    const item = generateCartItem(data!, selectedVariation);
-
-    addItemToCart(item, selectedQuantity);
-    toast(t('Добавлено в корзину'), {
-      progressClassName: 'fancy-progress-bar',
-      position: width! > 768 ? 'bottom-right' : 'top-right',
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
-  }
 
   function addToWishlist() {
     // to show btn feedback while product wishlist
@@ -585,6 +566,17 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
       slidesPerView: 1,
     },
   };
+  const products_click = {
+    image: data?.image,
+    title: data?.title,
+    price: data?.discount_price,
+  };
+
+  function handleClickPayme() {
+    Cookies.remove('products_click');
+    Cookies.set('products_click', JSON.stringify(products_click));
+    router.push(`/checkout/checkout?product=${data?.slug}`);
+  }
 
   return (
     <div className="pt-6 pb-2 md:pt-7">
@@ -647,35 +639,15 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
           </dl>
 
           <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
-            <Counter
-              variant="single"
-              value={selectedQuantity}
-              onIncrement={() => setSelectedQuantity((prev) => prev + 1)}
-              onDecrement={() =>
-                setSelectedQuantity((prev) => (prev !== 1 ? prev - 1 : 1))
-              }
-              disabled={
-                isInCart(item.id)
-                  ? getItemFromCart(item.id).quantity + selectedQuantity >=
-                    Number(item.stock)
-                  : selectedQuantity >= Number(item.stock)
-              }
-              lang={lang}
-            />
+            <RenderPopupOrAddToCart props={{ data: data, lang: lang }} />
             <Button
-              onClick={addToCart}
-              className="w-full px-1.5"
-              disabled={
-                isInCart(item.id)
-                  ? getItemFromCart(item.id).quantity + selectedQuantity >=
-                    Number(item.stock)
-                  : selectedQuantity >= Number(item.stock)
-              }
-              loading={addToCartLoader}
+              onClick={handleClickPayme}
+              variant="border"
+              className={`w-full hover:border hover:text-brand hover:border-brand font-bold  bg-gray-200`}
             >
-              <CartIcon color="#ffffff" className="ltr:mr-3 rtl:ml-3" />
-              {t('Добавить в корзину')}
+              {t('Купить сейчас')}
             </Button>
+
             <div className="grid grid-cols-2 gap-2.5">
               <Button
                 variant="border"
@@ -759,4 +731,3 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
 };
 
 export default ProductSingleDetails;
-

@@ -9,6 +9,7 @@ interface CartProviderState extends State {
   addItemToWishst: (item: Item) => void;
   removeItemFromCart: (id: Item['id']) => void;
 }
+
 export const cartContext = React.createContext<CartProviderState | undefined>(
   undefined,
 );

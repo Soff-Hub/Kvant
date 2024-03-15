@@ -20,4 +20,5 @@ export const API_ENDPOINTS = {
   ORDERS: 'common/order-list/',
   ORDERS_CREATE: 'payment/create/',
   ORDERS_DETAILS: 'common/order-detail',
+  BRANCHES: 'payment/branches',
 };
