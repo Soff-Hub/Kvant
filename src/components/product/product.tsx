@@ -26,6 +26,7 @@ import ProductCardLoader from '@components/ui/loaders/product-card-loader';
 import Carousel from '@components/ui/carousel/carousel';
 import Heading from '@components/ui/heading';
 import Text from '@components/ui/text';
+import { siteSettings } from '@settings/site-settings';
 
 const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'home');
@@ -191,12 +192,12 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
   return (
     <div className="pt-6 pb-2 md:pt-7">
-      <div className="grid-cols-10 lg:grid gap-7 2xl:gap-7 mb-8 lg:mb-12 bg-white p-5 rounded">
-        <div className="col-span-5 mb-6 overflow-hidden  md:mb-8 lg:mb-0 xl:flex justify-center">
+      <div className="grid-cols-12 lg:grid gap-3 2xl:gap-3  bg-white p-5 rounded">
+        <div className="col-span-4 mb-6 overflow-hidden  md:mb-8 lg:mb-0 xl:flex justify-center">
           {!!data?.galleries?.[0]?.image?.length ? (
             <ThumbnailCarousel
               gallery={data?.galleries}
-              galleryClassName="xl:w-[100px]"
+              galleryClassName="xl:w-[70px]"
               lang={lang}
             />
           ) : (
@@ -212,7 +213,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
           )}
         </div>
 
-        <div className="flex flex-col col-span-5 shrink-0 ">
+        <div className="flex flex-col col-span-5 shrink-0 mb-3">
           <div className="pb-4 lg:pb-8">
             <div className="md:mb-2.5 block -mt-1.5">
               <h2 className="text-lg font-medium transition-colors duration-300 text-brand-dark md:text-xl xl:text-2xl">
@@ -239,7 +240,6 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
               )}
             </div>
           </div>
-
           <dl className="productView-info  text-[14px] leading-8 pb-5 mb-5 border-b border-border-base">
             {data?.characteristics?.map((item: any) => (
               <ul className="flex gap-3 justify-between w-40 unsty">
@@ -279,55 +279,87 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
               <CartIcon color="#ffffff" className="ltr:mr-3 rtl:ml-3" />
               {t('Добавить в корзину')}
             </Button>
-            <div className="grid grid-cols-2 gap-2.5">
-              <Button
-                variant="border"
-                onClick={addToWishlist}
-                loading={addToWishlistLoader}
-                className={`group hover:text-brand ${
-                  items?.length > 0 && 'text-brand'
-                }`}
-              >
-                {items?.some((item: any) => item.title == data.title) ? (
-                  <IoIosHeart className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all" />
-                ) : (
-                  <IoIosHeartEmpty className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
-                )}
-
-                {t('Список желаний')}
-              </Button>
-              <div className="relative group">
-                <Button
-                  variant="border"
-                  className={`w-full hover:text-brand ${
-                    shareButtonStatus === true && 'text-brand'
-                  }`}
-                  onClick={handleChange}
-                >
-                  <IoArrowRedoOutline className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
-                  {t('Делиться')}
-                </Button>
-                <SocialShareBox
-                  className={`absolute z-10 ltr:right-0 rtl:left-0 w-[300px] md:min-w-[400px] transition-all duration-300 ${
-                    shareButtonStatus === true
-                      ? 'visible opacity-100 top-full'
-                      : 'opacity-0 invisible top-[130%]'
-                  }`}
-                  shareUrl={productUrl}
-                  lang={lang}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="pt-6 xl:pt-8">
-            <Heading className="mb-3 lg:mb-3.5">
-              {t('Краткое описание')}:
-            </Heading>
-            <Text variant="small">
-              {data?.description?.split(' ').slice(0, 40).join(' ')}
-            </Text>
           </div>
         </div>
+        <div className="flex flex-col col-span-3 shrink-0 bg-grey-600">
+          <h1 className="text-lg font-bold transition-colors duration-300 text-brand-dark md:text-xl xl:text-2xl">
+            Рассрочка платежа
+          </h1>
+          <div className="flex justify-start gap-3 mt-2">
+            <span className="py-1   rounded border font-medium text-gray-400 cursor-pointer border-gray-350 px-3">
+              3 мес.
+            </span>
+            <span className="py-1  rounded border font-medium text-gray-400 cursor-pointer border-gray-350 px-3">
+              6 мес.
+            </span>
+            <span className="py-1  bg-blue-100 rounded border font-medium text-blue-500 cursor-pointer border-blue-400 px-3">
+              12 мес.
+            </span>
+          </div>
+          <div className="border border-blue-400 shadow-cardHover flex flex-col justify-between rounded-[8px] mt-4 h-[170px] p-3">
+            <h1 className="text-sm ">Рассрочка от Asaxiy</h1>
+            <div className="flex justify-between  items-center">
+              <div>
+                <Image
+                  src={siteSettings.logo.urlReverse}
+                  alt={siteSettings.logo.alt}
+                  width={150}
+                  height={40}
+                />
+              </div>
+              <h1 className="font-bold text-blue-600">63 700 сум</h1>
+            </div>
+            <button className="bg-blue-700 text-white font-bold  p-3 w-full rounded">
+              Заказать в рассрочку
+            </button>
+          </div>
+          <div className="flex flex-col gap-3 mt-3">
+            <Button
+              variant="border"
+              onClick={addToWishlist}
+              loading={addToWishlistLoader}
+              className={`group hover:text-brand ${
+                items?.some((item: any) => item.title == data.title) &&
+                'text-brand'
+              }`}
+            >
+              {items?.some((item: any) => item.title == data.title) ? (
+                <IoIosHeart className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all" />
+              ) : (
+                <IoIosHeartEmpty className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
+              )}
+
+              {t('Список желаний')}
+            </Button>
+            <div className="relative group">
+              <Button
+                variant="border"
+                className={`w-full hover:text-brand ${
+                  shareButtonStatus === true && 'text-brand'
+                }`}
+                onClick={handleChange}
+              >
+                <IoArrowRedoOutline className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
+                {t('Делиться')}
+              </Button>
+              <SocialShareBox
+                className={`absolute z-10 ltr:right-0 rtl:left-0 w-[300px] md:min-w-[400px] transition-all duration-300 ${
+                  shareButtonStatus === true
+                    ? 'visible opacity-100 top-full'
+                    : 'opacity-0 invisible top-[130%]'
+                }`}
+                shareUrl={productUrl}
+                lang={lang}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="bg-white  mb-8 lg:mb-12 px-5 pb-5">
+        <Heading className="mb-3 lg:mb-3.5">{t('Краткое описание')}:</Heading>
+        <Text variant="small">
+          {data?.description?.split(' ').slice(0, 40).join(' ')}
+        </Text>
       </div>
 
       <ProductDetailsTab dataProps={data?.body} lang={lang} />

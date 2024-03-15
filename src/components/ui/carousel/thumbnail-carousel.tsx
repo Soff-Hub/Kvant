@@ -37,7 +37,7 @@ const ThumbnailCarousel: React.FC<Props> = ({
       <ImageLightBox gallery={gallery} />
       <div
         className={cn(
-          'w-full xl:ltr:ml-7 xl:rtl:mr-7  overflow-hidden rounded-md relative flex items-center justify-between',
+          'w-full xl:ltr:ml-3 xl:rtl:mr-4  overflow-hidden rounded-md relative flex items-center justify-between',
           thumbnailClassName
         )}
       >
@@ -86,7 +86,7 @@ const ThumbnailCarousel: React.FC<Props> = ({
       </div>
       {/* End of product main slider */}
 
-      <div className={`py-5 shrink-0 ${galleryClassName}`}>
+      <div className={`py-5 shrink-0  ${galleryClassName}`}>
         <Swiper
           id="productGalleryThumbs"
           onSwiper={setThumbsSwiper}

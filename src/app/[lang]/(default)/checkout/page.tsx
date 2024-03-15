@@ -17,7 +17,6 @@ export default async function CheckoutPage({
 }) {
   return (
     <>
-      
       <Container className="py-10 2xl:py-12 checkout">
         <div className="flex flex-col mx-auto">
           <div className="flex flex-col lg:grid lg:grid-cols-12 grid-cols-1 flex-wrap gap-8">

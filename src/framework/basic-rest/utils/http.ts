@@ -16,7 +16,7 @@ const http = axios.create({
 http.interceptors.request.use(
   (config) => {
     const token = getToken();
-    config.headers.Authorization = `Bearer ${token ? token : ''}`;
+    config.headers.Authorization = token ? `Bearer ${token}` : '';
     return config;
   },
   (error) => {

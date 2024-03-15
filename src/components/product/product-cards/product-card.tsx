@@ -15,6 +15,7 @@ import CheckIcon from '@components/icons/check-icon';
 import StarIcon from '@components/icons/star-icon';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import { addPeriodToThousands } from '@components/cart/cart-item';
 
 const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
   ssr: false,
@@ -204,16 +205,16 @@ const ProductCard: React.FC<ProductProps> = ({
           {discount_price !== Number(price) ? (
             <>
               <span className="inline-block font-semibold text-[18px] text-brand">
-                {discount_price} {t('сум')}
+                {addPeriodToThousands(Number(discount_price))} {t('сум')}
               </span>
               <del className="mx-1  text-gray-400 text-opacity-70">
-                {Number(price)} {t('сум')}
+                {addPeriodToThousands(Number(price))} {t('сум')}
               </del>
             </>
           ) : (
             <>
               <span className="inline-block font-semibold text-[18px] text-brand">
-                {Number(price)} {t('сум')}
+                {addPeriodToThousands(Number(price))} {t('сум')}
               </span>
             </>
           )}

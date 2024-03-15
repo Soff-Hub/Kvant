@@ -23,21 +23,21 @@ import {
 import CloseButton from '@components/ui/close-button';
 import { productGalleryPlaceholder } from '@assets/placeholders';
 import { baseURL } from '@framework/utils/http';
+import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
 
 export default function ProductPopup({ lang }: { lang: string }) {
   const { t } = useTranslation(lang, 'home');
   const { data } = useModalState();
   const { width } = useWindowSize();
   const { closeModal } = useModalAction();
+  const { addItemToWishst, removeItemFromCart, items } = useCartWishtlists();
   const router = useRouter();
   const { addItemToCart, isInCart, getItemFromCart } = useCart();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
-  const [favorite, setFavorite] = useState<boolean>(false);
   const [addToWishlistLoader, setAddToWishlistLoader] =
     useState<boolean>(false);
   const [shareButtonStatus, setShareButtonStatus] = useState<boolean>(false);
-
 
   const { slug, image, title, price, description, galleries, discount_price } =
     data;
@@ -46,13 +46,36 @@ export default function ProductPopup({ lang }: { lang: string }) {
     setShareButtonStatus(!shareButtonStatus);
   };
 
-
   let selectedVariation: any = {};
 
+  interface Data {
+    id: string;
+    title: string;
+    slug: string;
+    image: string;
+    price: number;
+    discount?: number;
+    discount_price?: number;
+  }
+
+  function generateCartItemWishst(item: Data) {
+    const { id, title, slug, image, price, discount, discount_price } = item;
+    return {
+      id,
+      title,
+      slug,
+      image,
+      price,
+      discount,
+      discount_price,
+    };
+  }
+
+
   const item = generateCartItem(data, selectedVariation);
+  const itemWishst = generateCartItemWishst(data);
 
   function addToCart() {
-
     setAddToCartLoader(true);
     setTimeout(() => {
       setAddToCartLoader(false);
@@ -69,23 +92,40 @@ export default function ProductPopup({ lang }: { lang: string }) {
       draggable: true,
     });
   }
+
   function addToWishlist() {
-    setAddToWishlistLoader(true);
-    setFavorite(!favorite);
-    const toastStatus: string =
-      favorite === true ? t('text-remove-favorite') : t('text-added-favorite');
-    setTimeout(() => {
-      setAddToWishlistLoader(false);
-    }, 1500);
-    toast(toastStatus, {
-      progressClassName: 'fancy-progress-bar',
-      position: width! > 768 ? 'bottom-right' : 'top-right',
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
+    // to show btn feedback while product wishlist
+    if (items?.some((item: any) => item.title == data.title)) {
+      removeItemFromCart(itemWishst?.id);
+      const toastStatus: string = t('Удалить из списка избранного');
+      toast(toastStatus, {
+        style: { color: 'white', background: 'red' },
+        progressClassName: 'fancy-progress-bar',
+        position: width! > 768 ? 'bottom-right' : 'top-right',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } else {
+      setAddToWishlistLoader(true);
+      addItemToWishst(itemWishst);
+      const toastStatus: string = t('Добавлено в список избранных');
+
+      setTimeout(() => {
+        setAddToWishlistLoader(false);
+      }, 1500);
+      toast(toastStatus, {
+        progressClassName: 'fancy-progress-bar',
+        position: width! > 768 ? 'bottom-right' : 'top-right',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
   }
 
   function navigateToProductPage() {
@@ -94,13 +134,6 @@ export default function ProductPopup({ lang }: { lang: string }) {
   }
 
   useEffect(() => setSelectedQuantity(1), [data.id]);
-
-  console.log(
-    isInCart(item.id)
-      ? getItemFromCart(item.id).quantity + selectedQuantity >=
-          Number(item.stock)
-      : selectedQuantity >= Number(item.stock),
-  );
 
   return (
     <div className="md:w-[600px] lg:w-[940px] xl:w-[1180px] mx-auto p-1 lg:p-0 xl:p-3 bg-brand-light rounded-md">
@@ -192,10 +225,10 @@ export default function ProductPopup({ lang }: { lang: string }) {
                     onClick={addToWishlist}
                     loading={addToWishlistLoader}
                     className={`group hover:text-brand ${
-                      favorite === true && 'text-brand'
+                      items?.some((item: any) => item.title == data.title) && 'text-brand'
                     }`}
                   >
-                    {favorite === true ? (
+                    {items?.some((item: any) => item.title == data.title) ? (
                       <IoIosHeart className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all" />
                     ) : (
                       <IoIosHeartEmpty className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
