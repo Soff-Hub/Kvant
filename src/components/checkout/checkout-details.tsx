@@ -12,11 +12,14 @@ import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import Map from '@components/ui/map';
 
 const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'login');
   const { items, resetCart } = useCart();
-  const [selectID, setSelectId] = useState<string>('click');
+  const [selectID, setSelectId] = useState<string>('naqt');
+  const [filail, setFilail] = useState<number>(1);
+  const [check, setCheck] = useState<number>(0);
   const router = useRouter();
 
   interface SignUpInputCheckout {
@@ -75,70 +78,206 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
     }),
   );
 
+  const dateCard = [
+    {
+      id: 1,
+      name: 'Visa',
+      image: '../assets/Visa.png',
+    },
+    {
+      id: 2,
+      name: 'Payme',
+      image: '../assets/Pyme.png',
+    },
+    {
+      id: 3,
+      name: 'Iman',
+      image: '../assets/iman.webp',
+    },
+    {
+      id: 4,
+      name: 'Click',
+      image: '../assets/Click.png',
+    },
+  ];
+
+  const dateFila = [
+    {
+      id: 1,
+      name: 'Филале 1',
+    },
+    {
+      id: 2,
+      name: 'Филале 2',
+    },
+    {
+      id: 3,
+      name: 'Филале 3',
+    },
+    {
+      id: 4,
+      name: 'Филале 4',
+    },
+    {
+      id: 5,
+      name: 'Филале 5',
+    },
+  ];
+
   return (
-    <div className="border rounded-md border-border-base bg-white p-4">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col justify-center"
-        noValidate
-      >
-        <div className="flex flex-col space-y-4">
-          <Input
-            label={`${'Номер телефона'}`}
-            type="phone"
-            variant="solid"
-            {...register('phone', {
-              required: `${t('Номер телефона введен неверно!')}`,
-              pattern: {
-                value: /^\+998\s?\d{9}$/,
-                message: `${t('Номер телефона указан неверно')}`,
-              },
-            })}
-            error={errors.phone?.message}
-            lang={lang}
-            defaultValue="+998"
-            maxLength={13} // +998 kodi va 9 ta raqam uchun
-            placeholder=""
-          />
-          <Input
-            label={`${t('Адрес')}`}
-            type="text"
-            variant="solid"
-            {...register('address', {
-              required: `${t('Адрес не введен')}`,
-            })}
-            error={errors.address?.message}
-            lang={lang}
-            placeholder=""
-          />
-          <label
-            htmlFor="paymentMethod"
-            className="block mb-2 text-sm font-bold text-gray-900 dark:text-white"
-          >
-            {t("Выберите способ оплаты")}
-          </label>
-          <select
-            onChange={(e: any) => setSelectId(e.target.value)}
-            id="paymentMethod"
-            className="bg-gray-50 border py-3.5 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-700 focus:border-blue-700 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-700 dark:focus:border-blue-700"
-          >
-            <option value="cash">{t("Наличные")}</option>
-            <option value="click">{t("Картой")}</option>
-          </select>
-          <div className="relative">
-            <Button
-              type="submit"
-              // loading={isLoading}
-              // disabled={isLoading}
-              className="w-full mt-2 tracking-normal h-11 md:h-12 font-15px md:font-15px"
-              variant="formButton"
-            >
-              {t('Продолжать')}
-            </Button>
+    <>
+      <h1 className='font-bold mb-3'>Оформление заказа</h1>
+      <div className="border rounded-md border-border-base bg-white p-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col justify-center"
+          noValidate
+        >
+          <div className="grid-cols-12 lg:grid gap-5">
+            <Input
+              label={`${t('Ф.И.О *')}`}
+              type="text"
+              variant="solid"
+              {...register('address', {
+                required: `${t('Адрес не введен')}`,
+              })}
+              error={errors.address?.message}
+              lang={lang}
+              placeholder=""
+              className="col-span-6"
+            />
+            <Input
+              label={`${'Телефон *'}`}
+              type="phone"
+              variant="solid"
+              {...register('phone', {
+                required: `${t('Номер телефона введен неверно!')}`,
+                pattern: {
+                  value: /^\+998\s?\d{9}$/,
+                  message: `${t('Номер телефона указан неверно')}`,
+                },
+              })}
+              error={errors.phone?.message}
+              lang={lang}
+              defaultValue="+998"
+              maxLength={13} // +998 kodi va 9 ta raqam uchun
+              placeholder=""
+              className="col-span-6"
+            />
+            <div className="col-span-6 ">
+              <h1 className="font-bold *">Тип поступления продукции</h1>
+              <div className=" w-full flex mt-2 justify-between gap-4">
+                <div
+                  onClick={() => setCheck(1)}
+                  className={`bg-gray-200 w-full ${check === 1 ? 'border border-blue-500 text-blue-500' : ''} cursor-pointer p-3 rounded flex items-center justify-start`}
+                >
+                  <input
+                    checked={check === 1}
+                    type="radio"
+                    name="radio"
+                    id="radio"
+                  />
+                  <span className="ml-2 font-medium">Еда на вынос</span>
+                </div>
+
+                <div
+                  onClick={() => setCheck(2)}
+                  className={`bg-gray-200 w-full ${check === 2 ? 'border border-blue-500 text-blue-500' : ''} cursor-pointer p-3 rounded flex items-center justify-start`}
+                >
+                  <input
+                    checked={check === 2}
+                    type="radio"
+                    name="radio"
+                    id="radio"
+                  />
+                  <span className="ml-2 font-medium">Доставка</span>
+                </div>
+              </div>
+            </div>
+
+            {check === 1 && (
+              <div className="col-span-12">
+                <h1 className="font-bold text-black">Выберите филиал *</h1>
+
+                <select
+                  onClick={(e: any) => setFilail(e.target.value)}
+                  className="w-full border rounded border-blue-700 mt-2"
+                >
+                  {dateFila?.map((item) => (
+                    <option value={item.id}>{item.name}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+            {check === 2 && (
+              <>
+                <Input
+                  label={`${t('Адрес *')}`}
+                  type="text"
+                  variant="solid"
+                  {...register('address', {
+                    required: `${t('Адрес не введен')}`,
+                  })}
+                  error={errors.address?.message}
+                  lang={lang}
+                  placeholder=""
+                  className="col-span-12"
+                />
+                <div className="mt-2 mb-10 relative h-[420px] col-span-12">
+                  <h1 className="font-bold  mb-3">
+                    Выберите адрес вашего местоположения *
+                  </h1>
+                  <Map
+                    lat={1.295831}
+                    lng={103.76261}
+                    height={'420px'}
+                    zoom={15}
+                    showInfoWindow={true}
+                  />
+                </div>
+              </>
+            )}
+            <div className="col-span-12">
+              <h1 className="font-bold text-black">Способ оплаты *</h1>
+              <div className="w-full mt-2 flex justify-start gap-5">
+                <div
+                  className={`w-full shadow-cardHover rounded-lg cursor-pointer py-2 bg-${selectID === 'naqt' ? 'yellow' : 'white'}-100 text-${selectID === 'naqt' ? 'gray' : ''}-200 flex justify-center items-center`}
+                  onClick={() => setSelectId('naqt')}
+                >
+                  <h1 className="font-bold text-[24px]">Наличные</h1>
+                </div>
+
+                {dateCard.map((item) => (
+                  <div
+                    key={item.id}
+                    className={`w-full shadow-cardHover rounded-lg cursor-pointer py-2 bg-${item.name === selectID ? 'yellow' : 'white'}-300 flex justify-center items-center`}
+                    onClick={() => setSelectId(item.name)}
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      style={{ maxHeight: '90px' }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="w-full col-span-12 ">
+              <Button
+                type="submit"
+                // loading={isLoading}
+                // disabled={isLoading}
+                className="w-full tracking-normal h-11 md:h-12 font-15px md:font-15px"
+                variant="formButton"
+              >
+                {t('Продолжать')}
+              </Button>
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 };
 

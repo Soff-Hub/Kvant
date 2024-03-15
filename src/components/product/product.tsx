@@ -26,7 +26,6 @@ import ProductCardLoader from '@components/ui/loaders/product-card-loader';
 import Carousel from '@components/ui/carousel/carousel';
 import Heading from '@components/ui/heading';
 import Text from '@components/ui/text';
-import Logo from '@components/ui/logo';
 import { siteSettings } from '@settings/site-settings';
 
 const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {

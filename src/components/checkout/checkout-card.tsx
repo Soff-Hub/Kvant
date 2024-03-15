@@ -30,7 +30,7 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
     },
     {
       id: 2,
-      title: t('Перевозки'),
+      title: t('Доставка'),
       price: `15 000 ${t('сум')}`,
     },
     {
