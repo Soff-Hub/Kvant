@@ -167,4 +167,5 @@ const Header = ({ className, lang }: HeaderProps) => {
   );
 };
 
+
 export default Header;
