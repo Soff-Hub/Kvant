@@ -1,6 +1,6 @@
 import { getToken } from '@framework/utils/get-token';
 import cn from 'classnames';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 const AccountIcon = ({
   className = '',
@@ -10,13 +10,26 @@ const AccountIcon = ({
 }) => {
   const token = getToken();
   const [isClient, setIsClient] = useState(Boolean(false));
+  const router = useRouter();
+
+  function handleClick() {
+    if (isClient) {
+      if (token) {
+        router.push('/en/my-account/orders');
+      } else {
+        router.push('/en');
+      }
+    } else {
+      return null;
+    }
+  }
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   return (
-    <Link href={'/en/my-account/orders' }>
+    <button onClick={handleClick}>
       <svg
         className={cn(className)}
         width={width}
@@ -34,7 +47,7 @@ const AccountIcon = ({
           fill={color}
         />
       </svg>
-    </Link>
+    </button>
   );
 };
 
