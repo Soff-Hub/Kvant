@@ -1,10 +1,17 @@
 import React from 'react';
 import Input from '@components/ui/form/input';
 import Button from '@components/ui/button';
-import TextArea from '@components/ui/form/text-area';
 import { useForm } from 'react-hook-form';
 import { useIsMounted } from '@utils/use-is-mounted';
 import { useTranslation } from 'src/app/i18n/client';
+import {
+  useModalAction,
+  useModalState,
+} from '@components/common/modal/modal.context';
+import CloseButton from '@components/ui/close-button';
+import { toast } from 'react-toastify';
+import { baseURL } from '@framework/utils/http';
+import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 
 interface ContactFormValues {
   name: string;
@@ -18,9 +25,48 @@ const ProductsModal = ({ lang }: { lang: string }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<ContactFormValues>();
+  const { closeModal } = useModalAction();
+  const { data } = useModalState();
 
-  function onSubmit(values: ContactFormValues) {
-    console.log(values, 'Contact');
+  async function onSubmit(values: ContactFormValues) {
+    const dataForm = {id: data, ...values};
+    console.log(dataForm);
+
+    // try {
+    //   const response = await fetch(baseURL + API_ENDPOINTS.FORGET_PASSWORD, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'Accept-Language': lang,
+    //     },
+    //     body: JSON.stringify(dataForm), // values ni o'zgartirdim
+    //   });
+    //   const data = await response.json();
+    //   if (response.ok) {
+    //     toast.success(t('Успешный!'), {
+    //       style: { color: 'white', background: 'green' },
+    //       progressClassName: 'fancy-progress-bar',
+    //       autoClose: 1500,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //     });
+    //     closeModal();
+    //   } else {
+    //     toast.error(data?.msg[0] + '', {
+    //       style: { color: 'white', background: 'red' },
+    //       progressClassName: 'fancy-progress-bar',
+    //       autoClose: 1500,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //     });
+    //   }
+    // } catch (error: any) {
+    //   console.log(error, 'forget password error response');
+    // }
   }
 
   const { t } = useTranslation(lang);
@@ -28,6 +74,7 @@ const ProductsModal = ({ lang }: { lang: string }) => {
   return (
     <div className="md:w-[300px]  xl:w-[600px] mx-auto p-1 lg:p-0 xl:p-3 bg-brand-light rounded-md">
       <div className="overflow-hidden">
+        <CloseButton onClick={closeModal} />
         <div className="p-5">
           <h1 className="font-bold text-[21px] text-center mb-3">
             Заявка на продукт
@@ -41,7 +88,7 @@ const ProductsModal = ({ lang }: { lang: string }) => {
               variant="solid"
               label="Имя *"
               placeholder="Имя"
-              {...register('name', { required: 'forms:name-required' })}
+              {...register('name', { required: 'Имя не введено' })}
               error={errors.name?.message}
               lang={lang}
             />
@@ -62,18 +109,14 @@ const ProductsModal = ({ lang }: { lang: string }) => {
               maxLength={13} // +998 kodi va 9 ta raqam uchun
             />
             <Input
-              type="number"
+              type="phone"
               variant="solid"
               label="Сколько продуктов *"
               placeholder="Сколько продуктов"
               {...register('number', {
-                required: 'forms:name-required',
-                pattern: {
-                  value: /^\+?[0-9\s]{10,14}$/,
-                  message: 'faqat raqamlarni kiriting',
-                },
+                required: 'Сколько продуктов не введено',
               })}
-              error={errors.name?.message}
+              error={errors.number?.message}
               lang={lang}
             />
             <Button variant="formButton" className="w-full" type="submit">

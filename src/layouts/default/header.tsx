@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
 import { siteSettings } from '@settings/site-settings';
 import { ROUTES } from '@utils/routes';
 import { useUI } from '@contexts/ui.context';
@@ -17,12 +16,8 @@ import CategoryDropdownMenu from '@components/category/category-dropdown-menu';
 import { useTranslation } from 'src/app/i18n/client';
 import Link from 'next/link';
 import { getToken } from '@framework/utils/get-token';
-import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
 import { AccouttWishlist } from '@components/product/wishlist-product';
-
-const CartButton = dynamic(() => import('@components/cart/cart-button'), {
-  ssr: false,
-});
+import CartButton from '@components/cart/cart-button';
 
 type DivElementRef = React.MutableRefObject<HTMLDivElement>;
 const { site_header } = siteSettings;
@@ -92,17 +87,15 @@ const Header = ({ className, lang }: HeaderProps) => {
                   lang={lang}
                   className="hidden lg:flex lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[800px] lg:mx-10"
                 />
-                {/* End of search */}
 
-                <div className="text-brand-icon-header flex text-sm space-x-5 xl:space-x-10 lg:max-w-[33%]">
-                  <CartButton className="hidden lg:flex" lang={lang} />
-                </div>
+                <CartButton />
 
                 <AccouttWishlist />
 
                 <LanguageSwitcher lang="en" />
                 <div className="hidden lg:flex items-center  accountButton">
                   <AccountIcon />
+
                   {isClient &&
                     (!token ? (
                       <div className="flex flex-col ml-4">

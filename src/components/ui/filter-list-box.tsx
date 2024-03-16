@@ -4,6 +4,7 @@ import { IoChevronDown, IoCheckmarkSharp } from 'react-icons/io5';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useTranslation } from 'src/app/i18n/client';
 import useQueryParam from '@utils/use-query-params';
+
 type Option = {
   name: string;
   value: string;
@@ -25,6 +26,7 @@ export default function ListBox({
   const currentSelectedItem = hasQueryKey
     ? options.find((o) => o.value === hasQueryKey)!
     : options[0];
+
   const [selectedItem, setSelectedItem] = useState<Option>(currentSelectedItem);
 
   useEffect(() => {

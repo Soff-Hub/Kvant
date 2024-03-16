@@ -421,6 +421,10 @@ import Heading from '@components/ui/heading';
 import Text from '@components/ui/text';
 import dynamic from 'next/dynamic';
 import Cookies from 'js-cookie';
+import { useModalAction } from '@components/common/modal/modal.context';
+import { useCart } from '@contexts/cart/cart.context';
+import { addPeriodToThousands } from '@components/cart/cart-item';
+import { getToken } from '@framework/utils/get-token';
 
 const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
   ssr: false,
@@ -443,7 +447,12 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const [data, setData] = useState<any>([]);
   const [dataProducts, setDataProducts] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isClient, setIsClient] = useState(Boolean(false));
+  const token = getToken();
   const router = useRouter();
+  const { openModal, closeModal } = useModalAction();
+  const { isInCart, isInStock } = useCart();
+  const outOfStock = isInCart(data?.id) && !isInStock(data?.id);
 
   const productUrl = `${baseURL}${ROUTES.PRODUCT}/${slug}`;
 
@@ -480,6 +489,10 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     handlePopupView();
   }, [slug]);
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  
   const handleChange = () => {
     setShareButtonStatus(!shareButtonStatus);
   };
@@ -573,10 +586,17 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   };
 
   function handleClickPayme() {
-    Cookies.remove('products_click');
-    Cookies.set('products_click', JSON.stringify(products_click));
-    router.push(`/checkout/checkout?product=${data?.slug}`);
+    if (isClient && token) {
+      Cookies.remove('products_click');
+      Cookies.set('products_click', JSON.stringify(products_click));
+      router.push(`/checkout/checkout?product=${data?.slug}`);
+    } else {
+      router.push(`/${lang}${ROUTES.SIGN_UP}`);
+    }
+    closeModal();
   }
+
+ 
 
   return (
     <div className="pt-6 pb-2 md:pt-7">
@@ -613,16 +633,28 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
               {data?.discount_price !== Number(data?.price) ? (
                 <>
                   <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
-                    {data?.discount_price} {t('сум')}
+                    {addPeriodToThousands(data?.discount_price)?.replace(
+                      /\.\d+$/,
+                      '',
+                    )}{' '}
+                    {t('сум')}
                   </span>
                   <del className="text-sm text-opacity-50 md:text-15px ltr:pl-3 rtl:pr-3 text-brand-dark ">
-                    {Number(data?.price)} {t('сум')}
+                    {addPeriodToThousands(Number(data?.price)).replace(
+                      /\.\d+$/,
+                      '',
+                    )}{' '}
+                    {t('сум')}
                   </del>
                 </>
               ) : (
                 <>
                   <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
-                    {Number(data?.price)} {t('сум')}
+                    {addPeriodToThousands(Number(data?.price)).replace(
+                      /\.\d+$/,
+                      '',
+                    )}{' '}
+                    {t('сум')}
                   </span>
                 </>
               )}
@@ -640,6 +672,14 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
           <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
             <RenderPopupOrAddToCart props={{ data: data, lang: lang }} />
+            {(Number(data?.quantity) < 1 || outOfStock) && data?.is_many && (
+              <button
+                onClick={() => openModal('PAYMENT', data?.id)}
+                className="text-center text-[13px] hover:text-yellow-300 w-full mt-0"
+              >
+                {"Ko'proq kerakmi?"}
+              </button>
+            )}
             <Button
               onClick={handleClickPayme}
               variant="border"

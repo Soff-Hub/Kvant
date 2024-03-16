@@ -1,6 +1,6 @@
 'use client';
 
-import {useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@components/ui/button';
 import { useParams, useRouter } from 'next/navigation';
 import { ROUTES } from '@utils/routes';
@@ -17,9 +17,15 @@ import Heading from '@components/ui/heading';
 import Text from '@components/ui/text';
 import dynamic from 'next/dynamic';
 import Cookies from 'js-cookie';
-import { useModalAction, useModalState } from '@components/common/modal/modal.context';
+import {
+  useModalAction,
+  useModalState,
+} from '@components/common/modal/modal.context';
 import CloseButton from '@components/ui/close-button';
 import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
+import { useCart } from '@contexts/cart/cart.context';
+import { addPeriodToThousands } from '@components/cart/cart-item';
+import { getToken } from '@framework/utils/get-token';
 
 const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
   ssr: false,
@@ -40,8 +46,12 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const [addToWishlistLoader, setAddToWishlistLoader] =
     useState<boolean>(false);
   const [shareButtonStatus, setShareButtonStatus] = useState<boolean>(false);
+  const [isClient, setIsClient] = useState(Boolean(false));
+  const token = getToken();
   const router = useRouter();
-  const { closeModal } = useModalAction();
+  const { closeModal, openModal } = useModalAction();
+  const { isInCart, isInStock } = useCart();
+  const outOfStock = isInCart(data?.id) && !isInStock(data?.id);
 
   const productUrl = `${baseURL}${ROUTES.PRODUCT}/${slug}`;
 
@@ -116,14 +126,24 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   };
 
   function handleClickPayme() {
-    Cookies.remove('products_click');
-    Cookies.set('products_click', JSON.stringify(products_click));
-    router.push(`/checkout/checkout?product=${data?.slug}`);
+    if (isClient && token) {
+      Cookies.remove('products_click');
+      Cookies.set('products_click', JSON.stringify(products_click));
+      router.push(`/checkout/checkout?product=${data?.slug}`);
+    }else{
+      router.push(`/${lang}${ROUTES.SIGN_UP}`);
+    }
+    closeModal()
   }
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
 
   return (
     <div className="md:w-[600px] lg:w-[940px] xl:w-[1180px] mx-auto p-1 lg:p-0 xl:p-3 bg-brand-light rounded-md">
-       <CloseButton onClick={closeModal} />
+      <CloseButton onClick={closeModal} />
       <div className="overflow-hidden">
         <div className="px-2 md:px-5 mb-2 lg:mb-2 pt-4 md:pt-7">
           <div className="lg:flex items-stretch justify-between gap-8">
@@ -159,16 +179,27 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
                   {data?.discount_price !== Number(data?.price) ? (
                     <>
                       <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
-                        {data?.discount_price} {t('сум')}
+                        {addPeriodToThousands(
+                          Number(data?.discount_price),
+                        ).replace(/\.\d+$/, '')}{' '}
+                        {t('сум')}
                       </span>
                       <del className="text-sm text-opacity-50 md:text-15px ltr:pl-3 rtl:pr-3 text-brand-dark ">
-                        {Number(data?.price)} {t('сум')}
+                        {addPeriodToThousands(Number(data?.price)).replace(
+                          /\.\d+$/,
+                          '',
+                        )}{' '}
+                        {t('сум')}
                       </del>
                     </>
                   ) : (
                     <>
                       <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
-                        {Number(data?.price)} {t('сум')}
+                        {addPeriodToThousands(Number(data?.price)).replace(
+                          /\.\d+$/,
+                          '',
+                        )}{' '}
+                        {t('сум')}
                       </span>
                     </>
                   )}
@@ -186,6 +217,16 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
 
               <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
                 <RenderPopupOrAddToCart props={{ data: data, lang: lang }} />
+                {(Number(data?.quantity) < 1 || outOfStock) &&
+                  data?.is_many && (
+                    <button
+                      onClick={() => openModal('PAYMENT', data?.id)}
+                      className="text-center text-[13px] hover:text-yellow-300 w-full mt-0"
+                    >
+                      {"Ko'proq kerakmi?"}
+                    </button>
+                  )}
+
                 <Button
                   onClick={handleClickPayme}
                   variant="border"
@@ -251,4 +292,3 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
 };
 
 export default ProductSingleDetails;
-

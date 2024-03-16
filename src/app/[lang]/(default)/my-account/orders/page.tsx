@@ -1,16 +1,32 @@
-import { Metadata } from 'next';
+'use client'
+import { useEffect, useState } from 'react';
 import OrdersPageContent from './orders-page-content';
+import { getToken } from '@framework/utils/get-token';
+import ErrorInformation from '@components/404/error-information';
 
-export const metadata: Metadata = {
-  title: 'Orders',
-};
-
-export default async function OrdersTablePage({
+export default function OrdersTablePage({
   params: { lang },
 }: {
   params: {
     lang: string;
   };
 }) {
-  return <OrdersPageContent lang={lang} />;
+  const [isClient, setIsClient] = useState<boolean>(false);
+  const token = getToken();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  return (
+    <>
+      {isClient ? (
+        token ? (
+          <OrdersPageContent lang={lang} />
+        ) : (
+          <ErrorInformation />
+        )
+      ) : null}
+    </>
+  );
 }

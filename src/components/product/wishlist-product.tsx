@@ -3,23 +3,32 @@ import Alert from '@components/ui/alert';
 import cn from 'classnames';
 import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
 import { useEffect, useState } from 'react';
-import { IoIosHeart } from 'react-icons/io';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@utils/routes';
+
+
 
 interface ProductWishlistProps {
   className?: string;
   lang: string;
 }
 
-export const AccouttWishlist: React.FC<React.SVGAttributes<{}>> = () => {
+export const AccouttWishlist: React.FC<React.SVGAttributes<{}>> = ({lang}) => {
   const { items } = useCartWishtlists();
   const [isClient, setIsClient] = useState<boolean>(false);
+
+const router =useRouter()
+
+  function handleClick(){
+    router.push(`/${lang}/${ROUTES.WISHLIST}`)
+  }
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   return (
-    <button type="button" className="relative p-1">
+    <button type="button" className="relative p-1" onClick={handleClick}>
       <div className="svg-container mt-1">
         <svg
           width="28"

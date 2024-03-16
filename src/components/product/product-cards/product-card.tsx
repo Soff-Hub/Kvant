@@ -9,10 +9,10 @@ import { useTranslation } from 'src/app/i18n/client';
 import { ROUTES } from '@utils/routes';
 import Link from '@components/ui/link';
 import SearchIcon from '@components/icons/search-icon';
-import StarIcon from '@components/icons/star-icon';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { addPeriodToThousands } from '@components/cart/cart-item';
+import { useCart } from '@contexts/cart/cart.context';
 
 const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
   ssr: false,
@@ -31,13 +31,24 @@ function RenderPopupOrAddToCart({ props }: { props: Object }) {
 }
 
 const ProductCard: React.FC<ProductProps> = ({ product, lang }) => {
-  const { id, title, image, discount_price, price, slug, discount } =
-    product ?? {};
+  const {
+    id,
+    title,
+    quantity,
+    image,
+    discount_price,
+    price,
+    slug,
+    discount,
+    is_many,
+  } = product ?? {};
 
   const { openModal } = useModalAction();
   const { width } = useWindowSize();
   const iconSize = width! > 1024 ? '20' : '17';
   const { t } = useTranslation(lang, 'home');
+  const { isInCart, isInStock } = useCart();
+  const outOfStock = isInCart(id) && !isInStock(id);
 
   async function handlePopupView() {
     try {
@@ -91,7 +102,7 @@ const ProductCard: React.FC<ProductProps> = ({ product, lang }) => {
         </div>
         <Link
           href={`/${lang}${ROUTES.PRODUCTS}/${slug}`}
-          className="text-skin-base font-semibold text-sm leading-5 min-h-[40px] line-clamp-2 mt-1 mb-2 hover:text-brand"
+          className="text-skin-base font-semibold text-sm leading-5 min-h-[40px] line-clamp-2 my-1 hover:text-brand"
         >
           {title}
         </Link>
@@ -99,30 +110,32 @@ const ProductCard: React.FC<ProductProps> = ({ product, lang }) => {
         <div className="flex text-gray-500 space-x-2"></div>
         <div className="space-s-2">
           {discount_price !== Number(price) ? (
-            <>
-              <span className="inline-block font-semibold text-[18px] text-brand">
-                {addPeriodToThousands(Number(discount_price))} {t('сум')}
+            <div className='flex flex-col-reverse'>
+              <span className=" font-semibold text-[18px] text-brand">
+                {addPeriodToThousands(Number(discount_price)).replace(/\.\d+$/, '')} {t('сум')}
               </span>
-              <del className="mx-1  text-gray-400 text-opacity-70">
-                {addPeriodToThousands(Number(price))} {t('сум')}
+              <del className="mx-1  text-gray-400 text-opacity-70 text-[14px]">
+                {addPeriodToThousands(price)?.replace(/\.\d+$/, '')} {t('сум')}
               </del>
-            </>
+            </div>
           ) : (
             <>
               <span className="inline-block font-semibold text-[18px] text-brand">
-                {addPeriodToThousands(Number(price))} {t('сум')}
+                {addPeriodToThousands(Number(price)).replace(/\.\d+$/, '')} {t('сум')}
               </span>
             </>
           )}
         </div>
         <div className="block product-cart-button font-semibold ">
           <RenderPopupOrAddToCart props={{ data: product, lang: lang }} />
-          <button
-            onClick={() => openModal('PAYMENT', id)}
-            className="text-center text-[14px] hover:text-yellow-300 w-full mt-1"
-          >
-            Ko'proq kerakmi?
-          </button>
+          {(Number(quantity) < 1 || outOfStock) && is_many && (
+            <button
+              onClick={() => openModal('PAYMENT', id)}
+              className="text-center text-[13px] hover:text-yellow-300 w-full mt-1"
+            >
+              {"Ko'proq kerakmi?"}
+            </button>
+          )}
         </div>
       </div>
     </article>

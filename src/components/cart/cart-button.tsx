@@ -1,27 +1,13 @@
 import CartIcon from '@components/icons/cart-icon';
 import { useCart } from '@contexts/cart/cart.context';
 import { useUI } from '@contexts/ui.context';
-import { useTranslation } from 'src/app/i18n/client';
 import cn from 'classnames';
+import { useEffect, useState } from 'react';
 
-type CartButtonProps = {
-  lang: string;
-  className?: string;
-  iconClassName?: string;
-  hideLabel?: boolean;
-  // isShowing?: boolean;
-};
-
-const CartButton: React.FC<CartButtonProps> = ({
-  lang,
-  className,
-  iconClassName = '',
-  hideLabel,
-  // isShowing,
-}) => {
-  const { t } = useTranslation(lang, 'home');
+const CartButton: React.FC<React.SVGAttributes<{}>> = ({ lang }) => {
   const { openDrawer, setDrawerView } = useUI();
   const { totalItems } = useCart();
+  const [isClient, setIsClient] = useState<boolean>(false);
 
   function handleCartOpen() {
     setDrawerView('CART_SIDEBAR');
@@ -29,25 +15,17 @@ const CartButton: React.FC<CartButtonProps> = ({
     return openDrawer();
   }
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
-    <button
-      className={cn(
-        'flex items-center justify-center shrink-0 h-auto focus:outline-none transform',
-        className,
-      )}
-      onClick={handleCartOpen}
-      aria-label="cart-button"
-    >
-      <div className="relative flex items-center">
-        <div className="flex items-center relative cart-button">
-          <CartIcon className={cn(iconClassName)} />
-          <span className="cart-counter-badge  h-[18px] min-w-[18px] rounded-full flex items-center justify-center bg-red-600 text-brand-light absolute -top-1 ltr:left-3 rtl:right-3 text-11px">
-            {totalItems}
-          </span>
-        </div>
-        {!hideLabel && (
-          <span className="text-sm font-normal ms-2"></span>
-        )}
+    <button type="button" className="relative p-1" onClick={handleCartOpen}>
+      <div className="svg-container mt-1">
+        <CartIcon />
+      </div>
+      <div className="absolute inline-flex items-center justify-center w-[22px] h-[22px] text-xs font-bold text-white bg-red-600 border-2 border-white rounded-full -top-[1px] right-[0.01px] ">
+        {isClient && totalItems}
       </div>
     </button>
   );

@@ -89,6 +89,7 @@ export type Product = {
   description?: string;
   view_count?:number;
   [key: string]: unknown;
+  is_many:boolean;
 };
 export type OrderItem = {
   id: number | string;

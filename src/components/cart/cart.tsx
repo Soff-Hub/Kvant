@@ -12,14 +12,19 @@ import Heading from '@components/ui/heading';
 import Text from '@components/ui/text';
 import DeleteIcon from '@components/icons/delete-icon';
 import { useTranslation } from 'src/app/i18n/client';
-
-
+import { getToken } from '@framework/utils/get-token';
+import { useEffect, useState } from 'react';
 
 export default function Cart({ lang }: { lang: string }) {
   const { t } = useTranslation(lang, 'home');
-  
+  const [isClient, setIsClient] = useState(Boolean(false));
+  const token = getToken();
   const { closeDrawer } = useUI();
   const { items, total, isEmpty, resetCart } = useCart();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <div className="flex flex-col justify-between w-full h-full">
@@ -34,9 +39,7 @@ export default function Cart({ lang }: { lang: string }) {
               onClick={resetCart}
             >
               <DeleteIcon />
-              <span className="ltr:pl-1 lg:rtl:pr-1">
-                {t('Очистить все')}
-              </span>
+              <span className="ltr:pl-1 lg:rtl:pr-1">{t('Очистить все')}</span>
             </button>
           )}
 
@@ -65,16 +68,24 @@ export default function Cart({ lang }: { lang: string }) {
           <div className="ltr:pr-3 rtl:pl-3">
             <Heading className="mb-2.5">{t('Промежуточный итог')}:</Heading>
             <Text className="leading-6">
-              {t('Окончательная цена и скидки будут определены во время обработки платежа.')}
+              {t(
+                'Окончательная цена и скидки будут определены во время обработки платежа.',
+              )}
             </Text>
           </div>
           <div className="shrink-0 font-semibold text-base md:text-lg text-brand-dark -mt-0.5 min-w-[80px] ltr:text-right rtl:text-left">
-          {addPeriodToThousands(total)?.replace(/\.\d+$/, '') + " " + t('сум')}
+            {addPeriodToThousands(total)?.replace(/\.\d+$/, '') +
+              ' ' +
+              t('сум')}
           </div>
         </div>
         <div className="flex flex-col" onClick={closeDrawer}>
           <Link
-            href={isEmpty === false ? `/${lang}${ROUTES.CHECKOUT}` : `/${lang}`}
+            href={
+              isClient && token
+                ? `/${lang}${ROUTES.CHECKOUT}`
+                : `/${lang}${ROUTES.SIGN_UP}`
+            }
             className={cn(
               'w-full px-5 py-3 md:py-4 flex items-center justify-center bg-heading rounded font-semibold text-sm sm:text-15px text-brand-light bg-brand focus:outline-none transition duration-300 hover:bg-opacity-90',
               {

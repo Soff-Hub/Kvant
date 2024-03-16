@@ -4,7 +4,7 @@ import PlusIcon from '@components/icons/plus-icon';
 import { useTranslation } from 'src/app/i18n/client';
 
 type ButtonEvent = (
-  e: React.MouseEvent<HTMLButtonElement | MouseEvent>
+  e: React.MouseEvent<HTMLButtonElement | MouseEvent>,
 ) => void;
 
 type CounterProps = {
@@ -38,7 +38,7 @@ const Counter: React.FC<CounterProps> = ({
           'h-11 md:h-14 bg-brand': variant === 'single',
           'inline-flex': variant === 'cart',
         },
-        className
+        className,
       )}
     >
       <button
@@ -52,7 +52,7 @@ const Counter: React.FC<CounterProps> = ({
               variant === 'single',
             '!w-6 !h-6 pr-0 border border-border-three hover:bg-brand text-brand-muted hover:border-brand rounded-full hover:text-brand-light':
               variant === 'cart',
-          }
+          },
         )}
       >
         <span className="sr-only">{t('button-minus')}</span>
@@ -62,12 +62,11 @@ const Counter: React.FC<CounterProps> = ({
         className={cn(
           'font-semibold flex items-center justify-center h-full transition-colors duration-250 ease-in-out cursor-default shrink-0',
           {
-            'text-sm md:text-base w-6 text-white':
-              variant === 'mercury',
+            'text-sm md:text-base w-6 text-white': variant === 'mercury',
             'text-base md:text-[17px] w-12 md:w-20 xl:w-28 text-white':
               variant === 'single',
             'text-15px w-9': variant === 'cart',
-          }
+          },
         )}
       >
         {value}
@@ -84,12 +83,11 @@ const Counter: React.FC<CounterProps> = ({
               variant === 'single',
             '!w-6 !h-6 border text-brand-muted border-border-three hover:bg-brand hover:border-brand rounded-full hover:text-brand-light !pr-0':
               variant === 'cart',
-          }
+          },
         )}
-        title={disabled ? 'Out Of Stock' : ''}
       >
         <span className="sr-only">{t('button-plus')}</span>
-        <PlusIcon width={size} height={size} opacity="1" />
+        {!disabled && <PlusIcon width={size} height={size} opacity="1" />}
       </button>
     </div>
   );

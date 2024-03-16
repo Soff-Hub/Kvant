@@ -7,7 +7,7 @@ import { useTranslation } from 'src/app/i18n/client';
 import StarIcon from '@components/icons/star-icon';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { baseURL } from '@framework/utils/http';
-
+import Text from '@components/ui/text';
 
 interface ProductProps {
   product: Product;
@@ -45,8 +45,6 @@ const ProductFlashSaleGobies: React.FC<ProductProps> = ({
       console.error('Xatolik yuz berdi:', error);
     }
   }
-
-
 
   return (
     <article
@@ -107,7 +105,9 @@ const ProductFlashSaleGobies: React.FC<ProductProps> = ({
             </>
           )}
         </div>
-        <span className="text-[14px] leading-4">{description} </span>
+        <Text variant="medium">
+          {description?.split(' ').slice(0, 40).join(' ')}
+        </Text>
       </div>
     </article>
   );
