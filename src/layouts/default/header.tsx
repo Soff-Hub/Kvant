@@ -85,14 +85,14 @@ const Header = ({ className, lang }: HeaderProps) => {
                 <Search
                   searchId="top-bar-search"
                   lang={lang}
-                  className="hidden lg:flex lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[800px] lg:mx-10"
+                  className="hidden lg:flex lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[800px] m-0"
                 />
 
                 <CartButton />
 
                 <AccouttWishlist />
 
-                <LanguageSwitcher lang="en" />
+                <LanguageSwitcher lang={lang} />
                 <div className="hidden lg:flex items-center  accountButton">
                   <AccountIcon />
 

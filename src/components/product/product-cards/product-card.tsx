@@ -13,6 +13,7 @@ import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { addPeriodToThousands } from '@components/cart/cart-item';
 import { useCart } from '@contexts/cart/cart.context';
+import { useEffect, useState } from 'react';
 
 const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
   ssr: false,
@@ -49,18 +50,28 @@ const ProductCard: React.FC<ProductProps> = ({ product, lang }) => {
   const { t } = useTranslation(lang, 'home');
   const { isInCart, isInStock } = useCart();
   const outOfStock = isInCart(id) && !isInStock(id);
+  const [productData, setProduct] = useState<any>(null);
 
   async function handlePopupView() {
     try {
+      const headers = new Headers();
+      headers.append('Accept-Language', lang);
       const response = await fetch(
         `${baseURL + API_ENDPOINTS.PRODUCTS_DETAILS}/${slug}/`,
+        {
+          headers: headers,
+        },
       );
       const product = await response.json();
-      openModal('PRODUCT_VIEW', product);
+      setProduct(product);
     } catch (error) {
       console.error('Xatolik yuz berdi:', error);
     }
   }
+
+  useEffect(() => {
+    handlePopupView();
+  }, [lang]);
 
   return (
     <article
@@ -89,7 +100,7 @@ const ProductCard: React.FC<ProductProps> = ({ product, lang }) => {
           <button
             className="buttons--quickview px-4 py-2 bg-brand-light rounded-full hover:bg-brand hover:text-brand-light"
             aria-label="Quick View Button"
-            onClick={handlePopupView}
+            onClick={() => openModal('PRODUCT_VIEW', productData)}
           >
             <SearchIcon width={iconSize} height={iconSize} opacity="1" />
           </button>
@@ -110,9 +121,13 @@ const ProductCard: React.FC<ProductProps> = ({ product, lang }) => {
         <div className="flex text-gray-500 space-x-2"></div>
         <div className="space-s-2">
           {discount_price !== Number(price) ? (
-            <div className='flex flex-col-reverse'>
+            <div className="flex flex-col-reverse">
               <span className=" font-semibold text-[18px] text-brand">
-                {addPeriodToThousands(Number(discount_price)).replace(/\.\d+$/, '')} {t('сум')}
+                {addPeriodToThousands(Number(discount_price)).replace(
+                  /\.\d+$/,
+                  '',
+                )}{' '}
+                {t('сум')}
               </span>
               <del className="mx-1  text-gray-400 text-opacity-70 text-[14px]">
                 {addPeriodToThousands(price)?.replace(/\.\d+$/, '')} {t('сум')}
@@ -121,7 +136,8 @@ const ProductCard: React.FC<ProductProps> = ({ product, lang }) => {
           ) : (
             <>
               <span className="inline-block font-semibold text-[18px] text-brand">
-                {addPeriodToThousands(Number(price)).replace(/\.\d+$/, '')} {t('сум')}
+                {addPeriodToThousands(Number(price)).replace(/\.\d+$/, '')}{' '}
+                {t('сум')}
               </span>
             </>
           )}

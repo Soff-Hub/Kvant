@@ -4,6 +4,7 @@ import type { FC } from 'react';
 import { usePopularProductsQuery } from '@framework/product/get-section-second';
 import ProductsCarousel from '@components/product/products-carousel';
 import { LIMITS } from '@framework/utils/limits';
+import { useTranslation } from 'src/app/i18n/client';
 
 interface ProductFeedProps {
   lang: string;
@@ -20,9 +21,10 @@ const PopularProductFeed: FC<ProductFeedProps> = ({
   const { data, isLoading, error } = usePopularProductsQuery({
     limit: limit,
   });
+  const { t } = useTranslation(lang, 'home');
   return (
     <ProductsCarousel
-      sectionHeading="ПОПУЛЯРНЫЕ ПРОДУКТЫ"
+      sectionHeading={t('ПОПУЛЯРНЫЕ ПРОДУКТЫ')}
       className={className}
       products={data}
       loading={isLoading}

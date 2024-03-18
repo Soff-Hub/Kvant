@@ -31,7 +31,7 @@ export const CategoryFilter = ({ lang }: { lang: string }) => {
   return (
     <div className="block mb-10">
       <Heading className="uppercase mb-3 block-title">
-        {t('text-categories')}
+        {t('КАТЕГОРИИ')}
       </Heading>
       <div className="max-h-full overflow-hidden">
         <Scrollbar className="w-full category-filter-scrollbar">

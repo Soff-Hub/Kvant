@@ -7,6 +7,7 @@ import CategoryListCardLoader from '@components/ui/loaders/category-list-card-lo
 import { useCategoriesQuery } from '@framework/category/get-all-categories';
 import cn from 'classnames';
 import SectionHeader from '@components/common/section-header';
+import { useTranslation } from 'src/app/i18n/client';
 
 interface CategorySidebarProps {
   lang: string;
@@ -25,6 +26,7 @@ export default function CategoryDropdownSidebar({
     limit: 10,
   });
 
+  const { t } = useTranslation(lang, 'home');
 
   return (
     <aside
@@ -32,7 +34,7 @@ export default function CategoryDropdownSidebar({
     >
       <div className=" mb-3 ">
         <SectionHeader
-          sectionHeading={`Просмотреть все категории`}
+          sectionHeading={t(`Просмотреть все категории`)}
           className="mb-0 block-title uppercase"
           lang={lang}
         />

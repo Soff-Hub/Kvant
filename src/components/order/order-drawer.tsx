@@ -19,12 +19,13 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
 
   async function getOrders() {
     const token = getToken();
-    const url = `${baseURL}${API_ENDPOINTS.ORDERS_DETAILS}/${data}`;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`, // Tokenni so'rovga qo'shish
-      },
+    const headers = {
+      'Accept-Language': lang,
+      Authorization: `Bearer ${token}`,
     };
+
+    const url = `${baseURL}${API_ENDPOINTS.ORDERS_DETAILS}/${data}`;
+    const config = { headers };
     try {
       setIsLoading(false);
       const response = await axios.get(url, config);
@@ -38,9 +39,7 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
 
   useEffect(() => {
     getOrders();
-  }, [data]);
-
-  
+  }, [data, lang]);
 
   return (
     <>
@@ -66,7 +65,9 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
               <div className="p-5 ">
                 <div className="mb-8">
                   <div>
-                    <span className="font-medium text-sm">{t('Номер заказа')} :</span>{' '}
+                    <span className="font-medium text-sm">
+                      {t('Номер заказа')} :
+                    </span>{' '}
                     <span className="text-sm">{orderData?.id}</span>{' '}
                   </div>
                   <div>
@@ -78,7 +79,9 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
                   </div>
                   <div>
                     {' '}
-                    <span className="font-medium text-sm">{t('Адрес')} :</span>{' '}
+                    <span className="font-medium text-sm">
+                      {t('Адрес')} :
+                    </span>{' '}
                     <span className="text-sm">{orderData?.address}</span>
                   </div>
                   <div>
@@ -105,7 +108,9 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
                         className="bullet"
                         style={{
                           backgroundColor:
-                            orderData?.status_ln === 'Approved' ? 'green' : 'red',
+                            orderData?.status_ln === 'Approved'
+                              ? 'green'
+                              : 'red',
                         }}
                       />
                       {orderData?.status_ln}
@@ -114,7 +119,7 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
                   <div>
                     {' '}
                     <span className="font-medium text-sm">
-                      {t("Дата заказа")} :
+                      {t('Дата заказа')} :
                     </span>{' '}
                     <span className="text-sm">{orderData?.created_at}</span>
                   </div>
@@ -127,26 +132,38 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
                   <div className="text-black inline-flex flex-col text-[12px] md:text-[14px]">
                     <div className="pb-1 mb-2 border-b mt-3 border-border-base ltr:pl-20 rtl:pr-20">
                       <p className="flex justify-between mb-1">
-                        <span className="ltr:mr-8 rtl:ml-8">{t('Цена продукта')}: </span>
+                        <span className="ltr:mr-8 rtl:ml-8">
+                          {t('Цена продукта')}:{' '}
+                        </span>
                         <span className="font-medium">
-                          {addPeriodToThousands(orderData?.amounts?.products_amount)} {t('сум')}
+                          {addPeriodToThousands(
+                            orderData?.amounts?.products_amount,
+                          )}{' '}
+                          {t('сум')}
                         </span>
                       </p>
                       <p className="flex justify-between mb-1">
-                        <span className="ltr:mr-8 rtl:ml-8">{t('Доставка')}: </span>
+                        <span className="ltr:mr-8 rtl:ml-8">
+                          {t('Доставка')}:{' '}
+                        </span>
                         <span className="font-medium">
-                          {addPeriodToThousands(orderData?.amounts?.shipping_amount)} {t('сум')}
+                          {addPeriodToThousands(
+                            orderData?.amounts?.shipping_amount,
+                          )}{' '}
+                          {t('сум')}
                         </span>
                       </p>
                     </div>
                     <p className="ltr:pl-20 ">
-                        <span className="ltr:mr-8 rtl:ml-8">{t('Общая сумма')}: </span>
-                        <span className="font-medium">
-                          {addPeriodToThousands(orderData?.total_amount)} {t('сум')}
-                        </span>
-                      </p>
+                      <span className="ltr:mr-8 rtl:ml-8">
+                        {t('Общая сумма')}:{' '}
+                      </span>
+                      <span className="font-medium">
+                        {addPeriodToThousands(orderData?.total_amount)}{' '}
+                        {t('сум')}
+                      </span>
+                    </p>
                   </div>
-                  
                 </div>
               </div>
             </div>

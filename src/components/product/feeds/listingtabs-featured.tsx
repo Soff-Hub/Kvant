@@ -6,6 +6,7 @@ import { Tab } from '@headlessui/react';
 import BestSellerProductFeed from '@components/product/feeds/best-seller-product-feed';
 import ElectronicProductFeed from '@components/product/feeds/electronic-product-feed';
 import FashionProductFeed from '@components/product/feeds/fashion-product-feed';
+import { useTranslation } from 'src/app/i18n/client';
 
 type BoxProps = {
   className?: string;
@@ -13,9 +14,10 @@ type BoxProps = {
   variant?: string;
 };
 
-const ListingtabsFeatured: FC<BoxProps> = ({ lang, className, variant }) => {
+const ListingtabsFeatured: FC<BoxProps> = ({ lang, className }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const tabArr = ['Рекомендуемые', 'Самые популярные', 'В продаже'];
+  const { t } = useTranslation(lang, 'home');
+  const tabArr = [t('Рекомендуемые'), t('Самые популярные'), t('В продаже')];
 
   return (
     <div className={cn('my-8 lg:my-15', className)}>

@@ -459,8 +459,13 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   async function handlePopupView() {
     try {
       setIsLoading(true);
+      const headers = new Headers();
+      headers.append('Accept-Language', lang);
       const response = await fetch(
         `${baseURL + API_ENDPOINTS.PRODUCTS_DETAILS}/${pathname.slug}/`,
+        {
+          headers: headers,
+        },
       );
       const product = await response.json();
       setData(product);
@@ -473,8 +478,13 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   async function handlePopupViewProducts() {
     try {
       setIsLoading(true);
+      const headers = new Headers();
+      headers.append('Accept-Language', lang);
       const response = await fetch(
         `${baseURL + API_ENDPOINTS.PRODUCTS_DETAILS_SINGLE}/${pathname.slug}/`,
+        {
+          headers: headers,
+        },
       );
       const product = await response.json();
       setDataProducts(product);
@@ -487,12 +497,12 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   useEffect(() => {
     handlePopupViewProducts();
     handlePopupView();
-  }, [slug]);
+  }, [slug, lang]);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
-  
+
   const handleChange = () => {
     setShareButtonStatus(!shareButtonStatus);
   };
@@ -595,8 +605,6 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     }
     closeModal();
   }
-
- 
 
   return (
     <div className="pt-6 pb-2 md:pt-7">

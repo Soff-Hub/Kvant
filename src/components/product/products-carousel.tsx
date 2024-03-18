@@ -47,7 +47,6 @@ const breakpoints = {
 
 const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
   sectionHeading,
-  categorySlug,
   className = '',
   products,
   loading,
@@ -57,7 +56,6 @@ const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
   carouselBreakpoint,
   lang,
   variant = 'default',
-  borderCarousel,
   rowCarousel = 1,
 }) => {
   return (

@@ -6,3 +6,11 @@ export const getToken = () => {
   }
   return Cookies.get('auth_token');
 };
+
+export const getTokenLang = () => {
+  if (typeof window === undefined) {
+    return null;
+  }
+  return localStorage.getItem('i18nextLng');;
+};
+

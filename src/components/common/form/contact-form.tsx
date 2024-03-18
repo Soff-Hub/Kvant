@@ -33,19 +33,19 @@ const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
       <Input
         variant="solid"
-        label="forms:label-name-required"
-        placeholder="forms:placeholder-name"
-        {...register('name', { required: 'forms:name-required' })}
+        label="Полное имя (обязательно)"
+        placeholder="Введите свое полное имя"
+        {...register('name', { required: 'Вам необходимо указать свое полное имя' })}
         error={errors.name?.message}
         lang={lang}
       />
       <Input
         type="email"
         variant="solid"
-        label="forms:label-email-required"
-        placeholder="forms:placeholder-email"
+        label="Адрес электронной почты (обязательно)"
+        placeholder="Введите адрес электронной почты"
         {...register('email', {
-          required: 'forms:email-required',
+          required: 'Вам необходимо указать свой адрес электронной почты',
           pattern: {
             value:
               /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -58,20 +58,20 @@ const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
       <Input
         variant="solid"
         type="text"
-        label="forms:label-contact-phone"
-        placeholder="forms:placeholder-phone"
+        label="Телефон (опционально)"
+        placeholder="Введите свой телефон"
         {...register('phone')}
         lang={lang}
       />
       <TextArea
         variant="solid"
-        label="forms:label-message"
+        label="Сообщение"
         {...register('message')}
-        placeholder="forms:placeholder-briefly-describe"
+        placeholder="Кратко опишите"
         lang={lang}
       />
       <Button variant="formButton" className="w-full" type="submit">
-        {mounted && <>{t('common:button-send-message')}</>}
+        {mounted && <>{t('Отправить сообщение')}</>}
       </Button>
     </form>
   );

@@ -39,12 +39,16 @@ export const ProductGrid: FC<ProductGridProps> = ({
   async function getAllProducts() {
     try {
       setIsloading(true);
+      const headers = {
+        'Accept-Language': lang,
+      };
       const response = await axios.get(
         baseURL +
           API_ENDPOINTS.FASHION_PRODUCTS +
           '?' +
           query_get +
           `&limit=${countPage}&offset=${count}`,
+        { headers },
       );
       setData(response.data?.results);
     } catch (error: any) {
