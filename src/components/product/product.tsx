@@ -407,7 +407,7 @@ import { toast } from 'react-toastify';
 import ThumbnailCarousel from '@components/ui/carousel/thumbnail-carousel';
 import Image from '@components/ui/image';
 import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
-import { IoArrowRedoOutline } from 'react-icons/io5';
+import { IoArrowRedoOutline, IoChevronForward } from 'react-icons/io5';
 import SocialShareBox from '@components/ui/social-share-box';
 import ProductDetailsTab from '@components/product/product-details/product-tab';
 import { useTranslation } from 'src/app/i18n/client';
@@ -425,6 +425,9 @@ import { useModalAction } from '@components/common/modal/modal.context';
 import { useCart } from '@contexts/cart/cart.context';
 import { addPeriodToThousands } from '@components/cart/cart-item';
 import { getToken } from '@framework/utils/get-token';
+import ActiveLink from '@components/ui/active-link';
+import { IoHomeOutline } from 'react-icons/io5';
+import { BreadcrumbItems } from '@components/ui/breadcrumb';
 
 const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
   ssr: false,
@@ -607,174 +610,203 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   }
 
   return (
-    <div className="pt-6 pb-2 md:pt-7">
-      <div className="grid-cols-10 lg:grid gap-7 2xl:gap-7 mb-8 lg:mb-12 bg-white p-5 rounded">
-        <div className="col-span-5 mb-6 overflow-hidden  md:mb-8 lg:mb-0 xl:flex justify-center">
-          {!!data?.galleries?.[0]?.image?.length ? (
-            <ThumbnailCarousel
-              gallery={data?.galleries}
-              galleryClassName="xl:w-[100px]"
-              lang={lang}
-            />
-          ) : (
-            <div className="flex items-center justify-center w-auto">
-              <Image
-                src={data?.image ?? '/product-placeholder.svg'}
-                alt={data?.title!}
-                width={900}
-                height={680}
-                style={{ width: 'auto' }}
+    <>
+      <BreadcrumbItems
+        separator={
+          <IoChevronForward className="text-brand-dark text-opacity-40 text-15px" />
+        }
+      >
+        <ActiveLink
+          legacyBehavior
+          href={`${ROUTES.HOME}`}
+          activeClassName="font-semibold text-heading"
+          lang={lang}
+        >
+          <a className="inline-flex ">
+            <IoHomeOutline className="ltr:mr-1.5 rtl:ml-1.5 text-brand-dark text-15px" />
+            {t('Главный')}
+          </a>
+        </ActiveLink>
+        <ActiveLink
+          href={`/${'products'}/${data?.slug}`}
+          activeClassName="text-heading"
+          key={2}
+          legacyBehavior
+          lang={lang}
+        >
+          <a className="capitalize">{data.title}</a>
+        </ActiveLink>
+      </BreadcrumbItems>
+
+      <div className="pt-6 pb-2 md:pt-7">
+        <div className="grid-cols-10 lg:grid gap-7 2xl:gap-7 mb-8 lg:mb-12 bg-white p-5 rounded">
+          <div className="col-span-5 mb-6 overflow-hidden  md:mb-8 lg:mb-0 xl:flex justify-center">
+            {!!data?.galleries?.[0]?.image?.length ? (
+              <ThumbnailCarousel
+                gallery={data?.galleries}
+                galleryClassName="xl:w-[100px]"
+                lang={lang}
               />
-            </div>
-          )}
-        </div>
-
-        <div className="flex flex-col col-span-5 shrink-0 ">
-          <div className="pb-4 lg:pb-8">
-            <div className="md:mb-2.5 block -mt-1.5">
-              <h2 className="text-lg font-medium transition-colors duration-300 text-brand-dark md:text-xl xl:text-2xl">
-                {data?.title}
-              </h2>
-            </div>
-
-            <div className="flex items-center mt-5">
-              {data?.discount_price !== Number(data?.price) ? (
-                <>
-                  <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
-                    {addPeriodToThousands(data?.discount_price)?.replace(
-                      /\.\d+$/,
-                      '',
-                    )}{' '}
-                    {t('сум')}
-                  </span>
-                  <del className="text-sm text-opacity-50 md:text-15px ltr:pl-3 rtl:pr-3 text-brand-dark ">
-                    {addPeriodToThousands(Number(data?.price)).replace(
-                      /\.\d+$/,
-                      '',
-                    )}{' '}
-                    {t('сум')}
-                  </del>
-                </>
-              ) : (
-                <>
-                  <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
-                    {addPeriodToThousands(Number(data?.price)).replace(
-                      /\.\d+$/,
-                      '',
-                    )}{' '}
-                    {t('сум')}
-                  </span>
-                </>
-              )}
-            </div>
-          </div>
-
-          <dl className="productView-info  text-[14px] leading-8 pb-5 mb-5 border-b border-border-base">
-            {data?.characteristics?.map((item: any) => (
-              <ul className="flex gap-3 justify-between w-40 unsty">
-                <li>{item?.title}: </li>
-                <li>{item?.value}</li>
-              </ul>
-            ))}
-          </dl>
-
-          <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
-            <RenderPopupOrAddToCart props={{ data: data, lang: lang }} />
-            {(Number(data?.quantity) < 1 || outOfStock) && data?.is_many && (
-              <button
-                onClick={() => openModal('PAYMENT', data?.id)}
-                className="text-center text-[13px] hover:text-yellow-300 w-full mt-0"
-              >
-                {"Ko'proq kerakmi?"}
-              </button>
-            )}
-            <Button
-              onClick={handleClickPayme}
-              variant="border"
-              className={`w-full hover:border hover:text-brand hover:border-brand font-bold  bg-gray-200`}
-            >
-              {t('Купить сейчас')}
-            </Button>
-
-            <div className="grid grid-cols-2 gap-2.5">
-              <Button
-                variant="border"
-                onClick={addToWishlist}
-                loading={addToWishlistLoader}
-                className={`group hover:text-brand ${
-                  items?.length > 0 && 'text-brand'
-                }`}
-              >
-                {items?.some((item: any) => item.title == data.title) ? (
-                  <IoIosHeart className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all" />
-                ) : (
-                  <IoIosHeartEmpty className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
-                )}
-
-                {t('Список желаний')}
-              </Button>
-              <div className="relative group">
-                <Button
-                  variant="border"
-                  className={`w-full hover:text-brand ${
-                    shareButtonStatus === true && 'text-brand'
-                  }`}
-                  onClick={handleChange}
-                >
-                  <IoArrowRedoOutline className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
-                  {t('Делиться')}
-                </Button>
-                <SocialShareBox
-                  className={`absolute z-10 ltr:right-0 rtl:left-0 w-[300px] md:min-w-[400px] transition-all duration-300 ${
-                    shareButtonStatus === true
-                      ? 'visible opacity-100 top-full'
-                      : 'opacity-0 invisible top-[130%]'
-                  }`}
-                  shareUrl={productUrl}
-                  lang={lang}
+            ) : (
+              <div className="flex items-center justify-center w-auto">
+                <Image
+                  src={data?.image ?? '/product-placeholder.svg'}
+                  alt={data?.title!}
+                  width={900}
+                  height={680}
+                  style={{ width: 'auto' }}
                 />
               </div>
+            )}
+          </div>
+
+          <div className="flex flex-col col-span-5 shrink-0 ">
+            <div className="pb-4 lg:pb-8">
+              <div className="md:mb-2.5 block -mt-1.5">
+                <h2 className="text-lg font-medium transition-colors duration-300 text-brand-dark md:text-xl xl:text-2xl">
+                  {data?.title}
+                </h2>
+              </div>
+
+              <div className="flex items-center mt-5">
+                {data?.discount_price !== Number(data?.price) ? (
+                  <>
+                    <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
+                      {addPeriodToThousands(data?.discount_price)?.replace(
+                        /\.\d+$/,
+                        '',
+                      )}{' '}
+                      {t('сум')}
+                    </span>
+                    <del className="text-sm text-opacity-50 md:text-15px ltr:pl-3 rtl:pr-3 text-brand-dark ">
+                      {addPeriodToThousands(Number(data?.price)).replace(
+                        /\.\d+$/,
+                        '',
+                      )}{' '}
+                      {t('сум')}
+                    </del>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-brand font-medium text-base md:text-xl xl:text-[30px]">
+                      {addPeriodToThousands(Number(data?.price)).replace(
+                        /\.\d+$/,
+                        '',
+                      )}{' '}
+                      {t('сум')}
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <dl className="productView-info  text-[14px] leading-8 pb-5 mb-5 border-b border-border-base">
+              {data?.characteristics?.map((item: any) => (
+                <ul className="flex gap-3 justify-between w-40 unsty">
+                  <li>{item?.title}: </li>
+                  <li>{item?.value}</li>
+                </ul>
+              ))}
+            </dl>
+
+            <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
+              <RenderPopupOrAddToCart props={{ data: data, lang: lang }} />
+              {(Number(data?.quantity) < 1 || outOfStock) && data?.is_many && (
+                <button
+                  onClick={() => openModal('PAYMENT', data?.id)}
+                  className="text-center text-[13px] hover:text-yellow-300 w-full mt-0"
+                >
+                  {"Ko'proq kerakmi?"}
+                </button>
+              )}
+              <Button
+                onClick={handleClickPayme}
+                variant="border"
+                className={`w-full hover:border hover:text-brand hover:border-brand font-bold  bg-gray-200`}
+              >
+                {t('Купить сейчас')}
+              </Button>
+
+              <div className="grid grid-cols-2 gap-2.5">
+                <Button
+                  variant="border"
+                  onClick={addToWishlist}
+                  loading={addToWishlistLoader}
+                  className={`group hover:text-brand ${
+                    items?.length > 0 && 'text-brand'
+                  }`}
+                >
+                  {items?.some((item: any) => item.title == data.title) ? (
+                    <IoIosHeart className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all" />
+                  ) : (
+                    <IoIosHeartEmpty className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
+                  )}
+
+                  {t('Список желаний')}
+                </Button>
+                <div className="relative group">
+                  <Button
+                    variant="border"
+                    className={`w-full hover:text-brand ${
+                      shareButtonStatus === true && 'text-brand'
+                    }`}
+                    onClick={handleChange}
+                  >
+                    <IoArrowRedoOutline className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
+                    {t('Делиться')}
+                  </Button>
+                  <SocialShareBox
+                    className={`absolute z-10 ltr:right-0 rtl:left-0 w-[300px] md:min-w-[400px] transition-all duration-300 ${
+                      shareButtonStatus === true
+                        ? 'visible opacity-100 top-full'
+                        : 'opacity-0 invisible top-[130%]'
+                    }`}
+                    shareUrl={productUrl}
+                    lang={lang}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="pt-6 xl:pt-8">
+              <Heading className="mb-3 lg:mb-3.5">
+                {t('Краткое описание')}:
+              </Heading>
+              <Text variant="small">
+                {data?.description?.split(' ').slice(0, 40).join(' ')}
+              </Text>
             </div>
           </div>
-          <div className="pt-6 xl:pt-8">
-            <Heading className="mb-3 lg:mb-3.5">
-              {t('Краткое описание')}:
-            </Heading>
-            <Text variant="small">
-              {data?.description?.split(' ').slice(0, 40).join(' ')}
-            </Text>
-          </div>
         </div>
-      </div>
 
-      <ProductDetailsTab dataProps={data?.body} lang={lang} />
-      <Carousel
-        spaceBetween={6}
-        breakpoints={breakpoints}
-        grid={{ rows: 1, fill: 'row' }}
-        className="flex"
-        lang={lang}
-      >
-        {isLoading
-          ? Array.from({ length: 20! }).map((_, idx) => (
-              <SwiperSlide key={`${idx}`} className="p-2  rounded bg-white">
-                <ProductCardLoader uniqueKey={`${idx}`} />
-              </SwiperSlide>
-            ))
-          : Array.from({ length: 20! }).map((_) =>
-              dataProducts.map((product: any) => (
-                <SwiperSlide key={product?.id}>
-                  <ProductCard
-                    key={product?.id}
-                    product={product}
-                    lang={lang}
-                    variant={''}
-                  />
+        <ProductDetailsTab dataProps={data?.body} lang={lang} />
+        <Carousel
+          spaceBetween={6}
+          breakpoints={breakpoints}
+          grid={{ rows: 1, fill: 'row' }}
+          className="flex"
+          lang={lang}
+        >
+          {isLoading
+            ? Array.from({ length: 20! }).map((_, idx) => (
+                <SwiperSlide key={`${idx}`} className="p-2  rounded bg-white">
+                  <ProductCardLoader uniqueKey={`${idx}`} />
                 </SwiperSlide>
-              )),
-            )}
-      </Carousel>
-    </div>
+              ))
+            : Array.from({ length: 20! }).map((_) =>
+                dataProducts.map((product: any) => (
+                  <SwiperSlide key={product?.id}>
+                    <ProductCard
+                      key={product?.id}
+                      product={product}
+                      lang={lang}
+                      variant={''}
+                    />
+                  </SwiperSlide>
+                )),
+              )}
+        </Carousel>
+      </div>
+    </>
   );
 };
 
