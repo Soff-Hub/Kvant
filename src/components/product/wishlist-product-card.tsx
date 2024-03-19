@@ -3,7 +3,7 @@
 import type { FC } from 'react';
 import Image from '@components/ui/image';
 import { Product } from '@framework/types';
-import { IoIosHeart} from 'react-icons/io';
+import { IoIosHeart } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import { useWindowSize } from 'react-use';
 import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
@@ -25,9 +25,9 @@ const WishlistProductCard: FC<ProductProps> = ({ product, lang }) => {
 
   function addToWishlist() {
     removeItemFromCart(id);
-    const toastStatus: string = 'Удалить из списка избранного';
+    const toastStatus: string = t('Удалить из списка избранного');
     toast(toastStatus, {
-      style:{backgroundColor:'red', color:"white"},
+      style: { backgroundColor: 'red', color: 'white' },
       progressClassName: 'fancy-progress-bar',
       position: width! > 768 ? 'bottom-right' : 'top-right',
       autoClose: 1500,

@@ -6,7 +6,8 @@ import siteLogoBlack from 'public/assets/images/Kvant_horz_logo.svg';
 
 export const siteSettings = {
   name: 'Kvant',
-  description:'Fastest E-commerce template built with React, NextJS, TypeScript, React-Query and Tailwind CSS.',
+  description:
+    'Fastest E-commerce template built with React, NextJS, TypeScript, React-Query and Tailwind CSS.',
   author: {
     name: 'SoffHub',
     websiteUrl: 'https://soffhub.uz/',
@@ -46,23 +47,23 @@ export const siteSettings = {
         path: '/',
         label: 'Главный',
       },
-      {
-        id: 2,
-        path: '/',
-        label: 'Страницы',
-        subMenu: [
-          {
-            id: 2,
-            path: '/faq',
-            label: 'ТСС',
-          },
-          {
-            id: 6,
-            path: '/checkout',
-            label: 'Проверить',
-          },
-        ],
-      },
+      // {
+      //   id: 2,
+      //   path: '/',
+      //   label: 'Страницы',
+      //   subMenu: [
+      //     {
+      //       id: 2,
+      //       path: '/faq',
+      //       label: 'ТСС',
+      //     },
+      //     {
+      //       id: 6,
+      //       path: '/checkout',
+      //       label: 'Проверить',
+      //     },
+      //   ],
+      // },
       {
         id: 7,
         path: '/contact-us',
@@ -89,6 +90,5 @@ export const siteSettings = {
         icon: <USFlag />,
       },
     ],
- 
   },
 };

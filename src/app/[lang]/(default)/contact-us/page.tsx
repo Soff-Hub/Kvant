@@ -18,7 +18,7 @@ export default async function Page({
 }) {
   return (
     <>
-      <PageHeroSection heroTitle="text-page-contactus" lang={lang}/>
+      <PageHeroSection heroTitle="Связаться с нами" lang={lang}/>
       <Container className={"mt-10"}>
         <div
             className="flex flex-wrap bg-skin-fill w-full  relative z-10 p-5 xl:p-12 ">
