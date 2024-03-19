@@ -779,6 +779,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
         </div>
 
         <ProductDetailsTab dataProps={data?.body} lang={lang} />
+
         <Carousel
           spaceBetween={6}
           breakpoints={breakpoints}
@@ -805,6 +806,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
                 )),
               )}
         </Carousel>
+        
       </div>
     </>
   );
