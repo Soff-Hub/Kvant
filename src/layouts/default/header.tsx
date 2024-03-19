@@ -85,7 +85,7 @@ const Header = ({ className, lang }: HeaderProps) => {
                 <Search
                   searchId="top-bar-search"
                   lang={lang}
-                  className="hidden lg:flex lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[800px] m-0"
+                  className={`hidden lg:flex lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[800px] ${isClient && token ? 'm-0' : 'lg:mx-10'}} `}
                 />
 
                 <CartButton />
@@ -166,6 +166,5 @@ const Header = ({ className, lang }: HeaderProps) => {
     </>
   );
 };
-
 
 export default Header;
