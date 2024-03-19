@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="ru" suppressHydrationWarning={true}>
       <body
         // to prevent any warning that is caused by third party extensions like Grammarly
         className={fontBai.variable}

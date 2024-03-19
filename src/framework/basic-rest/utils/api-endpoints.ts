@@ -22,4 +22,6 @@ export const API_ENDPOINTS = {
   ORDERS_DETAILS: 'common/order-detail',
   BRANCHES: 'payment/branches',
   PAYMENT: 'payment/shipping_cost',
+  PRODUCTS_MORE:'payment/more-products-application'
+
 };

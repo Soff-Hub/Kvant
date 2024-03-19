@@ -12,11 +12,12 @@ import CloseButton from '@components/ui/close-button';
 import { toast } from 'react-toastify';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import { getToken } from '@framework/utils/get-token';
 
 interface ContactFormValues {
-  name: string;
-  phone: string;
-  number: number;
+  customer_name: string;
+  phone_number: string;
+  quantity: number;
 }
 
 const ProductsModal = ({ lang }: { lang: string }) => {
@@ -27,49 +28,51 @@ const ProductsModal = ({ lang }: { lang: string }) => {
   } = useForm<ContactFormValues>();
   const { closeModal } = useModalAction();
   const { data } = useModalState();
+  const { t } = useTranslation(lang, 'login');
 
   async function onSubmit(values: ContactFormValues) {
-    const dataForm = {id: data, ...values};
-    console.log(dataForm);
-
-    // try {
-    //   const response = await fetch(baseURL + API_ENDPOINTS.FORGET_PASSWORD, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Accept-Language': lang,
-    //     },
-    //     body: JSON.stringify(dataForm), // values ni o'zgartirdim
-    //   });
-    //   const data = await response.json();
-    //   if (response.ok) {
-    //     toast.success(t('Успешный!'), {
-    //       style: { color: 'white', background: 'green' },
-    //       progressClassName: 'fancy-progress-bar',
-    //       autoClose: 1500,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //     });
-    //     closeModal();
-    //   } else {
-    //     toast.error(data?.msg[0] + '', {
-    //       style: { color: 'white', background: 'red' },
-    //       progressClassName: 'fancy-progress-bar',
-    //       autoClose: 1500,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //     });
-    //   }
-    // } catch (error: any) {
-    //   console.log(error, 'forget password error response');
-    // }
+    const dataForm = { product: data, ...values };
+    const token = getToken();
+    if (token) {
+      try {
+        const response = await fetch(baseURL + API_ENDPOINTS.PRODUCTS_MORE, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept-Language': lang,
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify(dataForm), // values ni o'zgartirdim
+        });
+        const data = await response.json();
+        if (response.ok) {
+          toast.success(t('Успешный!'), {
+            style: { color: 'white', background: 'green' },
+            progressClassName: 'fancy-progress-bar',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+          closeModal();
+        } else {
+          toast.error(data?.msg[0] + '', {
+            style: { color: 'white', background: 'red' },
+            progressClassName: 'fancy-progress-bar',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        }
+      } catch (error: any) {
+        console.log(error, 'forget password error response');
+      }
+    }
   }
 
-  const { t } = useTranslation(lang);
   const mounted = useIsMounted();
   return (
     <div className="md:w-[300px]  xl:w-[600px] mx-auto p-1 lg:p-0 xl:p-3 bg-brand-light rounded-md">
@@ -88,22 +91,22 @@ const ProductsModal = ({ lang }: { lang: string }) => {
               variant="solid"
               label="Имя *"
               placeholder="Имя"
-              {...register('name', { required: 'Имя не введено' })}
-              error={errors.name?.message}
+              {...register('customer_name', { required: 'Имя не введено' })}
+              error={errors.customer_name?.message}
               lang={lang}
             />
             <Input
               label={t('Номер телефона *')}
               type="phone"
               variant="solid"
-              {...register('phone', {
+              {...register('phone_number', {
                 required: `${t('Номер телефона введен неверно!')}`,
                 pattern: {
                   value: /^\+998\s?\d{9}$/,
                   message: `${t('Номер телефона указан неверно')}`,
                 },
               })}
-              error={errors.phone?.message}
+              error={errors.phone_number?.message}
               lang={lang}
               defaultValue="+998"
               maxLength={13} // +998 kodi va 9 ta raqam uchun
@@ -113,10 +116,10 @@ const ProductsModal = ({ lang }: { lang: string }) => {
               variant="solid"
               label="Сколько продуктов *"
               placeholder="Сколько продуктов"
-              {...register('number', {
+              {...register('quantity', {
                 required: 'Сколько продуктов не введено',
               })}
-              error={errors.number?.message}
+              error={errors.quantity?.message}
               lang={lang}
             />
             <Button variant="formButton" className="w-full" type="submit">

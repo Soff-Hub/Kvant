@@ -2,10 +2,6 @@ import axios from 'axios';
 import { getToken } from './get-token';
 import { getTokenLang } from './get-token';
 
-
-
-
-
 export const baseURL = process.env.NEXT_PUBLIC_REST_API_ENDPOINT;
 
 const http = axios.create({

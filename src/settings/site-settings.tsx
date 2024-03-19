@@ -47,23 +47,23 @@ export const siteSettings = {
         path: '/',
         label: 'Главный',
       },
-      {
-        id: 2,
-        path: '/',
-        label: 'Страницы',
-        subMenu: [
-          {
-            id: 2,
-            path: '/faq',
-            label: 'ТСС',
-          },
-          {
-            id: 6,
-            path: '/checkout',
-            label: 'Проверить',
-          },
-        ],
-      },
+      // {
+      //   id: 2,
+      //   path: '/',
+      //   label: 'Страницы',
+      //   subMenu: [
+      //     {
+      //       id: 2,
+      //       path: '/faq',
+      //       label: 'ТСС',
+      //     },
+      //     {
+      //       id: 6,
+      //       path: '/checkout',
+      //       label: 'Проверить',
+      //     },
+      //   ],
+      // },
       {
         id: 7,
         path: '/contact-us',
