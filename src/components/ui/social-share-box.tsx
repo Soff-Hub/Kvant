@@ -17,7 +17,6 @@ import {
   WhatsappIcon,
   TwitterIcon,
   TelegramIcon,
-  InstapaperShareButton,
   TelegramShareButton,
 } from 'react-share';
 

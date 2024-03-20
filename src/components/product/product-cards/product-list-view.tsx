@@ -92,9 +92,6 @@ const ProductList: React.FC<ProductProps> = ({ product, className, lang }) => {
       </div>
 
       <div className="col-span-3">
-        <div className="text-12px sm:text-sm mt-auto text-gray-400 mb-2">
-          ({view_count} review)
-        </div>
         <Link
           href={`/${lang}${ROUTES.PRODUCTS}/${slug}`}
           className="text-skin-base text-base font-semibold leading-5 min-h-[30px] line-clamp-2 mb-1.5 hover:text-skin-primary"

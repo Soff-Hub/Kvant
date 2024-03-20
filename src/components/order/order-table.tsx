@@ -55,7 +55,18 @@ const OrderTable: React.FC<{ orders?: any; lang: string }> = ({
         <span>
           <span
             className="bullet"
-            style={{ backgroundColor: status === 'Approved' ? 'green' : 'red' }}
+            style={{
+              backgroundColor:
+                status === 'Approved' ||
+                status === 'Одобренный' ||
+                status === 'Tasdiqlandi'
+                  ? 'green'
+                  : status === 'Cancelled' ||
+                      status === 'Отменено' ||
+                      status === 'Bekor qilindi'
+                    ? 'red'
+                    : '',
+            }}
           />
           {status}
         </span>
@@ -84,7 +95,7 @@ const OrderTable: React.FC<{ orders?: any; lang: string }> = ({
       dataIndex: 'id',
       width: 100,
       render: function actionsButton(item: any) {
-        return <ActionsButton item={item} />;
+        return <ActionsButton item={item} lang={lang} />;
       },
       className: 'operations-cell',
     },

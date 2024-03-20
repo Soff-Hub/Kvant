@@ -8,6 +8,8 @@ import StarIcon from '@components/icons/star-icon';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { baseURL } from '@framework/utils/http';
 import Text from '@components/ui/text';
+import { useEffect } from 'react';
+import { addPeriodToThousands } from '@components/cart/cart-item';
 
 interface ProductProps {
   product: Product;
@@ -36,15 +38,19 @@ const ProductFlashSaleGobies: React.FC<ProductProps> = ({
 
   async function handlePopupView() {
     try {
-      const response = await fetch(
-        `${baseURL + API_ENDPOINTS.PRODUCTS_DETAILS}/${slug}/`,
-      );
-      const product = await response.json();
-      openModal('PRODUCT_VIEW', product);
+      const headers = new Headers();
+      headers.append('Accept-Language', lang);
+      await fetch(`${baseURL + API_ENDPOINTS.PRODUCTS_DETAILS}/${slug}/`, {
+        headers: headers,
+      });
     } catch (error) {
       console.error('Xatolik yuz berdi:', error);
     }
   }
+
+  useEffect(() => {
+    handlePopupView();
+  }, [slug, lang]);
 
   return (
     <article
@@ -52,7 +58,7 @@ const ProductFlashSaleGobies: React.FC<ProductProps> = ({
         'flex flex-col justify-between group cursor-pointer relative px-5 l pt-16 pb-5',
         className,
       )}
-      onClick={handlePopupView}
+      onClick={() => openModal('PRODUCT_VIEW', product)}
       title={title}
     >
       <div className="absolute z-10 top-6 left">
@@ -74,33 +80,22 @@ const ProductFlashSaleGobies: React.FC<ProductProps> = ({
         <h2 className="mb-2 text-skin-base font-semibold text-sm leading-5 lg:text-15px sm:leading-6">
           {title}
         </h2>
-        <div className="flex text-gray-500 space-x-2">
-          <div className="flex items-center">
-            {[...Array(5)].map((_, idx) => (
-              <StarIcon
-                key={idx}
-                color={idx < 5 ? '#F3B81F' : '#DFE6ED'}
-                className="w-3 h-3 mx-px"
-              />
-            ))}
-          </div>
-          <span className="text-[13px] leading-4">({view_count} review)</span>
-        </div>
 
         <div className="mb-2 lg:mb-3">
           {discount_price !== Number(price) ? (
             <>
               <span className="inline-block mx-1 text-xl font-semibold  text-brand">
-                {discount_price} {t('сум')}
+                {addPeriodToThousands(discount_price)?.replace(/\.\d+$/, '')}{' '}
+                {t('сум')}
               </span>
               <del className="mx-1 text-base text-opacity-50 xl:text-lg text-gray-400">
-                {Number(price)} {t('сум')}
+                {addPeriodToThousands(price)?.replace(/\.\d+$/, '')} {t('сум')}
               </del>
             </>
           ) : (
             <>
               <span className="inline-block mx-1 text-xl font-semibold  text-brand">
-                {Number(price)} {t('сум')}
+                {addPeriodToThousands(price)?.replace(/\.\d+$/, '')} {t('сум')}
               </span>
             </>
           )}

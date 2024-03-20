@@ -2,13 +2,18 @@ import { BsThreeDots } from 'react-icons/bs';
 import { Popover, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { useUI } from '@contexts/ui.context';
+import { useTranslation } from 'src/app/i18n/client';
 
-const ActionsButton: React.FC<{ item?: any }> = ({ item }) => {
+const ActionsButton: React.FC<{ item?: any; lang: string }> = ({
+  item,
+  lang,
+}) => {
   const { openDrawer, setDrawerView } = useUI();
+  const { t } = useTranslation(lang, 'home');
 
   function handleCartOpen(item: any) {
     setDrawerView('ORDER_DETAILS');
-    return openDrawer(item); 
+    return openDrawer(item);
   }
 
   return (
@@ -40,7 +45,7 @@ const ActionsButton: React.FC<{ item?: any }> = ({ item }) => {
                   className="text-[14px] whitespace-nowrap text-brand-dark py-2 px-5 hover:bg-[#F6F9FC] transition-all cursor-pointer"
                   onClick={() => handleCartOpen(item)}
                 >
-                  Информация для заказа
+                 {t('Информация для заказа')}
                 </div>
               </Popover.Panel>
             </Transition>

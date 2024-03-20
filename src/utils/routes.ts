@@ -12,6 +12,5 @@ export const ROUTES = {
   PRODUCTS: '/products',
   BUNDLE: '/bundles',
   CATEGORY: '/category',
-  ORDER: '/complete-order',
   WISHLIST: '/my-account/wishlist',
 };

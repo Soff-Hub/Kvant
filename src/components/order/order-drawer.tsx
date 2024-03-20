@@ -108,9 +108,15 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
                         className="bullet"
                         style={{
                           backgroundColor:
-                            orderData?.status_ln === 'Approved'
+                            orderData?.status_ln === 'Approved' ||
+                            orderData?.status_ln === 'Одобренный' ||
+                            orderData?.status_ln === 'Tasdiqlandi'
                               ? 'green'
-                              : 'red',
+                              : orderData?.status_ln === 'Cancelled' ||
+                                  orderData?.status_ln === 'Отменено' ||
+                                  orderData?.status_ln === 'Bekor qilindi'
+                                ? 'red'
+                                : '',
                         }}
                       />
                       {orderData?.status_ln}
