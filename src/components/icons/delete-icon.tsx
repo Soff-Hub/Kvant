@@ -26,3 +26,4 @@ export const DeleteIcon: React.FC<React.SVGAttributes<{}>> = ({ ...rest }) => {
 };
 
 export default DeleteIcon;
+

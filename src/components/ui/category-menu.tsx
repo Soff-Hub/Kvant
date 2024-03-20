@@ -1,7 +1,6 @@
 import cn from 'classnames';
 import { useState } from 'react';
-import Link from '@components/ui/link';
-import Image from '@components/ui/image';
+
 import {
   IoIosAddCircleOutline,
   IoIosRemoveCircleOutline,
@@ -40,17 +39,6 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
             },
           )}
         >
-          {/* {image && (
-            <div className="inline-flex w-8 shrink-0 3xl:h-auto">
-              <Image
-                src={image ?? '/assets/placeholder/category-small.svg'}
-                alt={title || 'imagess'}
-                width={25}
-                height={25}
-                style={{ width: 'auto' }}
-              />
-            </div>
-          )} */}
 
           <span className="capitalize">{title}</span>
         </button>

@@ -24,6 +24,7 @@ const AccountIcon = ({
     }
   }
 
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -52,3 +53,4 @@ const AccountIcon = ({
 };
 
 export default AccountIcon;
+

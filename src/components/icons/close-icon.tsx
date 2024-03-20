@@ -12,3 +12,4 @@ const CloseIcon: React.FC<React.SVGAttributes<{}>> = ({ ...rest }) => {
 };
 
 export default CloseIcon;
+

@@ -16,4 +16,5 @@ const MapContainer = ({ currentLocation }: any) => {
   );
 };
 
+
 export default MapContainer;
