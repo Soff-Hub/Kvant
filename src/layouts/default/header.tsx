@@ -93,6 +93,7 @@ const Header = ({ className, lang }: HeaderProps) => {
                 <AccouttWishlist />
 
                 <LanguageSwitcher lang={lang}  />
+                
                 <div className="hidden lg:flex items-center  accountButton">
                   <AccountIcon />
 

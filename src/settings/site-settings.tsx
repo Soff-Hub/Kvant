@@ -1,6 +1,3 @@
-import { RussianFlag } from '@components/icons/language/RusFlag';
-import { SAFlag } from '@components/icons/language/SAFlag';
-import { USFlag } from '@components/icons/language/USFlag';
 import siteLogo from 'public/assets/images/Kvant_horz_logo.svg';
 import siteLogoBlack from 'public/assets/images/Kvant_horz_logo.svg';
 
@@ -67,26 +64,6 @@ export const siteSettings = {
         id: 7,
         path: '/contact-us',
         label: 'Связаться с нами',
-      },
-    ],
-    languageMenu: [
-      {
-        id: 'RU',
-        name: 'RU',
-        value: 'ru',
-        icon: <RussianFlag />,
-      },
-      {
-        id: 'UZ',
-        name: 'UZ',
-        value: 'uz',
-        icon: <SAFlag />,
-      },
-      {
-        id: 'en',
-        name: 'ENG',
-        value: 'en',
-        icon: <USFlag />,
       },
     ],
   },

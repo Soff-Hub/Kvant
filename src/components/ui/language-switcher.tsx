@@ -9,7 +9,6 @@ import useQueryParam from '@utils/use-query-params';
 export default function LanguageSwitcher({ lang }: { lang: string }) {
   const { site_header } = siteSettings;
   const { t } = useTranslation(lang, 'home');
-  const options = site_header.languageMenu;
   const router: any = useRouter();
   const pathname: any = usePathname();
   const pathnameSplit = pathname.split('/');
@@ -18,6 +17,27 @@ export default function LanguageSwitcher({ lang }: { lang: string }) {
     .join('/');
 
   const { query } = useQueryParam(pathname ?? '/');
+
+  const options = [
+    {
+      id: 'RU',
+      name: 'RU',
+      value: 'ru',
+      image: '/assets/ru.png',
+    },
+    {
+      id: 'UZ',
+      name: 'UZ',
+      value: 'uz',
+      image: '/assets/uz.png',
+    },
+    {
+      id: 'en',
+      name: 'ENG',
+      value: 'en',
+      image: '/assets/en.png',
+    },
+  ];
 
   const currentSelectedItem = lang
     ? options.find((o) => o.value === lang)!
@@ -36,8 +56,12 @@ export default function LanguageSwitcher({ lang }: { lang: string }) {
         <div className="relative z-10 lg:top-[3px]">
           <Listbox.Button className="relative w-full  rounded-lg cursor-pointer  ltr:pl-3 rtl:pr-3 ltr:pr-5 rtl:pl-5 ltr:text-left rtl:text-right focus:outline-none">
             <span className="flex items-center  truncate ">
-              <span className="w-6 h-6 object-cover mr-2 ">{selectedItem?.icon}</span>
-              <span className="leading-5 pb-0.5 font-medium">{t(selectedItem?.name)}</span>
+              <span className="w-6 h-6 object-cover mr-2 ">
+                <img src={selectedItem?.image} />
+              </span>
+              <span className="leading-5 pb-0.5 font-medium">
+                {t(selectedItem?.name)}
+              </span>
             </span>
             <span className="absolute inset-y-0 flex items-center pointer-events-none ltr:right-0 rtl:left-0">
               <FaChevronDown
@@ -72,7 +96,9 @@ export default function LanguageSwitcher({ lang }: { lang: string }) {
                 >
                   {({ selected, active }: any) => (
                     <span className="flex items-center">
-                      <span className="w-6 h-6">{option?.icon}</span>
+                      <span className="w-6 h-6">
+                        <img src={option?.image} />
+                      </span>
                       <span
                         className={`${
                           selected ? 'font-medium ' : 'font-normal'
