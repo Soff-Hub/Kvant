@@ -609,6 +609,9 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     closeModal();
   }
 
+  console.log(window?.location);
+  
+
   return (
     <>
       <BreadcrumbItems

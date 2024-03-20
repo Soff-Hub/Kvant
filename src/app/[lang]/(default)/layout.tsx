@@ -11,3 +11,5 @@ export default function Layout({
 }) {
   return <DefaultLayout lang={lang}>{children}</DefaultLayout>;
 }
+
+
