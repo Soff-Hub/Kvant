@@ -14,7 +14,7 @@ const data = [
     id: 1,
     slug: '/',
     icon: <LocationIcon />,
-    name: 'Адреса',
+    name: 'Адрес',
     description:
       'Acme Widgets 123 Widget Street Acmeville, AC 12345 United States of America',
   },
@@ -49,7 +49,7 @@ const ContactSupport: FC<Props> = ({ lang }) => {
       </Heading>
 
       <div className="mx-auto space-y-4 mb-6">
-        {data.map((item, idx) => (
+        {data.map((item: any) => (
           <div
             key={`contact--key${item.id}`}
             className="flex flex-col lg:flex-row max-w-xs lg:max-w-sm xl:pe-7"
@@ -69,9 +69,13 @@ const ContactSupport: FC<Props> = ({ lang }) => {
       <Text className="xl:leading-8">
         {mounted && (
           <>
-            {t(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mattis, orci ac elementum convallis, dolor enim volutpat sapien, id porttitor eros risus convallis nibh. Nullam dui diam, semper sed neque ut, fringilla rutrum velit. Nulla facilisi. Integer suscipit, dolor sed auctor interdum, libero neque fermentum arcu, in dapibus mauris nisl convallis ante. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-            )}
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+            mattis, orci ac elementum convallis, dolor enim volutpat sapien, id
+            porttitor eros risus convallis nibh. Nullam dui diam, semper sed
+            neque ut, fringilla rutrum velit. Nulla facilisi. Integer suscipit,
+            dolor sed auctor interdum, libero neque fermentum arcu, in dapibus
+            mauris nisl convallis ante. Orci varius natoque penatibus et magnis
+            dis parturient montes, nascetur ridiculus mus.
           </>
         )}
       </Text>

@@ -40,7 +40,7 @@ const ProductsModal = ({ lang }: { lang: string }) => {
           headers: {
             'Content-Type': 'application/json',
             'Accept-Language': lang,
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(dataForm), // values ni o'zgartirdim
         });
@@ -80,7 +80,7 @@ const ProductsModal = ({ lang }: { lang: string }) => {
         <CloseButton onClick={closeModal} />
         <div className="p-5">
           <h1 className="font-bold text-[21px] text-center mb-3">
-            Заявка на продукт
+            {t('Заявка на продукт')}
           </h1>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -89,14 +89,16 @@ const ProductsModal = ({ lang }: { lang: string }) => {
           >
             <Input
               variant="solid"
-              label="Имя *"
-              placeholder="Имя"
-              {...register('customer_name', { required: 'Имя не введено' })}
+              label={`${t('Полное имя (обязательно)')}`}
+              placeholder={`${t('Введите свое полное имя')}`}
+              {...register('customer_name', {
+                required: `${t('Вам необходимо указать свое полное имя')}`,
+              })}
               error={errors.customer_name?.message}
               lang={lang}
             />
             <Input
-              label={t('Номер телефона *')}
+              label={t('Телефон (обязательно)')}
               type="phone"
               variant="solid"
               {...register('phone_number', {
@@ -114,10 +116,10 @@ const ProductsModal = ({ lang }: { lang: string }) => {
             <Input
               type="phone"
               variant="solid"
-              label="Сколько продуктов *"
-              placeholder="Сколько продуктов"
+              label={`${t('Сколько продуктов *')}`}
+              placeholder={`${t('Сколько продуктов *')}`}
               {...register('quantity', {
-                required: 'Сколько продуктов не введено',
+                required:`${t('Сколько продуктов не введено')}`,
               })}
               error={errors.quantity?.message}
               lang={lang}

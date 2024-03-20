@@ -6,14 +6,15 @@ import TextArea from '@components/ui/form/text-area';
 import { useForm } from 'react-hook-form';
 import { useIsMounted } from '@utils/use-is-mounted';
 import { useTranslation } from 'src/app/i18n/client';
+import { toast } from 'react-toastify';
+import { baseURL } from '@framework/utils/http';
+import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 
 interface ContactFormValues {
-  name: string;
-  email: string;
+  full_name: string;
   phone: string;
   message: string;
 }
-
 
 const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
   const {
@@ -22,56 +23,83 @@ const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
     formState: { errors },
   } = useForm<ContactFormValues>();
 
-  function onSubmit(values: ContactFormValues) {
-    console.log(values, 'Contact');
+  async function onSubmit(values: ContactFormValues) {
+    try {
+      const response = await fetch(baseURL + API_ENDPOINTS.CONTACT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept-Language': lang,
+        },
+        body: JSON.stringify(values), // values ni o'zgartirdim
+      });
+      const data = await response.json();
+      if (response.ok) {
+        toast.success(t('Успешный!'), {
+          style: { color: 'white', background: 'green' },
+          progressClassName: 'fancy-progress-bar',
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        toast.error(data?.msg[0] + '', {
+          style: { color: 'white', background: 'red' },
+          progressClassName: 'fancy-progress-bar',
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+    } catch (error: any) {
+      console.log(error, 'forget password error response');
+    }
   }
 
-  const { t } = useTranslation(lang);
+  const { t } = useTranslation(lang, 'login');
   const mounted = useIsMounted();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
       <Input
         variant="solid"
-        label="Полное имя (обязательно)"
-        placeholder="Введите свое полное имя"
-        {...register('name', { required: 'Вам необходимо указать свое полное имя' })}
-        error={errors.name?.message}
+        label={`${t('Полное имя (обязательно)')}`}
+        placeholder={`${t('Введите свое полное имя')}`}
+        {...register('full_name', {
+          required: `${t('Вам необходимо указать свое полное имя')}`,
+        })}
+        error={errors.full_name?.message}
         lang={lang}
       />
       <Input
-        type="email"
+        label={t('Телефон (обязательно)')}
+        type="phone"
         variant="solid"
-        label="Адрес электронной почты (обязательно)"
-        placeholder="Введите адрес электронной почты"
-        {...register('email', {
-          required: 'Вам необходимо указать свой адрес электронной почты',
+        {...register('phone', {
+          required: `${t('Номер телефона введен неверно!')}`,
           pattern: {
-            value:
-              /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            message: 'forms:email-error',
+            value: /^\+998\s?\d{9}$/,
+            message: `${t('Номер телефона указан неверно')}`,
           },
         })}
-        error={errors.email?.message}
+        error={errors.phone?.message}
         lang={lang}
-      />
-      <Input
-        variant="solid"
-        type="text"
-        label="Телефон (опционально)"
-        placeholder="Введите свой телефон"
-        {...register('phone')}
-        lang={lang}
+        defaultValue="+998"
+        maxLength={13} // +998 kodi va 9 ta raqam uchun
       />
       <TextArea
         variant="solid"
-        label="Сообщение"
+        label={`${t('Сообщение')}`}
         {...register('message')}
-        placeholder="Кратко опишите"
+        placeholder={`${t('Сообщение')}`}
         lang={lang}
       />
       <Button variant="formButton" className="w-full" type="submit">
-        {mounted && <>{t('Отправить сообщение')}</>}
+        {mounted && <>{t('Отправка')}</>}
       </Button>
     </form>
   );

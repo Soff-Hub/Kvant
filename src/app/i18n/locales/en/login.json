@@ -30,5 +30,14 @@
     "Новый пароль": "New Password",
     "Вам необходимо будет предоставить свой старый пароль":"You will need to provide your old password",
     "Вам необходимо будет предоставить новый пароль":"You will be required to provide a new password",
-    "Успешный пароль изменен!":"Successfully changed password!"
+    "Успешный пароль изменен!":"Successfully changed password!",
+
+    "Полное имя (обязательно)":"Full name (required)",
+    "Вам необходимо указать свое полное имя":"You must provide your full name",
+    "Введите свое полное имя":"Enter your full name",
+    "Телефон (обязательно)":"Phone (optional)",
+    "Сообщение":"Message",
+    "Заявка на продукт":"Product Application",
+    "Сколько продуктов *":"How many products *",
+    "Сколько продуктов не введено":"How many products are not entered?"
 }
