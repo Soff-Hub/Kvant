@@ -21,19 +21,20 @@ import TextArea from '@components/ui/form/text-area';
 const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'login');
   const { items, resetCart } = useCart();
-  const [selectID, setSelectId] = useState<string>('naqt');
+  const [selectID, setSelectId] = useState<string>('click');
   const [branches, setBarnches] = useState([]);
   const [currentLocation, setCurrentLocation] = useState<any>(null);
-  const [check, setCheck] = useState<number>(0);
+  const [check, setCheck] = useState<any>('delivery');
   const router = useRouter();
   const currentSelectedItem = branches[0];
   const [selectedItem, setSelectedItem] = useState<any>(currentSelectedItem);
 
   interface SignUpInputCheckout {
+    customer_name: string;
     phone: number;
     address: string;
     paymentMethod: string;
-    text:string;
+    text: string;
   }
 
   async function getBranches() {
@@ -53,17 +54,26 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
   } = useForm<SignUpInputCheckout>();
   const products: any = [];
 
-  function onSubmit({ phone, address }: SignUpInputCheckout) {
+  function onSubmit({
+    phone,
+    address,
+    customer_name,
+    text,
+  }: SignUpInputCheckout) {
     const token = Cookies.get('auth_token');
     Cookies.remove('products_click');
-    
+
     const dataChecout = {
+      customer_name,
       phone_number: phone,
       address: address,
-      order_type: 'delivery',
+      order_type: check,
       provider: selectID,
       products,
+      branch: selectedItem?.id ? selectedItem?.id : 0,
+      description: text,
     };
+
     const headers = {
       'Accept-Language': 'uz', // Qo'shilgan Accept-Language header
       Authorization: `Bearer ${token}`, // Token bilan Authorization header
@@ -83,7 +93,11 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
             draggable: true,
           });
           resetCart();
-          router.push(`${response?.data?.msg}`);
+          if (response?.data?.msg) {
+            router.push(`${response?.data?.msg}`);
+          } else {
+            router.push(`/${lang}/my-account/orders`);
+          }
         })
         .catch((error) => {
           console.error('Buyurtma yuborishda xatolik:', error);
@@ -106,7 +120,12 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
     // },
     {
       id: 2,
-      name: 'Payme',
+      name: 'click',
+      image: '../assets/Click.png',
+    },
+    {
+      id: 4,
+      name: 'payze',
       image: '../assets/Pyme.png',
     },
     // {
@@ -114,11 +133,6 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
     //   name: 'Iman',
     //   image: '../assets/iman.webp',
     // },
-    {
-      id: 4,
-      name: 'Click',
-      image: '../assets/Click.png',
-    },
   ];
 
   // Joylashuvni aniqlash funksiyasi
@@ -166,10 +180,10 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
               label={`${t('Ф.И.О *')}`}
               type="text"
               variant="solid"
-              {...register('address', {
+              {...register('customer_name', {
                 required: `${t('Адрес не введен')}`,
               })}
-              error={errors.address?.message}
+              error={errors.customer_name?.message}
               lang={lang}
               placeholder=""
               className="col-span-6"
@@ -196,34 +210,34 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
               <h1 className="font-bold *">Тип поступления продукции</h1>
               <div className=" w-full flex mt-2 justify-between gap-4">
                 <div
-                  onClick={() => setCheck(1)}
-                  className={`bg-gray-200 w-full ${check === 1 ? 'border border-blue-500 text-blue-500' : ''} cursor-pointer p-3 rounded flex items-center justify-start`}
+                  onClick={() => setCheck('delivery')}
+                  className={`bg-gray-200 w-full ${check === 'delivery' ? 'border border-blue-500 text-blue-500' : ''} cursor-pointer p-3 rounded flex items-center justify-start`}
                 >
                   <input
-                    checked={check === 1}
-                    type="radio"
-                    name="radio"
-                    id="radio"
-                  />
-                  <span className="ml-2 font-medium">Еда на вынос</span>
-                </div>
-
-                <div
-                  onClick={() => setCheck(2)}
-                  className={`bg-gray-200 w-full ${check === 2 ? 'border border-blue-500 text-blue-500' : ''} cursor-pointer p-3 rounded flex items-center justify-start`}
-                >
-                  <input
-                    checked={check === 2}
+                    checked={check === 'delivery'}
                     type="radio"
                     name="radio"
                     id="radio"
                   />
                   <span className="ml-2 font-medium">Доставка</span>
                 </div>
+
+                <div
+                  onClick={() => setCheck('take_away')}
+                  className={`bg-gray-200 w-full ${check === 'take_away' ? 'border border-blue-500 text-blue-500' : ''} cursor-pointer p-3 rounded flex items-center justify-start`}
+                >
+                  <input
+                    checked={check === 'take_away'}
+                    type="radio"
+                    name="radio"
+                    id="radio"
+                  />
+                  <span className="ml-2 font-medium">Еда на вынос</span>
+                </div>
               </div>
             </div>
 
-            {check === 1 && (
+            {check === 'take_away' && (
               <div className="col-span-12">
                 <h1 className="font-bold text-black mb-2">Выберите филиал *</h1>
 
@@ -302,7 +316,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                 </Listbox>
               </div>
             )}
-            {check === 2 && (
+            {check === 'delivery' && (
               <>
                 <Input
                   label={`${t('Адрес *')}`}
@@ -327,13 +341,6 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
             <div className="col-span-12">
               <h1 className="font-bold text-black">Способ оплаты *</h1>
               <div className="w-full mt-2 flex justify-start gap-5">
-                <div
-                  className={`w-full shadow-cardHover rounded-lg cursor-pointer py-2 bg-${selectID === 'naqt' ? 'yellow' : 'white'}-100 text-${selectID === 'naqt' ? 'gray' : ''}-200 flex justify-center items-center`}
-                  onClick={() => setSelectId('naqt')}
-                >
-                  <h1 className="font-bold text-[24px]">Наличные</h1>
-                </div>
-
                 {dateCard.map((item) => (
                   <div
                     key={item.id}
@@ -347,17 +354,23 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                     />
                   </div>
                 ))}
+                <div
+                  className={`w-full shadow-cardHover rounded-lg cursor-pointer py-2 bg-${selectID === 'cash' ? 'yellow' : 'white'}-100 text-${selectID === 'cash' ? 'gray' : ''}-200 flex justify-center items-center`}
+                  onClick={() => setSelectId('cash')}
+                >
+                  <h1 className="font-bold text-[24px]">Наличные</h1>
+                </div>
               </div>
             </div>
-           <div className='w-full col-span-12'>
-           <TextArea
-              variant="normal"
-              label={`${t('Комментарий к заказу')}`}
-              {...register('text')}
-              placeholder="Комментарий к заказу..."
-              lang={lang}
-            />
-           </div>
+            <div className="w-full col-span-12">
+              <TextArea
+                variant="normal"
+                label={`${t('Комментарий к заказу')}`}
+                {...register('text')}
+                placeholder="Комментарий к заказу..."
+                lang={lang}
+              />
+            </div>
             <div className="w-full col-span-12 ">
               <Button
                 type="submit"

@@ -11,18 +11,17 @@ export const siteSettings = {
   author: {
     name: 'SoffHub',
     websiteUrl: 'https://soffhub.uz/',
-    address: '/en',
+    address: '/ru',
   },
   logo: {
     url: siteLogo,
     urlReverse: siteLogoBlack,
     alt: 'Razazoror',
-    href: '/en',
+    href: '/ru',
     width: 195,
     height: 26,
   },
   defaultLanguage: 'ru',
-  currencyCode: 'USD',
   site_header: {
     topmenu: [
       {

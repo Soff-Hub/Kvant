@@ -144,7 +144,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   return (
     <div className="md:w-[600px] lg:w-[940px] xl:w-[1180px] mx-auto p-1 lg:p-0 xl:p-3 bg-brand-light rounded-md">
       <CloseButton onClick={closeModal} />
-      <div className="overflow-hidden">
+      <div>
         <div className="px-2 md:px-5 mb-2 lg:mb-2 pt-4 md:pt-7">
           <div className="lg:flex items-stretch justify-between gap-8">
             <div className="xl:flex  justify-center overflow-hidden">
@@ -263,9 +263,11 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
                       <IoArrowRedoOutline className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
                       {t('Делиться')}
                     </Button>
+
+
                     <SocialShareBox
-                      className={`absolute z-10 ltr:right-0 rtl:left-0 w-[300px] md:min-w-[400px] transition-all duration-300 ${
-                        shareButtonStatus === true
+                      className={`absolute z-10 ltr:right-0 rtl:left-0 w-[300px] md:min-w-[400px]  transition-all duration-300 ${
+                        shareButtonStatus === !!true
                           ? 'visible opacity-100 top-full'
                           : 'opacity-0 invisible top-[130%]'
                       }`}

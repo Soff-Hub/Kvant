@@ -1,4 +1,4 @@
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import cn from 'classnames';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
@@ -14,7 +14,6 @@ function CategoryFilterMenuItem({
 }: any) {
   const { t } = useTranslation(lang, 'home');
   const pathname = usePathname();
-  const [isOpen, setOpen] = useState<boolean>(false);
   const router = useRouter();
 
   const { slug, title, children: items, icon } = item;
@@ -26,15 +25,6 @@ function CategoryFilterMenuItem({
   function handleChange(currentItem: any) {
     router.push(
       `/${lang}/category__parent__slug=${slug}&category__slug=${currentItem?.slug}`,
-    );
-  }
-
-  let expandIcon;
-  if (Array.isArray(items) && items.length) {
-    expandIcon = !isOpen ? (
-      <IoIosArrowDown className="text-base text-brand-dark text-opacity-40" />
-    ) : (
-      <IoIosArrowUp className="text-base text-brand-dark text-opacity-40" />
     );
   }
 
@@ -56,12 +46,22 @@ function CategoryFilterMenuItem({
     }
   });
 
+  let expandIcon;
+  if (Array.isArray(items) && items.length) {
+    expandIcon =
+      parent !== slug ? (
+        <IoIosArrowDown className="text-base text-brand-dark text-opacity-40" />
+      ) : (
+        <IoIosArrowUp className="text-base text-brand-dark text-opacity-40" />
+      );
+  }
+
   return (
     <>
       <li
         className={cn(
           'flex justify-between items-center transition text-sm ',
-          { 'text-brand': isOpen },
+          { 'text-brand': parent === slug },
           className,
         )}
       >
@@ -71,18 +71,11 @@ function CategoryFilterMenuItem({
           )}
           onClick={onClick}
         >
-          {icon && (
-            <div className="inline-flex shrink-0 2xl:w-12 2xl:h-12 3xl:w-auto 3xl:h-auto ltr:mr-2.5 rtl:ml-2.5 md:ltr:mr-4 md:rtl:ml-4 2xl:ltr:mr-3 2xl:rtl:ml-3 3xl:ltr:mr-4 3xl:rtl:ml-4">
-              <Image
-                src={icon ?? '/assets/placeholder/category-small.svg'}
-                alt={title || t('text-category-thumbnail')}
-                width={40}
-                height={40}
-                style={{ width: 'auto' }}
-              />
-            </div>
-          )}
-          <span className="capitalize py-0.5">{title}</span>
+          <span
+            className={`capitalize py-0.5 ${parent === slug && 'text-blue-600 font-bold'}`}
+          >
+            {title}
+          </span>
           {expandIcon && (
             <span className="ltr:ml-auto rtl:mr-auto">{expandIcon}</span>
           )}
@@ -108,7 +101,12 @@ function CategoryFilterMenuItem({
                   >
                     {child === currentItem?.slug && <FaCheck />}
                   </span>
-                  <span className="capitalize py-0.5">
+                  <span
+                    className={`capitalize py-0.5 ${
+                      child === currentItem?.slug &&
+                      'text-yellow-100 font-medium'
+                    }`}
+                  >
                     {currentItem?.title}
                   </span>
                 </button>

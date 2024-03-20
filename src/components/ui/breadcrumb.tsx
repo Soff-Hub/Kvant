@@ -69,8 +69,6 @@ const Breadcrumb: React.FC<{ separator?: string; lang: string }> = ({
   lang,
 }) => {
   const breadcrumbs = useBreadcrumb();
-
-  
   
   const { t } = useTranslation(lang, 'home');
   return (

@@ -13,7 +13,6 @@ export default async function Page({
     <>
       <div className="pt-6 lg:pt-7 pb-10">
         <Container>
-          <Breadcrumb lang={lang}  />
           <ProductSingleDetails lang={lang} />
         </Container>
       </div>

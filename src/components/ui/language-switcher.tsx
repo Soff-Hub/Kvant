@@ -10,8 +10,8 @@ export default function LanguageSwitcher({ lang }: { lang: string }) {
   const { site_header } = siteSettings;
   const { t } = useTranslation(lang, 'home');
   const options = site_header.languageMenu;
-  const router:any = useRouter();
-  const pathname:any = usePathname();
+  const router: any = useRouter();
+  const pathname: any = usePathname();
   const pathnameSplit = pathname.split('/');
   const newPathname: string = pathnameSplit
     .slice(2, pathnameSplit.length)
@@ -33,13 +33,11 @@ export default function LanguageSwitcher({ lang }: { lang: string }) {
   return (
     <Listbox value={selectedItem} onChange={handleItemClick}>
       {({ open }: any) => (
-        <div className="relative z-10 lg:top-[1px]">
-          <Listbox.Button className="relative w-full py-2 rounded-lg cursor-pointer  ltr:pl-3 rtl:pr-3 ltr:pr-5 rtl:pl-5 ltr:text-left rtl:text-right focus:outline-none">
+        <div className="relative z-10 lg:top-[3px]">
+          <Listbox.Button className="relative w-full  rounded-lg cursor-pointer  ltr:pl-3 rtl:pr-3 ltr:pr-5 rtl:pl-5 ltr:text-left rtl:text-right focus:outline-none">
             <span className="flex items-center  truncate ">
-              <span className="w-5 h-5 overflow-hidden rounded-full ltr:mr-2 rtl:ml-2 shrink-0">
-                {selectedItem?.icon}
-              </span>
-              <span className="leading-5 pb-0.5">{t(selectedItem?.name)}</span>
+              <span className="w-6 h-6 object-cover mr-2 ">{selectedItem?.icon}</span>
+              <span className="leading-5 pb-0.5 font-medium">{t(selectedItem?.name)}</span>
             </span>
             <span className="absolute inset-y-0 flex items-center pointer-events-none ltr:right-0 rtl:left-0">
               <FaChevronDown
@@ -62,7 +60,7 @@ export default function LanguageSwitcher({ lang }: { lang: string }) {
               {options?.map((option) => (
                 <Listbox.Option
                   key={option.id}
-                  className={({ active }:any) =>
+                  className={({ active }: any) =>
                     `${
                       active
                         ? 'text-brand-dark bg-fill-dropdown-hover'
@@ -72,9 +70,9 @@ export default function LanguageSwitcher({ lang }: { lang: string }) {
                   }
                   value={option}
                 >
-                  {({ selected, active }:any) => (
+                  {({ selected, active }: any) => (
                     <span className="flex items-center">
-                      <span className="w-[22px] h-4">{option?.icon}</span>
+                      <span className="w-6 h-6">{option?.icon}</span>
                       <span
                         className={`${
                           selected ? 'font-medium ' : 'font-normal'
