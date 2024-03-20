@@ -49,7 +49,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
             pauseOnHover: true,
             draggable: true,
           });
-          router.push('/en/change-password'); // Boshqa sahifaga yo'naltiramiz
+          router.push(`${lang}/change-password`); // Boshqa sahifaga yo'naltiramiz
         } else {
           // Xato keldiğida xatoni chiqaramiz
           const error = await response.json();
@@ -95,7 +95,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
             pauseOnHover: true,
             draggable: true,
           });
-          router.push('/en');
+          router.push(`/${lang}`);
         } else {
           // Xato keldiğida xatoni chiqaramiz
           console.log(data);

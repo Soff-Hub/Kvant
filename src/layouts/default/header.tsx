@@ -49,6 +49,8 @@ const Header = ({ className, lang }: HeaderProps) => {
     setIsClient(true);
   }, []);
 
+
+
   return (
     <>
       <header
@@ -90,12 +92,12 @@ const Header = ({ className, lang }: HeaderProps) => {
 
                 <CartButton />
 
-                <AccouttWishlist />
+                <AccouttWishlist lang={lang} />
 
-                <LanguageSwitcher lang={lang}  />
-                
+                <LanguageSwitcher lang={lang} />
+
                 <div className="hidden lg:flex items-center  accountButton">
-                  <AccountIcon />
+                  <AccountIcon lang={lang} />
 
                   {isClient &&
                     (!token ? (

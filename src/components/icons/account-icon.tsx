@@ -2,11 +2,21 @@ import { getToken } from '@framework/utils/get-token';
 import cn from 'classnames';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-const AccountIcon = ({
+
+interface Props {
+  lang: string;
+  color?: string;
+  width?: string;
+  className?: string;
+  height?: string;
+}
+
+const AccountIcon: React.FC<Props> = ({
   className = '',
   color = 'currentColor',
   width = '23',
   height = '23',
+  lang,
 }) => {
   const token = getToken();
   const [isClient, setIsClient] = useState(Boolean(false));
@@ -15,15 +25,14 @@ const AccountIcon = ({
   function handleClick() {
     if (isClient) {
       if (token) {
-        router.push('/en/my-account/orders');
+        router.push(`/${lang}/my-account/orders`);
       } else {
-        router.push('/en');
+        router.push(`/${lang}`);
       }
     } else {
       return null;
     }
   }
-
 
   useEffect(() => {
     setIsClient(true);
@@ -53,4 +62,3 @@ const AccountIcon = ({
 };
 
 export default AccountIcon;
-

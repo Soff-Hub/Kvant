@@ -10,15 +10,16 @@ interface Props {
   className?: string;
   href?: string;
 }
+
 const Logo: React.FC<Props> = ({
   className,
   variant,
-  href = siteSettings.logo.href,
+  lang,
   ...props
 }) => {
   return (
     <Link
-      href={href}
+      href={`/${lang}`}
       className={cn('inline-flex focus:outline-none ', className)}
       {...props}
     >

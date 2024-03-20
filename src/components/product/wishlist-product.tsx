@@ -6,21 +6,20 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@utils/routes';
 
-
-
 interface ProductWishlistProps {
   className?: string;
   lang: string;
 }
 
-export const AccouttWishlist: React.FC<React.SVGAttributes<{}>> = ({lang}) => {
+export const AccouttWishlist = ({ className, lang }: ProductWishlistProps) => {
   const { items } = useCartWishtlists();
   const [isClient, setIsClient] = useState<boolean>(false);
 
-const router =useRouter()
 
-  function handleClick(){
-    router.push(`/${lang}/${ROUTES.WISHLIST}`)
+  const router = useRouter();
+
+  function handleClick() {
+    router.push(`/${lang}/${ROUTES.WISHLIST}`);
   }
 
   useEffect(() => {
