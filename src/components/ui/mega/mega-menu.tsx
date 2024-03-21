@@ -3,7 +3,7 @@ import Link from '@components/ui/link';
 import Image from '@components/ui/image';
 
 const ListMenu = ({ dept, data, hasSubMenu, menuIndex, lang }: any) => {
-  const { t } = useTranslation(lang, 'menu');
+  const { t } = useTranslation(lang, 'home');
 
   return (
     <li className="relative">

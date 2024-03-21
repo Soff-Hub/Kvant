@@ -14,7 +14,7 @@ const SubMega = ({ item, lang }: any) => {
     mega_bannerUrl,
     mega_contentBottom,
   } = item ?? {};
-    const { t } = useTranslation(lang, 'menu');
+    const { t } = useTranslation(lang, 'home');
   const widthCateArea = mega_bannerMode;
   let isBannerMode = false;
   if (mega_bannerMode == 'left' || mega_bannerMode == 'right') isBannerMode = true;

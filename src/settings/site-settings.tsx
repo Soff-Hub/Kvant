@@ -34,7 +34,7 @@ export const siteSettings = {
       {
         id: 3,
         path: '/',
-        label: 'menu-gift',
+        // label: 'menu-gift',
       },
     ],
     menu: [

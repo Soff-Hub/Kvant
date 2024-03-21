@@ -49,8 +49,6 @@ const Header = ({ className, lang }: HeaderProps) => {
     setIsClient(true);
   }, []);
 
-
-
   return (
     <>
       <header
@@ -136,7 +134,7 @@ const Header = ({ className, lang }: HeaderProps) => {
                     onClick={handleCategoryMenu}
                   >
                     <FiMenu className="text-2xl me-3" />
-                    {t('Просмотреть все категории')}
+                    {isClient && t('Просмотреть все категории')}
                   </button>
                   {categoryMenu && <CategoryDropdownMenu lang={lang} />}
                 </div>

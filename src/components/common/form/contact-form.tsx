@@ -9,6 +9,7 @@ import { useTranslation } from 'src/app/i18n/client';
 import { toast } from 'react-toastify';
 import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
+import { useEffect, useState } from 'react';
 
 interface ContactFormValues {
   full_name: string;
@@ -22,6 +23,11 @@ const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<ContactFormValues>();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   async function onSubmit(values: ContactFormValues) {
     try {
@@ -64,44 +70,46 @@ const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
   const mounted = useIsMounted();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
-      <Input
-        variant="solid"
-        label={`${t('Полное имя (обязательно)')}`}
-        placeholder={`${t('Введите свое полное имя')}`}
-        {...register('full_name', {
-          required: `${t('Вам необходимо указать свое полное имя')}`,
-        })}
-        error={errors.full_name?.message}
-        lang={lang}
-      />
-      <Input
-        label={t('Телефон (обязательно)')}
-        type="phone"
-        variant="solid"
-        {...register('phone', {
-          required: `${t('Номер телефона введен неверно!')}`,
-          pattern: {
-            value: /^\+998\s?\d{9}$/,
-            message: `${t('Номер телефона указан неверно')}`,
-          },
-        })}
-        error={errors.phone?.message}
-        lang={lang}
-        defaultValue="+998"
-        maxLength={13} // +998 kodi va 9 ta raqam uchun
-      />
-      <TextArea
-        variant="solid"
-        label={`${t('Сообщение')}`}
-        {...register('message')}
-        placeholder={`${t('Сообщение')}`}
-        lang={lang}
-      />
-      <Button variant="formButton" className="w-full" type="submit">
-        {mounted && <>{t('Отправка')}</>}
-      </Button>
-    </form>
+    isClient && (
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+        <Input
+          variant="solid"
+          label={`${t('Полное имя (обязательно)')}`}
+          placeholder={`${t('Введите свое полное имя')}`}
+          {...register('full_name', {
+            required: `${t('Вам необходимо указать свое полное имя')}`,
+          })}
+          error={errors.full_name?.message}
+          lang={lang}
+        />
+        <Input
+          label={t('Телефон (обязательно)')}
+          type="phone"
+          variant="solid"
+          {...register('phone', {
+            required: `${t('Номер телефона введен неверно!')}`,
+            pattern: {
+              value: /^\+998\s?\d{9}$/,
+              message: `${t('Номер телефона указан неверно')}`,
+            },
+          })}
+          error={errors.phone?.message}
+          lang={lang}
+          defaultValue="+998"
+          maxLength={13} // +998 kodi va 9 ta raqam uchun
+        />
+        <TextArea
+          variant="solid"
+          label={`${t('Сообщение')}`}
+          {...register('message')}
+          placeholder={`${t('Сообщение')}`}
+          lang={lang}
+        />
+        <Button variant="formButton" className="w-full" type="submit">
+          {mounted && <>{t('Отправка')}</>}
+        </Button>
+      </form>
+    )
   );
 };
 

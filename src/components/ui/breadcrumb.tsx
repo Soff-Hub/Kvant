@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ActiveLink from '@components/ui/active-link';
 import useBreadcrumb, { convertBreadcrumbTitle } from '@utils/use-breadcrumb';
 import { IoChevronForward } from 'react-icons/io5';
@@ -69,36 +69,44 @@ const Breadcrumb: React.FC<{ separator?: string; lang: string }> = ({
   lang,
 }) => {
   const breadcrumbs = useBreadcrumb();
-  
-  const { t } = useTranslation(lang, 'home');
-  return (
-    <BreadcrumbItems separator={separator}>
-      <ActiveLink
-        legacyBehavior
-        href={`${ROUTES.HOME}`}
-        activeClassName="font-semibold text-heading"
-        lang={lang}
-      >
-        <a className="inline-flex ">
-          <IoHomeOutline className="ltr:mr-1.5 rtl:ml-1.5 text-brand-dark text-15px" />
-          {t('Главный')}
-        </a>
-      </ActiveLink>
 
-      {breadcrumbs?.map((breadcrumb: any) => (
+  const { t } = useTranslation(lang, 'home');
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  return (
+    isClient && (
+      <BreadcrumbItems separator={separator}>
         <ActiveLink
-          href={`${breadcrumb.href}`}
-          activeClassName="text-heading"
-          key={breadcrumb.href}
           legacyBehavior
+          href={`${ROUTES.HOME}`}
+          activeClassName="font-semibold text-heading"
           lang={lang}
         >
-          <a className="capitalize">
-            {convertBreadcrumbTitle(breadcrumb.breadcrumb)}
+          <a className="inline-flex ">
+            <IoHomeOutline className="ltr:mr-1.5 rtl:ml-1.5 text-brand-dark text-15px" />
+            {t('Главный')}
           </a>
         </ActiveLink>
-      ))}
-    </BreadcrumbItems>
+
+        {breadcrumbs?.map((breadcrumb: any) => (
+          <ActiveLink
+            href={`${breadcrumb.href}`}
+            activeClassName="text-heading"
+            key={breadcrumb.href}
+            legacyBehavior
+            lang={lang}
+          >
+            <a className="capitalize">
+              {convertBreadcrumbTitle(breadcrumb.breadcrumb)}
+            </a>
+          </ActiveLink>
+        ))}
+      </BreadcrumbItems>
+    )
   );
 };
 
