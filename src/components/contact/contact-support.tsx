@@ -23,14 +23,14 @@ const data = [
     slug: '/',
     icon: <PhoneIcon />,
     name: 'Номер телефона',
-    description: '+998 93 102 30 42',
+    description: '+998 (55) 511-11-11',
   },
   {
     id: 3,
     slug: '/',
     icon: <MailIcon />,
     name: 'Электронная почта',
-    description: 'ozodbek003@gmail.com',
+    description: 'kvant@gmail.com',
   },
 ];
 
@@ -51,10 +51,6 @@ const ContactSupport: FC<Props> = ({ lang }) => {
   return (
     isClient && (
       <div className="mb-0 3xl:ltr:pr-5 3xl:rtl:pl-5">
-        <Heading variant="heading" className="mb-3 lg:mb-4 xl:mb-5">
-          {mounted && <>{t('Связаться с нами')}</>}
-        </Heading>
-
         <div className="mx-auto space-y-4 mb-6">
           {data.map((item: any) => (
             <div
@@ -68,7 +64,7 @@ const ContactSupport: FC<Props> = ({ lang }) => {
                 <Heading variant="base" className="">
                   {t(item.name)}
                 </Heading>
-                <Text>{t(item.description)}</Text>
+                <Text><a href="tel:+998555111111">{t(item.description)}</a></Text>
               </div>
             </div>
           ))}

@@ -36,7 +36,7 @@ const ListingtabsFeatured: FC<BoxProps> = ({ lang, className }) => {
                 className={({ selected }) =>
                   `${
                     selected ? 'text-fill-base' : 'text-gray-400'
-                  } text-base lg:text-[16px] lg:leading-6 font-bold uppercase relative`
+                  } text-[11px] lg:text-[16px] lg:leading-6  font-bold uppercase relative`
                 }
               >
                 {t(name)}

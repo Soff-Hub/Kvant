@@ -9,13 +9,9 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 import {
   FacebookShareButton,
-  WhatsappShareButton,
-  LinkedinShareButton,
-  TwitterShareButton,
   FacebookIcon,
-  LinkedinIcon,
+  WhatsappShareButton,
   WhatsappIcon,
-  TwitterIcon,
   TelegramIcon,
   TelegramShareButton,
 } from 'react-share';
@@ -57,33 +53,23 @@ const SocialShareBox: React.FC<Props> = ({
     }
   }, [copyText]);
 
-  
   return (
     <div
       className={cn(
         'shadow-card bg-brand-light rounded-md p-4 px-4',
-        className
+        className,
       )}
     >
       <Heading className="mb-3">{t('Поделиться в социальной сети')}</Heading>
 
       <div className="flex flex-wrap items-center mb-4 -mx-1">
-        <FacebookShareButton url={shareUrl} className="mx-1">
-          <FacebookIcon
-            size={40}
-            round={true}
-            className="transition-all hover:opacity-90"
-          />
-        </FacebookShareButton>
-
-        <TwitterShareButton url={shareUrl} className="mx-1">
-          <TwitterIcon
+        <WhatsappShareButton url={shareUrl} separator=":: " className="mx-1">
+          <WhatsappIcon
             size={40}
             round
             className="transition-all hover:opacity-90"
           />
-        </TwitterShareButton>
-
+        </WhatsappShareButton>
         <TelegramShareButton url={shareUrl} className="mx-1">
           <TelegramIcon
             size={40}
@@ -92,22 +78,15 @@ const SocialShareBox: React.FC<Props> = ({
           />
         </TelegramShareButton>
 
-
-        <WhatsappShareButton url={shareUrl} separator=":: " className="mx-1">
-          <WhatsappIcon
+        <FacebookShareButton url={shareUrl} className="mx-1">
+          <FacebookIcon
             size={40}
-            round
+            round={true}
             className="transition-all hover:opacity-90"
           />
-        </WhatsappShareButton>
+        </FacebookShareButton>
 
-        <LinkedinShareButton url={shareUrl} className="mx-1">
-          <LinkedinIcon
-            size={40}
-            round
-            className="transition-all hover:opacity-90"
-          />
-        </LinkedinShareButton>
+
       </div>
       <Text variant="small">{t('или скопируйте ссылку')}</Text>
       <form noValidate className="space-y-5">

@@ -38,5 +38,14 @@
     "Сообщение": "Xabar",
     "Заявка на продукт": "Mahsulot ilovasi",
     "Сколько продуктов *": "Mahsulot soni *",
-    "Сколько продуктов не введено": "Mahsulot soni kiritilmagan?"
+    "Сколько продуктов не введено": "Mahsulot soni kiritilmagan?",
+
+    "Отправить нам сообщение":"Bizga xabar yuboring",
+    "Свяжитесь напрямую":"To'g'ridan-to'g'ri bog'laning",
+    "Работать с нами":"Biz bilan ishlang",
+    "Обслуживание клиентов":"Mijozlarga xizmat ko'rsatish",
+    "Связи со СМИ":"OAV bilan aloqalar",
+    "Служба поддержки":"Qo'llab-quvvatlash",
+    "Отправьте свое резюме на нашу электронную почту":"Rezyumeni elektron pochtamizga yuboring",
+    "753P+JF2, Ташкент, Узбекистан":"753P+JF2, Toshkent, Oʻzbekiston"
 }

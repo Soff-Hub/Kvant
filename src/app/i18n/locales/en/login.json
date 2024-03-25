@@ -39,5 +39,15 @@
     "Сообщение":"Message",
     "Заявка на продукт":"Product Application",
     "Сколько продуктов *":"How many products *",
-    "Сколько продуктов не введено":"How many products are not entered?"
+    "Сколько продуктов не введено":"How many products are not entered?",
+
+    "Отправить нам сообщение":"Send us a message",
+    "Свяжитесь напрямую":"Contact directly",
+    "Работать с нами":"Work with us",
+    "Обслуживание клиентов":"Customer service",
+    "Связи со СМИ":"Media Relations",
+    "Служба поддержки":"Support",
+    "Отправьте свое резюме на нашу электронную почту":"Send your resume to our email",
+    "753P+JF2, Ташкент, Узбекистан":"753P+JF2, Tashkent, Uzbekistan"
+
 }

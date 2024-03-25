@@ -4,6 +4,7 @@ import ContactSupport from '@components/contact/contact-support';
 import { Metadata } from 'next';
 import Breadcrumb from '@components/ui/breadcrumb';
 import MapContainer from '@components/ui/map';
+import ContactView from '@components/contact/contact-view';
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -20,7 +21,8 @@ export default async function Page({
     <>
       <Container className={'mt-5'}>
         <Breadcrumb lang={lang} />
-        <div className="flex flex-wrap bg-skin-fill w-full  relative z-10 mt-5 p-5 xl:p-12 ">
+        <ContactView lang={lang} />
+        <div className="flex flex-wrap bg-skin-fill w-full  relative z-10  p-5 xl:p-12 ">
           <div className="w-full md:w-[53%] xl:w-[60%] md:pe-8 lg:pe-0 2xl:pe-24 lg:mb-0 mb-8">
             <ContactSupport lang={lang} />
           </div>

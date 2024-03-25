@@ -19,12 +19,8 @@ const MobileMenu = dynamic(() => import('@layouts/header/mobile-menu'));
 
 export default function BottomNavigation({ lang }: { lang: string }) {
   const { t } = useTranslation(lang, 'home');
-  const {
-    openSidebar,
-    closeSidebar,
-    displaySidebar,
-    toggleMobileSearch,
-  } = useUI();
+  const { openSidebar, closeSidebar, displaySidebar, toggleMobileSearch } =
+    useUI();
 
   const dir = getDirection(lang);
   const contentWrapperCSS = dir === 'ltr' ? { left: 0 } : { right: 0 };
@@ -35,35 +31,37 @@ export default function BottomNavigation({ lang }: { lang: string }) {
 
   return (
     <>
-      <div className="lg:hidden fixed z-30 -bottom-0.5 flex items-center justify-between shadow-bottomNavigation body-font bg-brand-light w-full h-14 px-4 md:px-6 lg:px-8 text-brand-muted pb-0.5">
-        <button
-          aria-label="Menu"
-          className="flex flex-col items-center justify-center outline-none shrink-0 focus:outline-none"
-          onClick={handleMobileMenu}
+      <div className="lg:hidden fixed z-30 -bottom-0.5  flex items-center justify-between shadow-bottomNavigation body-font bg-brand-light w-full h-16 px-4 md:px-6 lg:px-8 text-brand-muted pb-0.5">
+        <Link
+          href={`/${lang}${ROUTES.HOME}`}
+          className="flex flex-col items-center"
         >
-          <MenuIcon />
-        </button>
+          <HomeIcon />
+          Asosiy
+        </Link>
+
         <button
-          className="relative flex items-center justify-center h-auto shrink-0 focus:outline-none"
+          className="relative flex flex-col items-center justify-center h-auto shrink-0 focus:outline-none"
           onClick={toggleMobileSearch}
           aria-label="Search Button"
         >
           <SearchIcon />
+          Search
         </button>
-        <Link href={`/${lang}${ROUTES.HOME}`} className="shrink-0">
-          <span className="sr-only">{t('')}</span>
-          <HomeIcon />
-        </Link>
-        <CartButton
-          hideLabel={true}
-          iconClassName="text-opacity-100"
-          lang={lang}
-        />
-        <Link
-          className="flex items-center gap-2 "
-          href={`/${lang}${ROUTES.SIGN_UP}`}
+        <button
+          aria-label="Menu"
+          className="flex flex-col items-center justify-center outline-none gap-1 shrink-0 focus:outline-none"
+          onClick={handleMobileMenu}
         >
-          <AccountIcon />
+          <MenuIcon />
+          Kategoriya
+        </button>
+        <Link
+          className="flex items-center flex-col "
+          href={`/${lang}${ROUTES.ORDERS}`}
+        >
+          <AccountIcon lang={lang} />
+          Account
         </Link>
       </div>
       <Drawer
