@@ -149,7 +149,7 @@ const ProductCard: React.FC<ProductProps> = ({ product, lang }) => {
               onClick={() => openModal('PAYMENT', id)}
               className="text-center text-[13px] hover:text-yellow-300 w-full mt-1"
             >
-              {"Ko'proq kerakmi?"}
+              {t('Нужно больше?')}
             </button>
           )}
         </div>

@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useTranslation } from 'src/app/i18n/client';
 import ListMenu from '@components/ui/mega/mega-menu';
 import Container from '@components/ui/container';
@@ -15,7 +14,7 @@ const SubMega = ({ item, lang }: any) => {
     mega_bannerUrl,
     mega_contentBottom,
   } = item ?? {};
-    const { t } = useTranslation(lang, 'menu');
+    const { t } = useTranslation(lang, 'home');
   const widthCateArea = mega_bannerMode;
   let isBannerMode = false;
   if (mega_bannerMode == 'left' || mega_bannerMode == 'right') isBannerMode = true;

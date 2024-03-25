@@ -1,7 +1,6 @@
 import CartIcon from '@components/icons/cart-icon';
 import { useCart } from '@contexts/cart/cart.context';
 import { useUI } from '@contexts/ui.context';
-import cn from 'classnames';
 import { useEffect, useState } from 'react';
 
 const CartButton: React.FC<React.SVGAttributes<{}>> = ({ lang }) => {

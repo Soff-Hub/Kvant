@@ -36,35 +36,28 @@ export const footer = {
   social: [
     {
       id: 1,
-      path: 'https://www.facebook.com/',
+      path: 'https://www.facebook.com/kvant.uz.7',
       image: '/assets/images/social/facebook.svg',
       name: 'facebook',
       width: 20,
       height: 20,
     },
     {
-      id: 2,
-      path: 'https://twitter.com/',
-      image: '/assets/images/social/twitter.svg',
-      name: 'twitter',
-      width: 20,
-      height: 20,
-    },
-    {
       id: 3,
-      path: 'https://www.instagram.com/',
-      image: '/assets/images/social/instagram.svg',
-      name: 'instagram',
-      width: 20,
-      height: 20,
-    },
-    {
-      id: 4,
-      path: 'https://www.youtube.com/',
+      path: 'https://www.youtube.com/@kvant_uz/about',
       image: '/assets/images/social/youtube.svg',
       name: 'youtube',
       width: 20,
       height: 20,
     },
+    {
+      id: 4,
+      path: 'https://www.instagram.com/kvantuz/',
+      image: '/assets/images/social/instagram.svg',
+      name: 'instagram',
+      width: 20,
+      height: 20,
+    },
+
   ],
 };

@@ -24,3 +24,4 @@ const EmailIcon = ({
 };
 
 export default EmailIcon;
+

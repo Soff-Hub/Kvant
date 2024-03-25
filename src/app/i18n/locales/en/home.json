@@ -65,8 +65,24 @@
     "Просмотреть все категории":"View all categories",
     "Купить сейчас":"Buy now",
     "КАТЕГОРИИ":"CATEGORIES",
-    "Входить": "LogIn",
-    "Pегистр": "Register"  
+    "Входь": "LogIn",
+    "Регистрация": "Register",
+    "Поделиться в социальной сети":"Share on social network",
+    "Копировать":"Copy",
+    "Скопировано!":"Copied!",
+    "или скопируйте ссылку":"or copy the link",
+    "Нужно больше?":"Need more?",
+    "Выйти":"LogOut",
+    "Информация для заказа":"Ordering information",
+    "Детали заказов":"Order details",
+    "О нас":"About Us",
+
+    "Меню":"Menu",
+    "Поиск":"Search",
+    "Категория":"Category",
+    "Профиль":"Profile",
+    "Заказы":"Orders"
+
     
 
 

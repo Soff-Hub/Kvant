@@ -12,6 +12,8 @@ interface Props {
   quality?: number;
   priority?: any;
   style?: CSSProperties;
+  loading?:any;
+  sizes?:any
 }
 
 const ImageFill: React.FC<Props> = ({

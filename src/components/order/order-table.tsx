@@ -31,12 +31,12 @@ const OrderTable: React.FC<{ orders?: any; lang: string }> = ({
       key: 'id',
       className: 'id-cell',
       width: 100,
+      heigth:50
     },
     {
       title: t('Тип заказа'),
       dataIndex: 'order_type_ln',
       key: 'order_type_ln',
-      className: 'id-cell',
       width: 140,
     },
     {
@@ -55,7 +55,18 @@ const OrderTable: React.FC<{ orders?: any; lang: string }> = ({
         <span>
           <span
             className="bullet"
-            style={{ backgroundColor: status === 'Approved' ? 'green' : 'red' }}
+            style={{
+              backgroundColor:
+                status === 'Approved' ||
+                status === 'Одобренный' ||
+                status === 'Tasdiqlandi'
+                  ? 'green'
+                  : status === 'Cancelled' ||
+                      status === 'Отменено' ||
+                      status === 'Bekor qilindi'
+                    ? 'red'
+                    : '',
+            }}
           />
           {status}
         </span>
@@ -84,9 +95,8 @@ const OrderTable: React.FC<{ orders?: any; lang: string }> = ({
       dataIndex: 'id',
       width: 100,
       render: function actionsButton(item: any) {
-        return <ActionsButton item={item} />;
+        return <ActionsButton item={item} lang={lang} />;
       },
-      className: 'operations-cell',
     },
   ];
 
@@ -98,7 +108,7 @@ const OrderTable: React.FC<{ orders?: any; lang: string }> = ({
         </h2>
       </div>
       <div className="order-list-table-wraper ">
-        <Table className="order-list-table " columns={columns} data={orders} />
+        <Table className="order-list-table"  columns={columns} data={orders} />
       </div>
     </>
   );

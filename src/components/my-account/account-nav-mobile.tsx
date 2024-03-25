@@ -47,7 +47,7 @@ export default function AccountNavMobile({
   return (
     <Listbox value={selectedItem} onChange={handleItemClick}>
       {({ open }) => (
-        <div className="relative w-full font-body">
+        <div className="relative w-full font-body bg-white">
           <Listbox.Button className="relative flex items-center w-full p-4 border rounded cursor-pointer text-brand-dark md:p-5 ltr:text-left rtl:text-right focus:outline-none border-border-base">
             {selectedItem?.icon}
             <span className="flex truncate items-center text-sm md:text-15px font-medium ltr:pl-2.5 rtl:pr-2.5 relative">

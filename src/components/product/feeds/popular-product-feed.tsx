@@ -21,10 +21,9 @@ const PopularProductFeed: FC<ProductFeedProps> = ({
   const { data, isLoading, error } = usePopularProductsQuery({
     limit: limit,
   });
-  const { t } = useTranslation(lang, 'home');
   return (
     <ProductsCarousel
-      sectionHeading={t('ПОПУЛЯРНЫЕ ПРОДУКТЫ')}
+      sectionHeading='ПОПУЛЯРНЫЕ ПРОДУКТ'
       className={className}
       products={data}
       loading={isLoading}

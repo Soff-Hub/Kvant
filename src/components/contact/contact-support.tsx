@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Text from '@components/ui/text';
 import Heading from '@components/ui/heading';
 import { useIsMounted } from '@utils/use-is-mounted';
@@ -14,7 +14,7 @@ const data = [
     id: 1,
     slug: '/',
     icon: <LocationIcon />,
-    name: 'Адреса',
+    name: 'Адрес',
     description:
       'Acme Widgets 123 Widget Street Acmeville, AC 12345 United States of America',
   },
@@ -23,14 +23,14 @@ const data = [
     slug: '/',
     icon: <PhoneIcon />,
     name: 'Номер телефона',
-    description: '+998 93 102 30 42',
+    description: '+998 (55) 511-11-11',
   },
   {
     id: 3,
     slug: '/',
     icon: <MailIcon />,
     name: 'Электронная почта',
-    description: 'ozodbek003@gmail.com',
+    description: 'kvant@gmail.com',
   },
 ];
 
@@ -42,40 +42,48 @@ interface Props {
 const ContactSupport: FC<Props> = ({ lang }) => {
   const { t } = useTranslation(lang, 'home');
   const mounted = useIsMounted();
-  return (
-    <div className="mb-0 3xl:ltr:pr-5 3xl:rtl:pl-5">
-      <Heading variant="heading" className="mb-3 lg:mb-4 xl:mb-5">
-        {mounted && <>{t('Связаться с нами')}</>}
-      </Heading>
+  const [isClient, setIsClient] = useState(false);
 
-      <div className="mx-auto space-y-4 mb-6">
-        {data.map((item, idx) => (
-          <div
-            key={`contact--key${item.id}`}
-            className="flex flex-col lg:flex-row max-w-xs lg:max-w-sm xl:pe-7"
-          >
-            <div className="flex-shrink-0 w-14  h-14 border-2 border-border-two p-3 rounded-md">
-              {item.icon}
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  return (
+    isClient && (
+      <div className="mb-0 3xl:ltr:pr-5 3xl:rtl:pl-5">
+        <div className="mx-auto space-y-4 mb-6">
+          {data.map((item: any) => (
+            <div
+              key={`contact--key${item.id}`}
+              className="flex flex-col lg:flex-row max-w-xs lg:max-w-sm xl:pe-7"
+            >
+              <div className="flex-shrink-0 w-14  h-14 border-2 border-border-two p-3 rounded-md">
+                {item.icon}
+              </div>
+              <div className="lg:ps-3 2xl:ps-4 mt-4 lg:mt-0">
+                <Heading variant="base" className="">
+                  {t(item.name)}
+                </Heading>
+                <Text><a href="tel:+998555111111">{t(item.description)}</a></Text>
+              </div>
             </div>
-            <div className="lg:ps-3 2xl:ps-4 mt-4 lg:mt-0">
-              <Heading variant="base" className="">
-                {t(item.name)}
-              </Heading>
-              <Text>{t(item.description)}</Text>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        <Text className="xl:leading-8">
+          {mounted && (
+            <>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+              mattis, orci ac elementum convallis, dolor enim volutpat sapien,
+              id porttitor eros risus convallis nibh. Nullam dui diam, semper
+              sed neque ut, fringilla rutrum velit. Nulla facilisi. Integer
+              suscipit, dolor sed auctor interdum, libero neque fermentum arcu,
+              in dapibus mauris nisl convallis ante. Orci varius natoque
+              penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </>
+          )}
+        </Text>
       </div>
-      <Text className="xl:leading-8">
-        {mounted && (
-          <>
-            {t(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mattis, orci ac elementum convallis, dolor enim volutpat sapien, id porttitor eros risus convallis nibh. Nullam dui diam, semper sed neque ut, fringilla rutrum velit. Nulla facilisi. Integer suscipit, dolor sed auctor interdum, libero neque fermentum arcu, in dapibus mauris nisl convallis ante. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-            )}
-          </>
-        )}
-      </Text>
-    </div>
+    )
   );
 };
 

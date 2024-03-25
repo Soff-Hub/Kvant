@@ -38,10 +38,6 @@ const Header = ({ className, lang }: HeaderProps) => {
 
   const token = getToken();
 
-  function handleMobileMenu() {
-    return openSidebar();
-  }
-
   function handleCategoryMenu() {
     setCategoryMenu(!categoryMenu);
   }
@@ -70,16 +66,8 @@ const Header = ({ className, lang }: HeaderProps) => {
           <div className="border-b border-black/10">
             <Container>
               <div className="flex items-center justify-between  py-2 md:py-4">
-                <div className="relative flex-shrink-0 lg:hidden">
-                  <button
-                    aria-label="Menu"
-                    className="bg-brand rounded focus:outline-none flex-shrink-0 text-sm  text-skin-inverted px-2.5 md:px-3 lg:px-[18px] py-2 md:py-2.5 lg:py-3 flex items-center transition-all hover:border-skin-four"
-                    onClick={handleMobileMenu}
-                  >
-                    <MenuIcon />
-                  </button>
-                </div>
-                <Logo lang={lang} className="logo ps-3 md:ps-0 lg:mx-0" />
+    
+                <Logo lang={lang} className="logo  md:ps-0 lg:mx-0" />
                 {/* End of logo */}
 
                 <Search
@@ -87,14 +75,16 @@ const Header = ({ className, lang }: HeaderProps) => {
                   lang={lang}
                   className={`hidden lg:flex lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[800px] ${isClient && token ? 'm-0' : 'lg:mx-10'}} `}
                 />
+                <div className="">
+                  <CartButton />
+                </div>
 
-                <CartButton />
+                <AccouttWishlist lang={lang}  />
 
-                <AccouttWishlist />
+                <LanguageSwitcher lang={lang} />
 
-                <LanguageSwitcher lang={lang}  />
                 <div className="hidden lg:flex items-center  accountButton">
-                  <AccountIcon />
+                  <AccountIcon lang={lang} />
 
                   {isClient &&
                     (!token ? (
@@ -103,13 +93,13 @@ const Header = ({ className, lang }: HeaderProps) => {
                           className="text-sm  "
                           href={`/${lang}${ROUTES.LOGIN}`}
                         >
-                          {t('Входить')}
+                          {t('Входь')}
                         </Link>
                         <Link
                           className="text-sm "
                           href={`/${lang}${ROUTES.SIGN_UP}`}
                         >
-                          {t('Pегистр')}
+                          {t('Регистрация')}
                         </Link>
                       </div>
                     ) : (
@@ -133,7 +123,7 @@ const Header = ({ className, lang }: HeaderProps) => {
                     onClick={handleCategoryMenu}
                   >
                     <FiMenu className="text-2xl me-3" />
-                    {t('Просмотреть все категории')}
+                    {isClient && t('Просмотреть все категории')}
                   </button>
                   {categoryMenu && <CategoryDropdownMenu lang={lang} />}
                 </div>

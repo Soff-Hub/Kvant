@@ -54,7 +54,7 @@ export const useLoginMutation = (lang: any) => {
           pauseOnHover: true,
           draggable: true,
         });
-        router.push('/en/my-account/orders');
+        router.push(`/${lang}/my-account/orders`);
       }
     },
     onError: (error: any) => {

@@ -223,7 +223,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
                       onClick={() => openModal('PAYMENT', data?.id)}
                       className="text-center text-[13px] hover:text-yellow-300 w-full mt-0"
                     >
-                      {"Ko'proq kerakmi?"}
+                      {t('Нужно больше?')}
                     </button>
                   )}
 

@@ -4,7 +4,7 @@ import { useTranslation } from 'src/app/i18n/client';
 import {getDirection} from "@utils/get-direction";
 
 const ListMenu = ({ lang, dept, data, hasSubMenu, menuIndex }: any) => {
-  const { t } = useTranslation(lang, 'menu');
+  const { t } = useTranslation(lang, 'home');
     const dir = getDirection(lang);
   return (
     <li className="relative">

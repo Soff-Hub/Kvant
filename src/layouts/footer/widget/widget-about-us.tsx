@@ -28,10 +28,10 @@ const WidgetAbout: React.FC<AboutProps> = ({ lang, className }) => {
           <span className='font-bold'>{t('Адрес')}</span> : {t('Acme Widgets 123 Widget Street Акмевилл, AC 12345 Соединенные Штаты Америки')}
         </div>
         <div className="mb-3">
-          <span className='font-bold'>{t('Телефон')}</span> : {t('+998 93 102 30 42')}
+          <span className='font-bold'>{t('Телефон')}</span> : <a href="tel:+998(55)511-11-11">{t('+998(55)511-11-11')}</a>
         </div>
         <div className="mb-3">
-          <span className='font-bold'>{t('Электронная почта')}</span>: {t('ozodbek001@gmail.com')}
+          <span className='font-bold'>{t('Электронная почта')}</span>: <a href="mailto:kvant@gmail.com">{t('kvant@gmail.com')}</a>
         </div>
       </div>
 

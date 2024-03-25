@@ -18,4 +18,5 @@ const LocationIcon: React.FC<React.SVGAttributes<{}>> = ({ ...rest }) => {
   );
 };
 
+
 export default LocationIcon;
