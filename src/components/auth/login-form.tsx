@@ -126,7 +126,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                   className="w-full mt-2 tracking-normal h-11 md:h-12 font-15px md:font-15px"
                   variant="formButton"
                 >
-                  {t('Входить')}
+                  {t('Входь')}
                 </Button>
               </div>
             </div>

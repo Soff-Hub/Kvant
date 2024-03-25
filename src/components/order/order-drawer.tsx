@@ -63,42 +63,42 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
               </div>
 
               <div className="p-5 ">
-                <div className="mb-8">
-                  <div>
+                <div className="mb-8 w-100 mr-10 ">
+                  <div className='w-full flex justify-between gap-3 mb-3'>
                     <span className="font-medium text-sm">
                       {t('Номер заказа')} :
                     </span>{' '}
                     <span className="text-sm">{orderData?.id}</span>{' '}
                   </div>
-                  <div>
+                  <div className='w-full flex justify-between gap-3 mb-3'>
                     {' '}
                     <span className="font-medium text-sm">
                       {t('Номер телефона')} :
                     </span>{' '}
                     <span className="text-sm">{orderData?.phone_number}</span>{' '}
                   </div>
-                  <div>
+                  <div className='w-full flex justify-between gap-3 mb-3' >
                     {' '}
                     <span className="font-medium text-sm">
                       {t('Адрес')} :
                     </span>{' '}
                     <span className="text-sm">{orderData?.address}</span>
                   </div>
-                  <div>
+                  <div className='w-full flex justify-between gap-3 mb-3' >
                     {' '}
                     <span className="font-medium text-sm">
                       {t('Тип заказа')} :
                     </span>{' '}
                     <span className="text-sm">{orderData?.order_type_ln}</span>
                   </div>
-                  <div>
+                  <div className='w-full flex justify-between gap-3 mb-3' >
                     {' '}
                     <span className="font-medium text-sm">
                       {t('Способ оплаты')} :
                     </span>{' '}
                     <span className="text-sm">{orderData?.provider}</span>
                   </div>
-                  <div>
+                  <div className='w-full flex justify-between gap-3 mb-3' >
                     {' '}
                     <span className="font-medium text-sm">
                       {t('Положение дел')} :
@@ -122,7 +122,7 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
                       {orderData?.status_ln}
                     </span>
                   </div>
-                  <div>
+                  <div className='w-full flex justify-between gap-3 mb-3'>
                     {' '}
                     <span className="font-medium text-sm">
                       {t('Дата заказа')} :
@@ -134,11 +134,11 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
                   orderData?.product_orders?.map((item: any, index: string) => (
                     <OrderDetailsContent key={index} item={item} lang={lang} />
                   ))}
-                <div className="mt-3 ltr:text-right rtl:text-left">
-                  <div className="text-black inline-flex flex-col text-[12px] md:text-[14px]">
-                    <div className="pb-1 mb-2 border-b mt-3 border-border-base ltr:pl-20 rtl:pr-20">
-                      <p className="flex justify-between mb-1">
-                        <span className="ltr:mr-8 rtl:ml-8">
+                <div className="mt-3 ">
+                  <div className="text-black inline-flex flex-col text-[12px] w-full md:text-[14px] ">
+                    <div className="pb-1 mb-2 border-b mt-3 border-border-base w-full pr-8">
+                      <p className="w-full flex justify-between mb-1">
+                        <span >
                           {t('Цена продукта')}:{' '}
                         </span>
                         <span className="font-medium">
@@ -149,7 +149,7 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
                         </span>
                       </p>
                       <p className="flex justify-between mb-1">
-                        <span className="ltr:mr-8 rtl:ml-8">
+                        <span>
                           {t('Доставка')}:{' '}
                         </span>
                         <span className="font-medium">
@@ -160,8 +160,8 @@ const OrderDrawer: React.FC<{ lang: string }> = ({ lang }) => {
                         </span>
                       </p>
                     </div>
-                    <p className="ltr:pl-20 ">
-                      <span className="ltr:mr-8 rtl:ml-8">
+                    <p >
+                      <span >
                         {t('Общая сумма')}:{' '}
                       </span>
                       <span className="font-medium">

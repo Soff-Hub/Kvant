@@ -114,7 +114,7 @@ export default function SignUpForm({ lang, className }: SignUpFormProps) {
                   className="w-full mt-2 tracking-normal h-11 md:h-12 font-15px md:font-15px"
                   variant="formButton"
                 >
-                  {t('Pегистр')}
+                  {t('Регистрация')}
                 </Button>
               </div>
             </div>

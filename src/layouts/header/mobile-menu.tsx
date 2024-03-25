@@ -50,7 +50,6 @@ const social = [
 
 export default function MobileMenu({ lang }: { lang: string }) {
   const [activeMenus, setActiveMenus] = useState<any>([]);
-  const { site_header } = siteSettings;
   const { closeSidebar } = useUI();
   const { t } = useTranslation(lang, 'home');
 
@@ -148,9 +147,9 @@ export default function MobileMenu({ lang }: { lang: string }) {
   return (
     <>
       <div className="flex flex-col justify-between w-full h-full">
-        <div className="bg-gray-300 w-full border-b border-border-base flex justify-between items-center relative ltr:pl-5 rtl:pr-5 md:ltr:pl-7 md:rtl:pr-7 shrink-0 py-0.5">
-          <div role="button" onClick={closeSidebar} className="inline-flex">
-            <Logo lang={lang} />
+        <div className="bg-brand text-white w-full border-b border-border-base flex justify-between items-center  relative ltr:pl-5 rtl:pr-5 md:ltr:pl-7 md:rtl:pr-7 shrink-0 py-0.5">
+          <div role="button" onClick={closeSidebar} className="text-center w-80">
+           <h1 className='font-bold text-[24px] text-center '>{t('Категория')}</h1>
           </div>
 
           <button

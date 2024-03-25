@@ -93,13 +93,13 @@ const Header = ({ className, lang }: HeaderProps) => {
                           className="text-sm  "
                           href={`/${lang}${ROUTES.LOGIN}`}
                         >
-                          {t('Входить')}
+                          {t('Входь')}
                         </Link>
                         <Link
                           className="text-sm "
                           href={`/${lang}${ROUTES.SIGN_UP}`}
                         >
-                          {t('Pегистр')}
+                          {t('Регистрация')}
                         </Link>
                       </div>
                     ) : (
