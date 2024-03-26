@@ -16,20 +16,13 @@ module.exports = {
     },
   }),
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'kvantuz.pythonanywhere.com',
-        port: '',
-        pathname: '/media/**',
-      },
-    ],
+    domains: ['admin.kvant.uz'], // Host nomi yoki domainlarni belgilash
   },
   async rewrites() {
     return [
       {
-        source: '/', 
-        destination:'/ru',
+        source: '/',
+        destination: '/ru',
       },
     ];
   },

@@ -2,8 +2,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import cn from 'classnames';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
-import { useState } from 'react';
-import Image from '@components/ui/image';
 import { useTranslation } from 'src/app/i18n/client';
 import { FaCheck } from 'react-icons/fa';
 

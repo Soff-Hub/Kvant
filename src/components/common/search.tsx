@@ -64,7 +64,7 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
       setIsloading(true);
       try {
         const response = await axios.get(
-          `${baseURL + API_ENDPOINTS.FASHION_PRODUCTS}/?search=${searchText}`,
+          `${baseURL + API_ENDPOINTS.FASHION_PRODUCTS}?search=${searchText}`,
         );
         setData(response.data?.results); // Olingan ma'lumotlar
       } catch (error) {

@@ -37,14 +37,16 @@ const ProductFlashSaleGobies: React.FC<ProductProps> = ({
   const { t } = useTranslation(lang, 'home');
 
   async function handlePopupView() {
-    try {
-      const headers = new Headers();
-      headers.append('Accept-Language', lang);
-      await fetch(`${baseURL + API_ENDPOINTS.PRODUCTS_DETAILS}/${slug}/`, {
-        headers: headers,
-      });
-    } catch (error) {
-      console.error('Xatolik yuz berdi:', error);
+    if (slug) {
+      try {
+        const headers = new Headers();
+        headers.append('Accept-Language', lang);
+        await fetch(`${baseURL + API_ENDPOINTS.PRODUCTS_DETAILS}/${slug}/`, {
+          headers: headers,
+        });
+      } catch (error) {
+        console.error('Xatolik yuz berdi:', error);
+      }
     }
   }
 

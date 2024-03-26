@@ -66,7 +66,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
     const dataChecout = {
       customer_name,
       phone_number: phone,
-      address: address,
+      address: currentLocation ? currentLocation : address,
       order_type: check,
       provider: selectID,
       products,
@@ -165,9 +165,11 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
     setSelectedItem(currentSelectedItem);
   }, [currentSelectedItem]);
 
+  console.log(currentLocation);
+
   return (
     <>
-      <h1 className="font-bold mb-3">Оформление заказа</h1>
+      <h1 className="font-bold mb-3">{t('Оформление заказа')}</h1>
 
       <div className="border rounded-md border-border-base bg-white p-4">
         <form
@@ -181,7 +183,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
               type="text"
               variant="solid"
               {...register('customer_name', {
-                required: `${t('Адрес не введен')}`,
+                required: `${t('Ф.И.О * не введен')}`,
               })}
               error={errors.customer_name?.message}
               lang={lang}
@@ -207,7 +209,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
               className="col-span-6"
             />
             <div className="col-span-6 ">
-              <h1 className="font-bold *">Тип поступления продукции</h1>
+              <h1 className="font-bold *">{t('Тип поступления продукции')}</h1>
               <div className=" w-full flex mt-2 justify-between gap-4">
                 <div
                   onClick={() => setCheck('delivery')}
@@ -219,7 +221,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                     name="radio"
                     id="radio"
                   />
-                  <span className="ml-2 font-medium">Доставка</span>
+                  <span className="ml-2 font-medium">{t('Доставка')}</span>
                 </div>
 
                 <div
@@ -232,14 +234,14 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                     name="radio"
                     id="radio"
                   />
-                  <span className="ml-2 font-medium">Еда на вынос</span>
+                  <span className="ml-2 font-medium">{t('Еда на вынос')}</span>
                 </div>
               </div>
             </div>
 
             {check === 'take_away' && (
               <div className="col-span-12">
-                <h1 className="font-bold text-black mb-2">Выберите филиал *</h1>
+                <h1 className="font-bold text-black mb-2">{t('Выберите филиал *')}</h1>
 
                 <Listbox
                   value={selectedItem}
@@ -332,14 +334,14 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                 />
                 <div className="mt-2 mb-10 relative h-[420px] col-span-12">
                   <h1 className="font-bold  mb-3">
-                    Выберите адрес вашего местоположения *
+                    {t('Выберите адрес вашего местоположения *')}
                   </h1>
                   <MapContainer currentLocation={currentLocation} />
                 </div>
               </>
             )}
             <div className="col-span-12">
-              <h1 className="font-bold text-black">Способ оплаты *</h1>
+              <h1 className="font-bold text-black">{t('Способ оплаты *')}</h1>
               <div className="w-full mt-2 flex justify-start gap-5">
                 {dateCard.map((item) => (
                   <div
@@ -358,7 +360,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                   className={`w-full shadow-cardHover rounded-lg cursor-pointer py-2 bg-${selectID === 'cash' ? 'yellow' : 'white'}-100 text-${selectID === 'cash' ? 'gray' : ''}-200 flex justify-center items-center`}
                   onClick={() => setSelectId('cash')}
                 >
-                  <h1 className="font-bold text-[24px]">Наличные</h1>
+                  <h1 className="font-bold text-[24px]">{t("Наличные")}</h1>
                 </div>
               </div>
             </div>
@@ -367,7 +369,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                 variant="normal"
                 label={`${t('Комментарий к заказу')}`}
                 {...register('text')}
-                placeholder="Комментарий к заказу..."
+                placeholder={`${t('Комментарий к заказу')}...`}
                 lang={lang}
               />
             </div>

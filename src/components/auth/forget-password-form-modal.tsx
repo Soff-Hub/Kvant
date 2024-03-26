@@ -59,7 +59,7 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
           pauseOnHover: true,
           draggable: true,
         });
-        router.push(`${lang}/forget-password`); // Boshqa sahifaga yo'naltiramiz
+        router.push(`/${lang}/forget-password`); // Boshqa sahifaga yo'naltiramiz
         closeModal()
 
       } else {
