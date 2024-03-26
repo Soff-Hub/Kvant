@@ -66,11 +66,11 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
     const dataChecout = {
       customer_name,
       phone_number: phone,
-      address: currentLocation ? currentLocation : address,
+      address: address ?  address : currentLocation,
       order_type: check,
       provider: selectID,
       products,
-      branch: selectedItem?.id ? selectedItem?.id : 0,
+      branch: selectedItem?.id ? selectedItem?.id : null,
       description: text,
     };
 
@@ -165,7 +165,6 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
     setSelectedItem(currentSelectedItem);
   }, [currentSelectedItem]);
 
-  console.log(currentLocation);
 
   return (
     <>
