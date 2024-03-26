@@ -78,9 +78,6 @@ const Map: React.FC<Props> = ({
       .catch((e: any) => window.alert('Geocoder failed due to: ' + e));
   };
 
-console.log(mapPosition);
-console.log(selectedMarker);
-
 
 
 

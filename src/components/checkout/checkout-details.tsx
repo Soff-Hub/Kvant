@@ -326,8 +326,8 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                       {t('Выберите адрес вашего местоположения *')}
                     </h1>
                     <MapContainer
-                      lat={1.295831}
-                      lng={103.76261}
+                      lat={41.259282}
+                      lng={69.2065356}
                       height={'420px'}
                       zoom={15}
                       showInfoWindow={true}
