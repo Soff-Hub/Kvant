@@ -77,6 +77,9 @@ const Breadcrumb: React.FC<{ separator?: string; lang: string }> = ({
     setIsClient(true);
   }, []);
 
+console.log(convertBreadcrumbTitle('contact-us'));
+
+
   return (
     isClient && (
       <BreadcrumbItems separator={separator}>
@@ -101,7 +104,7 @@ const Breadcrumb: React.FC<{ separator?: string; lang: string }> = ({
             lang={lang}
           >
             <a className="capitalize">
-              {convertBreadcrumbTitle(breadcrumb.breadcrumb)}
+              {t(convertBreadcrumbTitle(breadcrumb.breadcrumb))}
             </a>
           </ActiveLink>
         ))}

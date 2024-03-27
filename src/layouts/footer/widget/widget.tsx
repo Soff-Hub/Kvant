@@ -3,6 +3,7 @@ import Container from '@components/ui/container';
 import { footer } from '../data';
 import Link from 'next/link';
 import Image from '@components/ui/image';
+import { useTranslation } from 'src/app/i18n/client';
 
 interface WidgetsProps {
   lang: string;
@@ -17,6 +18,7 @@ interface WidgetsProps {
 
 const Widgets: React.FC<WidgetsProps> = ({ lang }) => {
   const { social } = footer;
+  const {t} =useTranslation(lang, 'home')
   return (
     <Container>
       <div className="flex justify-between gap-6 flex-wrap my-5">
@@ -33,8 +35,7 @@ const Widgets: React.FC<WidgetsProps> = ({ lang }) => {
               Kvant.uz
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur
-              fugit deserunt obcaecati libero laudantium expedita natus
+           {t('Kvant.uz — интернет-магазин различных видов технической продукции')}
             </p>
           </div>
           {social && (

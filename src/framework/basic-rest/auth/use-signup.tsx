@@ -51,7 +51,7 @@ export const useSignUpMutation = (lang:any) => {
           pauseOnHover: true,
           draggable: true,
         });
-        router.push(`${lang}/forget-password`);
+        router.push(`/${lang}/forget-password`);
       }
     },
     onError: (error: any) => {

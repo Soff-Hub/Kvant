@@ -2,8 +2,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import cn from 'classnames';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
-import { useState } from 'react';
-import Image from '@components/ui/image';
 import { useTranslation } from 'src/app/i18n/client';
 import { FaCheck } from 'react-icons/fa';
 
@@ -12,11 +10,10 @@ function CategoryFilterMenuItem({
   item,
   lang,
 }: any) {
-  const { t } = useTranslation(lang, 'home');
   const pathname = usePathname();
   const router = useRouter();
 
-  const { slug, title, children: items, icon } = item;
+  const { slug, title, children: items } = item;
 
   function onClick() {
     router.push(`/${lang}/category__parent__slug=${slug}`);
@@ -89,7 +86,7 @@ function CategoryFilterMenuItem({
               return (
                 <button
                   className={cn(
-                    'text-brand-dark  hover:text-brand font-medium flex items-center w-full ltr:text-left rtl:text-right cursor-pointer group gap-2',
+                    'text-brand-dark  hover:text-brand font-medium flex items-center w-full ltr:text-left rtl:text-right cursor-pointer group gap-2 mb-2',
                   )}
                   onClick={() => handleChange(currentItem)}
                 >

@@ -54,7 +54,7 @@ const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
           pauseOnHover: true,
           draggable: true,
         });
-        router.push(`${lang}/signin`); // Boshqa sahifaga yo'naltiramiz
+        router.push(`/${lang}/signin`); // Boshqa sahifaga yo'naltiramiz
       }
     } catch (error) {
       console.log(error);

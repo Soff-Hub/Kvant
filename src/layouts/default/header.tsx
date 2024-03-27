@@ -27,7 +27,7 @@ interface HeaderProps {
   className?: string;
 }
 const Header = ({ className, lang }: HeaderProps) => {
-  const { openSidebar, displaySearch, displayMobileSearch } = useUI();
+  const { displaySearch, displayMobileSearch } = useUI();
   const siteSearchRef = useRef() as DivElementRef;
   const { t } = useTranslation(lang, 'home');
   const siteHeaderRef = useRef() as DivElementRef;
@@ -73,7 +73,7 @@ const Header = ({ className, lang }: HeaderProps) => {
                 <Search
                   searchId="top-bar-search"
                   lang={lang}
-                  className={`hidden lg:flex lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[800px] ${isClient && token ? 'm-0' : 'lg:mx-10'}} `}
+                  className={`hidden lg:flex lg:max-w-[450px] xl:max-w-[800px] 2xl:max-w-[800px] ${isClient && token ? 'm-0' : 'lg:mx-10'}} `}
                 />
                 <div className="">
                   <CartButton />
@@ -117,13 +117,13 @@ const Header = ({ className, lang }: HeaderProps) => {
                   className="navbar-logo w-0 opacity-0 transition-all duration-200 ease-in-out"
                 />
                 {/* End of logo */}
-                <div className="categories-header-button relative  flex-shrink-0 w-52 xl:w-60">
+                <div className="categories-header-button relative  flex-shrink-0 min-w-72 xl:w-60">
                   <button
                     className="text-brand-dark text-sm border-black/10 min-h-[48px] focus:outline-none w-full font-semibold py-2 flex items-center"
                     onClick={handleCategoryMenu}
                   >
                     <FiMenu className="text-2xl me-3" />
-                    {isClient && t('Просмотреть все категории')}
+                    {isClient && t('Все категории')}
                   </button>
                   {categoryMenu && <CategoryDropdownMenu lang={lang} />}
                 </div>

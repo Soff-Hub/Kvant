@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import { Tab } from '@headlessui/react';
 import parse from 'html-react-parser';
-import ProductReviewRating from './product-review-rating';
 import { useTranslation } from 'src/app/i18n/client';
 
 function classNames(...classes: any) {
@@ -40,9 +38,6 @@ export default function ProductDetailsTab({
               {dataProps && parse(dataProps)}
             </div>
           </Tab.Panel>
-          {/* <Tab.Panel>
-            <ProductReviewRating lang={lang} />
-          </Tab.Panel> */}
         </Tab.Panels>
       </Tab.Group>
     </div>

@@ -6,6 +6,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import timezone from 'dayjs/plugin/timezone';
 import { addPeriodToThousands } from '@components/cart/cart-item';
 import { useTranslation } from 'src/app/i18n/client';
+import Alert from '@components/ui/alert';
 
 export const CreatedAt: React.FC<{ createdAt?: any }> = ({ createdAt }) => {
   dayjs.extend(relativeTime);
@@ -31,7 +32,7 @@ const OrderTable: React.FC<{ orders?: any; lang: string }> = ({
       key: 'id',
       className: 'id-cell',
       width: 100,
-      heigth:50
+      heigth: 50,
     },
     {
       title: t('Тип заказа'),
@@ -104,11 +105,15 @@ const OrderTable: React.FC<{ orders?: any; lang: string }> = ({
     <>
       <div className="items-center mb-5 md:flex md:justify-between sm:mb-10">
         <h2 className="mb-4 text-sm font-semibold md:text-xl text-brand-dark md:mb-0">
-          {t('Мой список заказов')}
+          {t('Мои заказы')}
         </h2>
       </div>
       <div className="order-list-table-wraper ">
-        <Table className="order-list-table"  columns={columns} data={orders} />
+        {orders?.length > 0 ? (
+          <Table className="order-list-table" columns={columns} data={orders} />
+        ) : (
+          <Alert message={`${t('Нет заказов')}`} />
+        )}
       </div>
     </>
   );

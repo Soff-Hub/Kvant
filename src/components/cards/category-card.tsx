@@ -28,7 +28,7 @@ const CategoryCard: React.FC<Props> = ({
       <div
         className={cn('flex flex-col  items-center text-[14px]', {
           'card-category--zoom gap-2': variant === 'default',
-          'bg-white rounded p-2 lg:p-5': variant === 'card',
+          'bg-white rounded p-2 lg:p-3': variant === 'card',
         })}
       >
         <div
@@ -47,12 +47,9 @@ const CategoryCard: React.FC<Props> = ({
           />
         </div>
         <div className="category-info text-center">
-          <h3 className="font-semibold text-brand-dark truncate leading-6 group-hover:text-skin-primary">
+          <h3 className="font-semibold text-brand-dark w-[120px] truncate leading-6 group-hover:text-skin-primary">
             {title}
           </h3>
-          {variant === 'default' && (
-            <p className={'text-gray-600'}>{productCount} Products</p>
-          )}
         </div>
       </div>
     </Link>

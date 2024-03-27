@@ -82,7 +82,7 @@ const Counter: React.FC<CounterProps> = ({
             '!w-10 !h-10 rounded-full scale-80 lg:scale-100 text-heading text-white ltr:mr-auto rtl:ml-auto !pr-0 justify-center':
               variant === 'single',
             '!w-6 !h-6 border text-brand-muted border-border-three hover:bg-brand hover:border-brand rounded-full hover:text-brand-light !pr-0':
-              variant === 'cart',
+            !disabled && variant === 'cart',
           },
         )}
       >

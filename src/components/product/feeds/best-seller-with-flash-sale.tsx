@@ -11,6 +11,8 @@ import Carousel from '@components/ui/carousel/carousel';
 import { SwiperSlide } from 'swiper/react';
 import useWindowSize from '@utils/use-window-size';
 import { useEffect, useState } from 'react';
+import Heading from '@components/ui/heading';
+import { useTranslation } from 'src/app/i18n/client';
 
 interface BestSellerProps {
   lang: string;
@@ -49,6 +51,7 @@ export default function BestSellerWithFlashSale({
   const { data, isLoading, error } = usePopularProductsQuery({
     limit: limit,
   });
+  const {t} =useTranslation(lang, 'home')
 
   const [isClient, setIsClient] = useState(false);
 
@@ -61,11 +64,9 @@ export default function BestSellerWithFlashSale({
       <div className={cn('mb-8 lg:mb-15', className)}>
         <div className="grid grid-cols-1 gap-y-6 md:gap-5 md:grid-cols-2 xl:grid-cols-12 lg:gap-5 ">
           <div className="md:top-16 lg:top-20 xl:col-span-4  mb-3 md:mb-0 bg-white  rounded border-2 border-red-600">
-            <SectionHeader
-              sectionHeading="СЕГОДНЯШНЕЕ ПРЕДЛОЖЕНИЕ"
-              className={'mt-1.5 mx-5 py-3 uppercase border-b border-black/10'}
-              lang={lang}
-            />
+            <Heading className='mt-1.5 mx-5 py-3  border-b border-black/10'>
+             {t('СЕГОДНЯШНЕЕ ПРЕДЛОЖЕНИЕ')}
+            </Heading>
             <ProductFlashSaleGobies product={data?.[0]!} lang={lang} />
           </div>
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-px  xl:col-span-8 xl:bg-gray-300 rounded border border-gray-300 overflow-hidden">

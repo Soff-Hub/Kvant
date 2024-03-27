@@ -13,8 +13,8 @@ import { useEffect, useState } from 'react';
 
 interface ContactFormValues {
   full_name: string;
-  phone: string;
   message: string;
+  phone_or_email: string;
 }
 
 const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
@@ -24,6 +24,7 @@ const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
     formState: { errors },
   } = useForm<ContactFormValues>();
   const [isClient, setIsClient] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -31,6 +32,7 @@ const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
 
   async function onSubmit(values: ContactFormValues) {
     try {
+      setLoader(true)
       const response = await fetch(baseURL + API_ENDPOINTS.CONTACT, {
         method: 'POST',
         headers: {
@@ -64,6 +66,7 @@ const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
     } catch (error: any) {
       console.log(error, 'forget password error response');
     }
+    setLoader(false)
   }
 
   const { t } = useTranslation(lang, 'login');
@@ -74,29 +77,27 @@ const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
         <Input
           variant="solid"
-          label={`${t('Полное имя (обязательно)')}`}
+          label={`${t('Полное имя')}`}
           placeholder={`${t('Введите свое полное имя')}`}
-          {...register('full_name', {
-            required: `${t('Вам необходимо указать свое полное имя')}`,
-          })}
-          error={errors.full_name?.message}
+          {...register('full_name')}
+         
           lang={lang}
         />
         <Input
-          label={t('Телефон (обязательно)')}
-          type="phone"
+          type="email"
           variant="solid"
-          {...register('phone', {
-            required: `${t('Номер телефона введен неверно!')}`,
+          label={`${t('Электронная почта')}*`}
+          placeholder={`${t('Электронная почта')}`}
+          {...register('phone_or_email', {
+            required: `${t("Электронная почта введена")}`,
             pattern: {
-              value: /^\+998\s?\d{9}$/,
-              message: `${t('Номер телефона указан неверно')}`,
+              value:
+                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: `${t("Электронная почта введена неверно")}`,
             },
           })}
-          error={errors.phone?.message}
+          error={errors.phone_or_email?.message}
           lang={lang}
-          defaultValue="+998"
-          maxLength={13} // +998 kodi va 9 ta raqam uchun
         />
         <TextArea
           variant="solid"
@@ -105,7 +106,7 @@ const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
           placeholder={`${t('Сообщение')}`}
           lang={lang}
         />
-        <Button variant="formButton" className="w-full" type="submit">
+        <Button variant="formButton" loading={loader} disabled={loader} className="w-full" type="submit">
           {mounted && <>{t('Отправка')}</>}
         </Button>
       </form>

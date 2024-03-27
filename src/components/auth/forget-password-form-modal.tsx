@@ -33,8 +33,8 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
   } = useForm<ForgetPasswordType>();
 
   async function onSubmit({ phone }: ForgetPasswordType) {
+    setLoader(false);
     try {
-      setLoader(false);
       const response = await fetch(baseURL + API_ENDPOINTS.FORGET_PASSWORD, {
         method: 'POST',
         headers: {
@@ -59,7 +59,7 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
           pauseOnHover: true,
           draggable: true,
         });
-        router.push(`${lang}/forget-password`); // Boshqa sahifaga yo'naltiramiz
+        router.push(`/${lang}/forget-password`); // Boshqa sahifaga yo'naltiramiz
         closeModal()
 
       } else {

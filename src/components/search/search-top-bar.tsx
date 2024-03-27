@@ -43,11 +43,11 @@ const SearchTopBar: React.FC<Props> = ({ onNavClick, viewAs, lang }) => {
         </div>
         <ListBox
           options={[
-            { name: t('Недавно добавлено'), value: 'new' },
-            { name: t('Дорогой'), value: 'expensive' },
-            { name: t('Дешевый'), value: 'cheap' },
-            { name: t('Вычет'), value: 'discount' },
-            { name: t('Самые заказываемые'), value: 'order' },
+            { name: t('По последним дополнениям'), value: 'new' },
+            { name: t('От дорогого к дешевому'), value: 'expensive' },
+            { name: t('От дешевого к дорогому'), value: 'cheap' },
+            { name: t('По скидке'), value: 'discount' },
+            { name: t('По популярным'), value: 'order' },
           ]}
           lang={lang}
         />

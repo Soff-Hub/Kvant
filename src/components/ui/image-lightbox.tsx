@@ -26,7 +26,7 @@ const ImageLightBox: React.FC<ImgGalleryProps> = ({gallery}) => {
 
     
     return (
-        <div className={`absolute top-1 pe-5 z-10`}>
+        <div className={`mb-10 h-0`}>
             <button type="button" onClick={() => setIsOpen(true)}>
                 <IoExpandOutline className="text-3xl"  />
             </button>

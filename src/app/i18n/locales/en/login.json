@@ -32,14 +32,14 @@
     "Вам необходимо будет предоставить новый пароль":"You will be required to provide a new password",
     "Успешный пароль изменен!":"Successfully changed password!",
 
-    "Полное имя (обязательно)":"Full name (required)",
+    "Полное имя":"Full name",
     "Вам необходимо указать свое полное имя":"You must provide your full name",
     "Введите свое полное имя":"Enter your full name",
-    "Телефон (обязательно)":"Phone (optional)",
+    "Телефон":"Phone *",
     "Сообщение":"Message",
     "Заявка на продукт":"Product Application",
-    "Сколько продуктов *":"How many products *",
-    "Сколько продуктов не введено":"How many products are not entered?",
+    "Число продукта":"Product count",
+    "Число продукта не введено":"Product quantity not entered?",
 
     "Отправить нам сообщение":"Send us a message",
     "Свяжитесь напрямую":"Contact directly",
@@ -48,6 +48,26 @@
     "Связи со СМИ":"Media Relations",
     "Служба поддержки":"Support",
     "Отправьте свое резюме на нашу электронную почту":"Send your resume to our email",
-    "753P+JF2, Ташкент, Узбекистан":"753P+JF2, Tashkent, Uzbekistan"
+    "753P+JF2, Ташкент, Узбекистан":"753P+JF2, Tashkent, Uzbekistan",
+
+    "Оформление заказа":"Placing an order",
+    "Product receipt type":"Mahsulotni qabul qilish turi",
+    "Доставка":"Delivery",
+    "Еда на вынос":"Takeaway",
+    "Выберите филиал *":"Select a branch *",
+    "Выберите адрес вашего местоположения *":"Select your location address *",
+    "Способ оплаты *":"Payment method *",
+    "Наличные":"Cash",
+    "Продолжать":"Continue",
+    "Комментарий к заказу":"Comments on the order",
+    "Адрес не введен":"Address not entered",
+    "Адрес *":"Address *",
+    "Телефон *":"Telephone *",
+    "Ф.И.О * не введен":"Full name * not entered",
+    "Ф.И.О *":"F.I.О *",
+    "Электронная почта":"Email",
+    "Электронная почта введена неверно":"Email entered incorrectly",
+    "Электронная почта введена":"Email is not included"
+
 
 }

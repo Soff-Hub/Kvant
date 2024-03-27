@@ -112,7 +112,7 @@ const ThumbnailCarousel: React.FC<Props> = ({
           {gallery?.map((item: any) => (
             <SwiperSlide
               key={`product-thumb-gallery-${item.id}`}
-              className="flex items-center justify-center cursor-pointer rounded overflow-hidden border border-border-base transition hover:opacity-75"
+              className="flex items-center justify-center cursor-pointer rounded overflow-hidden  border-border-base transition hover:opacity-75"
             >
               <Image
                 src={item?.image ?? productGalleryPlaceholder}
