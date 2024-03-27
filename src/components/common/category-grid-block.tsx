@@ -3,10 +3,8 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 
-import { ROUTES } from '@utils/routes';
 import Alert from '@components/ui/alert';
 import { SwiperSlide } from 'swiper/react';
-import useWindowSize from '@utils/use-window-size';
 import { LIMITS } from '@framework/utils/limits';
 import CategoryCard from '@components/cards/category-card';
 import { useCategoriesQueryImages } from '@framework/category/get-all-categories-images';
@@ -28,7 +26,6 @@ const CategoryGridBlock: React.FC<CategoriesProps> = ({
   limit = 8,
   variant = 'default',
 }) => {
-  const { width } = useWindowSize();
   const { isLoading, error, data } = useCategoriesQueryImages({
     limit: LIMITS.CATEGORIES_LIMITS,
   });

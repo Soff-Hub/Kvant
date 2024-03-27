@@ -2,13 +2,12 @@ import cn from 'classnames';
 import Image from '@components/ui/image';
 import Link from '@components/ui/link';
 import { Product } from '@framework/types';
-import { useModalAction } from '@components/common/modal/modal.context';
-import useWindowSize from '@utils/use-window-size';
-import { useCart } from '@contexts/cart/cart.context';
 import { useTranslation } from 'src/app/i18n/client';
 import { productPlaceholder } from '@assets/placeholders';
 import { ROUTES } from '@utils/routes';
 import dynamic from 'next/dynamic';
+import { useModalAction } from '@components/common/modal/modal.context';
+import { useCart } from '@contexts/cart/cart.context';
 
 const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
   ssr: false,
@@ -22,51 +21,24 @@ interface ProductProps {
 
 function RenderPopupOrAddToCart({ props }: { props: Object }) {
   let { data, lang }: any = props;
-  const { t } = useTranslation(lang, 'home');
-  const { id, quantity, product_type } = data ?? {};
-  const { width } = useWindowSize();
-  const { openModal } = useModalAction();
-  const { isInCart, isInStock } = useCart();
-  const outOfStock = isInCart(id) && !isInStock(id);
-
-  function handlePopupView() {
-    openModal('PRODUCT_VIEW', data);
-  }
-
-  if (Number(quantity) < 1 || outOfStock) {
-    return (
-      <span className="text-[11px] text-skin-inverted uppercase inline-block bg-skin-red rounded-full px-2.5 pt-1 pb-[3px] mx-0.5 sm:mx-1">
-        {t('text-out-stock')}
-      </span>
-    );
-  }
-  if (product_type === 'variable') {
-    return (
-      <button
-        className="min-w-[150px] px-4 py-2 bg-skin-primary rounded-full  text-skin-inverted text-[13px] items-center justify-center focus:outline-none focus-visible:outline-none"
-        aria-label="Count Button"
-        onClick={handlePopupView}
-      >
-        {t('Краткое описание')}
-      </button>
-    );
-  }
-  return <AddToCart lang={lang} data={data} />;
+  return <AddToCart data={data} variant="mercury" lang={lang} />;
 }
 
 const ProductList: React.FC<ProductProps> = ({ product, className, lang }) => {
   const {
+    id,
     title,
     image,
     discount_price,
     price,
     slug,
-    view_count,
     description,
   } = product ?? {};
 
-  const { width } = useWindowSize();
-  const iconSize = width! > 1024 ? '20' : '17';
+  const { openModal } = useModalAction();
+  const { isInCart, isInStock } = useCart();
+  const outOfStock = isInCart(id) && !isInStock(id);
+
   const { t } = useTranslation(lang, 'home');
 
   return (
@@ -123,6 +95,15 @@ const ProductList: React.FC<ProductProps> = ({ product, className, lang }) => {
         </p>
         <div className="inline-block product-cart-button mt-6">
           <RenderPopupOrAddToCart props={{ data: product, lang: lang }} />
+          {(Number(product?.quantity) < 1 || outOfStock) &&
+            product?.is_many && (
+              <button
+                onClick={() => openModal('PAYMENT', id)}
+                className="text-center text-[13px] hover:text-yellow-300 w-full mt-0"
+              >
+                {t('Нужно больше?')}
+              </button>
+            )}
         </div>
       </div>
     </article>

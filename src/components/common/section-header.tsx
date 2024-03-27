@@ -24,7 +24,7 @@ const SectionHeader: React.FC<Props> = ({
   return (
     <div
       className={cn(` ${className}`, {
-        'text-[16px]': headingPosition === 'hotdeal',
+        'text-[14px]': headingPosition === 'hotdeal',
         'text-center': headingPosition === 'center',
       })}
     >
@@ -38,7 +38,7 @@ const SectionHeader: React.FC<Props> = ({
       >
         <div
           dangerouslySetInnerHTML={{
-            __html: t(sectionHeading),
+            __html: sectionHeading,
           }}
         ></div>
       </Heading>

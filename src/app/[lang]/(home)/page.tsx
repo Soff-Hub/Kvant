@@ -17,6 +17,7 @@ export default function Page({
 }) {
   const { isLoading, error, data } = useBannerQueryImages({});
 
+
   return (
     <>
       <div className={'bg-skin-body py-7'}>

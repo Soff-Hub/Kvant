@@ -29,7 +29,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
     e.preventDefault();
     if (phoneCookie) {
       try {
-        setLoader(false);
+        setLoader(true);
         const response = await fetch(baseURL + API_ENDPOINTS.CHECK_CODE, {
           method: 'POST',
           headers: {
@@ -55,7 +55,6 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           const error = await response.json();
           throw new Error(error?.msg[0] || 'Forget password error response');
         }
-        setLoader(true);
       } catch (error: any) {
         console.log(error);
         toast.error(error + '', {
@@ -69,9 +68,10 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
         });
       }
       setCodeValues(null);
+      setLoader(false);
     } else {
       try {
-        setLoader(false);
+        setLoader(true);
         const response = await fetch(baseURL + API_ENDPOINTS.VERIFY, {
           method: 'POST',
           headers: {
@@ -85,7 +85,6 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
         if (response.ok) {
           Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
           authorize();
-          setLoader(true);
           toast.success(t("Вы успешно вошли в систему!"), {
             style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
             progressClassName: 'fancy-progress-bar',
@@ -99,7 +98,6 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
         } else {
           // Xato keldiğida xatoni chiqaramiz
           console.log(data);
-
           throw new Error(data?.msg[0] || 'Forget password error response');
         }
       } catch (error: any) {
@@ -115,6 +113,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
         });
       }
       setCodeValues(null);
+      setLoader(false);
     }
   }
 
@@ -124,6 +123,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
     }
     if (phoneCookie) {
       try {
+        setLoader(true);
         const response = await fetch(baseURL + API_ENDPOINTS.FORGET_PASSWORD, {
           method: 'POST',
           headers: {
@@ -164,8 +164,11 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           draggable: true,
         });
       }
+      setLoader(false);
+      setFirstSendCode(false);
     } else {
       try {
+        setLoader(true);
         await fetch(baseURL + API_ENDPOINTS.GET_CODE, {
           method: 'GET',
           headers: {
@@ -179,6 +182,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
       } catch (error: any) {
         console.log(error, 'forget password error response');
       }
+      setLoader(false);
     }
   }
 

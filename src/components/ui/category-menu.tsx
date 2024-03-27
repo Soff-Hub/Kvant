@@ -16,7 +16,9 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
 
   function handleClick(currentItem: any) {
     if (slug) {
-      router.push(`/${lang}/category__parent__slug=${slug}&category__slug=${currentItem?.slug}`);
+      router.push(
+        `/${lang}/category__parent__slug=${slug}&category__slug=${currentItem?.slug}`,
+      );
     }
   }
 
@@ -39,20 +41,23 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
             },
           )}
         >
-
           <span className="capitalize">{title}</span>
         </button>
+
         {Array.isArray(items) ? (
           <>
             {type != 'mega' ? (
               <div
-                className={`dropdownMenu absolute top-0 z-10 invisible hidden w-full border opacity-0 md:block left-full bg-brand-light border-border-base subMenu--level${depth} shadow-navigation`}
+                className={`dropdownMenu absolute  top-0 z-50 invisible hidden ${items?.length > 10 ? 'w-[600px] max-h-[600px] overflow-y-scroll' : 'w-full'}  border opacity-0   md:block left-full bg-brand-light border-border-base subMenu--level${depth} shadow-navigation`}
               >
-                <ul key="content" className="text-xs px-1.5 py-3">
+                <ul
+                  key="content"
+                  className={`text-xs px-1.5 py-3 ${items.length > 10 ? 'flex flex-wrap justify-between gap-x-2' : ''}`}
+                >
                   {items?.map((currentItem) => {
                     return (
                       <li
-                        className={`flex justify-between items-center transition  ${
+                        className={`flex justify-between items-center transition ${items?.length > 10 ? 'min-w-[270px] ' : ''} ${
                           type != 'mega' && 'relative'
                         } ${
                           className
@@ -80,7 +85,7 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
                 </ul>
               </div>
             ) : (
-              <SubMegaVertical items={items} lang={lang} />
+              <></>
             )}
           </>
         ) : null}
@@ -137,7 +142,9 @@ function SidebarMenu({ items, className, categoriesLimit, lang }: any) {
                 <IoIosAddCircleOutline className="text-xl text-skin-base text-opacity-80" />
               )}
             </div>
-            <span className="capitalize ">{t('Просмотреть все категории')}</span>
+            <span className="capitalize ">
+              {t('Все категории')}
+            </span>
           </div>
         </li>
       )}

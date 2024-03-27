@@ -89,16 +89,13 @@ const ProductsModal = ({ lang }: { lang: string }) => {
           >
             <Input
               variant="solid"
-              label={`${t('Полное имя (обязательно)')}`}
+              label={`${t('Полное имя')}`}
               placeholder={`${t('Введите свое полное имя')}`}
-              {...register('customer_name', {
-                required: `${t('Вам необходимо указать свое полное имя')}`,
-              })}
-              error={errors.customer_name?.message}
+              {...register('customer_name')}
               lang={lang}
             />
             <Input
-              label={t('Телефон (обязательно)')}
+              label={t('Телефон')}
               type="phone"
               variant="solid"
               {...register('phone_number', {
@@ -116,10 +113,10 @@ const ProductsModal = ({ lang }: { lang: string }) => {
             <Input
               type="phone"
               variant="solid"
-              label={`${t('Сколько продуктов *')}`}
-              placeholder={`${t('Сколько продуктов *')}`}
+              label={`${t('Число продукта')} *`}
+              placeholder={`${t('Число продукта')}`}
               {...register('quantity', {
-                required:`${t('Сколько продуктов не введено')}`,
+                required:`${t('Число продукта не введено')}`,
               })}
               error={errors.quantity?.message}
               lang={lang}

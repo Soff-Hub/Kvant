@@ -51,7 +51,7 @@ export const siteSettings = {
       {
         id: 3,
         path: '/contact-us',
-        label: 'Связаться с нами',
+        label: 'Контакты',
       },
     ],
   },

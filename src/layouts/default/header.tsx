@@ -73,7 +73,7 @@ const Header = ({ className, lang }: HeaderProps) => {
                 <Search
                   searchId="top-bar-search"
                   lang={lang}
-                  className={`hidden lg:flex lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[800px] ${isClient && token ? 'm-0' : 'lg:mx-10'}} `}
+                  className={`hidden lg:flex lg:max-w-[450px] xl:max-w-[800px] 2xl:max-w-[800px] ${isClient && token ? 'm-0' : 'lg:mx-10'}} `}
                 />
                 <div className="">
                   <CartButton />
@@ -123,7 +123,7 @@ const Header = ({ className, lang }: HeaderProps) => {
                     onClick={handleCategoryMenu}
                   >
                     <FiMenu className="text-2xl me-3" />
-                    {isClient && t('Просмотреть все категории')}
+                    {isClient && t('Все категории')}
                   </button>
                   {categoryMenu && <CategoryDropdownMenu lang={lang} />}
                 </div>

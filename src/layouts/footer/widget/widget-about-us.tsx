@@ -25,7 +25,7 @@ const WidgetAbout: React.FC<AboutProps> = ({ lang, className }) => {
           {t(`О МАГАЗИНЕ`)}
         </Heading>
         <div className="mb-3">
-          <span className='font-bold'>{t('Адрес')}</span> : {t('Acme Widgets 123 Widget Street Акмевилл, AC 12345 Соединенные Штаты Америки')}
+          <span className='font-bold'>{t('Адрес')}</span> : {t('ТЦ Квант, 753P+JF2, Ташкент, г. Ташкент')}
         </div>
         <div className="mb-3">
           <span className='font-bold'>{t('Телефон')}</span> : <a href="tel:+998(55)511-11-11">{t('+998 (55) 511-11-11')}</a>

@@ -9,14 +9,14 @@ import LocationIcon from '@components/icons/contact/location-icon';
 import PhoneIcon from '@components/icons/contact/phone-icon';
 import MailIcon from '@components/icons/contact/mail-icon';
 
+
 const data = [
   {
     id: 1,
     slug: '/',
     icon: <LocationIcon />,
     name: 'Адрес',
-    description:
-      'Acme Widgets 123 Widget Street Acmeville, AC 12345 United States of America',
+    description:'ТЦ Квант, 753P+JF2, Ташкент, г. Ташкент',
   },
   {
     id: 2,
@@ -43,11 +43,13 @@ const ContactSupport: FC<Props> = ({ lang }) => {
   const { t } = useTranslation(lang, 'home');
   const mounted = useIsMounted();
   const [isClient, setIsClient] = useState(false);
-
+  
   useEffect(() => {
     setIsClient(true);
   }, []);
+  
 
+  
   return (
     isClient && (
       <>
@@ -75,20 +77,6 @@ const ContactSupport: FC<Props> = ({ lang }) => {
               </div>
             ))}
           </div>
-          <Text className="xl:leading-8">
-            {mounted && (
-              <>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-                mattis, orci ac elementum convallis, dolor enim volutpat sapien,
-                id porttitor eros risus convallis nibh. Nullam dui diam, semper
-                sed neque ut, fringilla rutrum velit. Nulla facilisi. Integer
-                suscipit, dolor sed auctor interdum, libero neque fermentum
-                arcu, in dapibus mauris nisl convallis ante. Orci varius natoque
-                penatibus et magnis dis parturient montes, nascetur ridiculus
-                mus.
-              </>
-            )}
-          </Text>
         </div>
       </>
     )
