@@ -71,24 +71,27 @@ const Counter: React.FC<CounterProps> = ({
       >
         {value}
       </span>
-      <button
-        onClick={onIncrement}
-        disabled={disabled}
-        className={cn(
-          'group flex items-center justify-center flex-shrink-0 transition-all ease-in-out duration-300 focus:outline-none focus-visible:outline-none',
-          {
-            'w-8 md:w-12 h-8 rounded-2xl text-heading text-white me-1':
-              variant === 'mercury',
-            '!w-10 !h-10 rounded-full scale-80 lg:scale-100 text-heading text-white ltr:mr-auto rtl:ml-auto !pr-0 justify-center':
-              variant === 'single',
-            '!w-6 !h-6 border text-brand-muted border-border-three hover:bg-brand hover:border-brand rounded-full hover:text-brand-light !pr-0':
-              variant === 'cart',
-          },
-        )}
-      >
-        <span className="sr-only">{t('button-plus')}</span>
-        {!disabled && <PlusIcon width={size} height={size} opacity="1" />}
-      </button>
+
+      {!disabled && (
+        <button
+          onClick={onIncrement}
+          disabled={disabled}
+          className={cn(
+            'group flex items-center justify-center flex-shrink-0 transition-all ease-in-out duration-300 focus:outline-none focus-visible:outline-none',
+            {
+              'w-8 md:w-12 h-8 rounded-2xl text-heading text-white me-1':
+                variant === 'mercury',
+              '!w-10 !h-10 rounded-full scale-80 lg:scale-100 text-heading text-white ltr:mr-auto rtl:ml-auto !pr-0 justify-center':
+                variant === 'single',
+              '!w-6 !h-6 border text-brand-muted border-border-three hover:bg-brand hover:border-brand rounded-full hover:text-brand-light !pr-0':
+                variant === 'cart',
+            },
+          )}
+        >
+          <span className="sr-only">{t('button-plus')}</span>
+          <PlusIcon width={size} height={size} opacity="1" />
+        </button>
+      )}
     </div>
   );
 };
