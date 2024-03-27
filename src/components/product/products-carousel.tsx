@@ -96,7 +96,7 @@ const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
         </div>
       ) : (
         <div
-          className={cn('heightFull h-80', {
+          className={cn('heightFull ', {
             'border border-black/10 rounded ':
               variant === 'outBorder' || variant === 'noHeading',
           })}

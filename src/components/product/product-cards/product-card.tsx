@@ -119,7 +119,7 @@ const ProductCard: React.FC<ProductProps> = ({ product, lang }) => {
         </Link>
 
         <div className="flex text-gray-500 space-x-2"></div>
-        <div className="space-s-2">
+        <div className="space-s-2 min-h-[40px]">
           {discount_price !== Number(price) ? (
             <div className="flex flex-col-reverse">
               <span className=" font-semibold text-[18px] text-brand">
