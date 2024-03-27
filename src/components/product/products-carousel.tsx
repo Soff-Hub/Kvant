@@ -59,7 +59,7 @@ const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
   rowCarousel = 1,
 }) => {
   return (
-    <div className={cn('heightFull relative', className)}>
+    <div className={cn('heightFull  relative', className)}>
       {sectionHeading && (
         <>
           {(() => {
@@ -96,7 +96,7 @@ const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
         </div>
       ) : (
         <div
-          className={cn('heightFull', {
+          className={cn('heightFull h-80', {
             'border border-black/10 rounded ':
               variant === 'outBorder' || variant === 'noHeading',
           })}

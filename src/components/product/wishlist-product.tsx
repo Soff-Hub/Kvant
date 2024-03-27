@@ -5,6 +5,7 @@ import { useCartWishtlists } from '@contexts/wishtlist/wishst.context';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@utils/routes';
+import { useTranslation } from 'src/app/i18n/client';
 
 interface ProductWishlistProps {
   className?: string;
@@ -57,17 +58,19 @@ export default function ProductWishlistGrid({
 }: ProductWishlistProps) {
   const { items } = useCartWishtlists();
   const [isClient, setIsClient] = useState<boolean>(false);
+  const {t} =useTranslation('home')
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
+
   return (
     <div className={cn(className)}>
       <div className="flex flex-col">
         {isClient &&
-          (items.length < 0 ? (
-            <Alert message="На данный момент в корзине нет товаров" />
+          (items.length === 0 ? (
+            <Alert message={`${t("Нет Избранное")} `}/>
           ) : (
             items.map((product: any) => (
               <WishlistProductCard

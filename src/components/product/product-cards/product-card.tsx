@@ -76,7 +76,7 @@ const ProductCard: React.FC<ProductProps> = ({ product, lang }) => {
   return (
     <article
       className={
-        'flex flex-col gap-2 product-card relative p-2 sm:p-4  h-full  bg-white  card-image--jump hover:shadow-navigation hover:z-50 '
+        'flex flex-col gap-2 product-card relative p-2 sm:p-4  h-full  bg-white  card-image--jump hover:shadow-navigation hover:z-30 '
       }
       title={title}
     >

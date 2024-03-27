@@ -7,12 +7,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useLogoutMutation } from '@framework/auth/use-logout';
 import LogoutIcon from '@components/icons/account-logout';
 import { useTranslation } from 'src/app/i18n/client';
+import { getToken } from '@framework/utils/get-token';
 type Option = {
   name: string;
   slug: string;
   icon?: JSX.Element;
 };
-
 
 export default function AccountNavMobile({
   options,
@@ -34,9 +34,16 @@ export default function AccountNavMobile({
     : options[0];
 
   const [selectedItem, setSelectedItem] = useState<Option>(currentSelectedItem);
+  const [isClient, setIsClient] = useState(false);
+  const token = getToken();
+
   useEffect(() => {
     setSelectedItem(currentSelectedItem);
   }, [currentSelectedItem]);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   function handleItemClick(slugs: any) {
     setSelectedItem(slugs);
@@ -45,79 +52,84 @@ export default function AccountNavMobile({
   const { mutate: logout } = useLogoutMutation(lang);
 
   return (
-    <Listbox value={selectedItem} onChange={handleItemClick}>
-      {({ open }) => (
-        <div className="relative w-full font-body bg-white">
-          <Listbox.Button className="relative flex items-center w-full p-4 border rounded cursor-pointer text-brand-dark md:p-5 ltr:text-left rtl:text-right focus:outline-none border-border-base">
-            {selectedItem?.icon}
-            <span className="flex truncate items-center text-sm md:text-15px font-medium ltr:pl-2.5 rtl:pr-2.5 relative">
-              {t(selectedItem?.name)}
-            </span>
-            <span className="absolute inset-y-0 flex items-center pointer-events-none ltr:right-4 rtl:left-4 md:ltr:right-5 md:rtl:left-5">
-              <FaChevronDown
-                className="w-3 md:w-3.5 h-3 md:h-3.5 text-brand-dark text-opacity-70"
-                aria-hidden="true"
-              />
-            </span>
-          </Listbox.Button>
-          <Transition
-            show={open}
-            as={Fragment}
-            leave="transition ease-in duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Listbox.Options
-              static
-              className="absolute z-20 w-full py-2.5 mt-1.5 overflow-auto bg-brand-light rounded-md shadow-dropDown max-h-72 focus:outline-none text-sm md:text-15px"
+    isClient && (
+      <Listbox value={selectedItem} onChange={handleItemClick}>
+        {({ open }) => (
+          <div className="relative w-full font-body bg-white">
+            <Listbox.Button className="relative flex items-center w-full p-4 border rounded cursor-pointer text-brand-dark md:p-5 ltr:text-left rtl:text-right focus:outline-none border-border-base">
+              {selectedItem?.icon}
+              <span className="flex truncate items-center text-sm md:text-15px font-medium ltr:pl-2.5 rtl:pr-2.5 relative">
+                {t(selectedItem?.name)}
+              </span>
+              <span className="absolute inset-y-0 flex items-center pointer-events-none ltr:right-4 rtl:left-4 md:ltr:right-5 md:rtl:left-5">
+                <FaChevronDown
+                  className="w-3 md:w-3.5 h-3 md:h-3.5 text-brand-dark text-opacity-70"
+                  aria-hidden="true"
+                />
+              </span>
+            </Listbox.Button>
+            <Transition
+              show={open}
+              as={Fragment}
+              leave="transition ease-in duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
             >
-              {options?.map((option, index) => (
-                <Listbox.Option
-                  key={index}
-                  className={({ active }) =>
-                    `cursor-pointer relative py-3 px-4 md:px-5 ${
-                      active
-                        ? 'text-brand-dark bg-fill-dropdown-hover'
-                        : 'bg-brand-light'
-                    }`
-                  }
-                  value={option}
-                >
-                  {({ selected, active }) => (
-                    <span className="flex items-center">
-                      {option?.icon}
-                      <span
-                        className={`block truncate ltr:pl-2.5 rtl:pr-2.5 md:ltr:pl-3 md:rtl:pr-3 ${
-                          selected ? 'font-medium' : 'font-normal'
-                        }`}
-                      >
-                        {t(option?.name)}
-                      </span>
-                      {selected ? (
-                        <span
-                          className={`${active && 'text-amber-600'}
-                                 absolute inset-y-0 ltr:left-0 rtl:right-0 flex items-center ltr:pl-3 rtl:pr-3`}
-                        />
-                      ) : null}
-                    </span>
-                  )}
-                </Listbox.Option>
-              ))}
-              <button
-                className="flex items-center w-full px-4 py-3 text-sm cursor-pointer lg:text-15px text-brand-dark md:px-5 focus:outline-none"
-                onClick={() => logout()}
+              <Listbox.Options
+                static
+                className="absolute z-20 w-full py-2.5 mt-1.5 overflow-auto bg-brand-light rounded-md shadow-dropDown max-h-72 focus:outline-none text-sm md:text-15px"
               >
-                <span className="flex justify-center shrink-0">
-                  <LogoutIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />
-                </span>
-                <span className="block truncate ltr:pl-2.5 rtl:pr-2.5 md:ltr:pl-3 md:rtl:pr-3">
-                  {t('Выйти')}
-                </span>
-              </button>
-            </Listbox.Options>
-          </Transition>
-        </div>
-      )}
-    </Listbox>
+                {options?.map((option, index) => (
+                  <Listbox.Option
+                    key={index}
+                    className={({ active }) =>
+                      `cursor-pointer relative py-3 px-4 md:px-5 ${
+                        active
+                          ? 'text-brand-dark bg-fill-dropdown-hover'
+                          : 'bg-brand-light'
+                      }`
+                    }
+                    value={option}
+                  >
+                    {({ selected, active }) => (
+                      <span className="flex items-center">
+                        {option?.icon}
+                        <span
+                          className={`block truncate ltr:pl-2.5 rtl:pr-2.5 md:ltr:pl-3 md:rtl:pr-3 ${
+                            selected ? 'font-medium' : 'font-normal'
+                          }`}
+                        >
+                          {t(option?.name)}
+                        </span>
+                        {selected ? (
+                          <span
+                            className={`${active && 'text-amber-600'}
+                                 absolute inset-y-0 ltr:left-0 rtl:right-0 flex items-center ltr:pl-3 rtl:pr-3`}
+                          />
+                        ) : null}
+                      </span>
+                    )}
+                  </Listbox.Option>
+                ))}
+
+                {isClient && token && (
+                  <button
+                    className="flex items-center w-full px-4 py-3 text-sm cursor-pointer lg:text-15px text-brand-dark md:px-5 focus:outline-none"
+                    onClick={() => logout()}
+                  >
+                    <span className="flex justify-center shrink-0">
+                      <LogoutIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />
+                    </span>
+                    <span className="block truncate ltr:pl-2.5 rtl:pr-2.5 md:ltr:pl-3 md:rtl:pr-3">
+                      {t('Выйти')}
+                    </span>
+                  </button>
+                )}
+              </Listbox.Options>
+            </Transition>
+          </div>
+        )}
+      </Listbox>
+    )
   );
 }
