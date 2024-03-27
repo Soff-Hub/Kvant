@@ -4,6 +4,7 @@ export type CategoriesQueryOptionsType = {
   category?: string;
   status?: string;
   limit?: number;
+  icon?: string;
 };
 export type CategoriesQueryOptionsTypeImages = {
   title?: string;
@@ -17,17 +18,17 @@ export type BannerQueryOptionsTypeImages = {
   image?: string;
   limit?: number;
   id?: number;
-  url?:string;
-  description?:string;
+  url?: string;
+  description?: string;
 };
 
 export type QueryOptionsType = {
-  id?:number;
+  id?: number;
   status?: string;
   order_type?: string;
   total_amount?: string;
   provider?: string;
-  process?:string
+  process?: string
   limit?: number;
 };
 
@@ -39,6 +40,7 @@ export type Category = {
   children?: [Category];
   productCount?: number;
   [key: string]: unknown;
+  icon?: string;
 };
 export type Category_Images = {
   id: number | string;
@@ -83,13 +85,13 @@ export type Product = {
   discount_price?: number | string;
   image: string;
   quantity: number;
-  video_url	?: any;
-  galleries?:any;
+  video_url?: any;
+  galleries?: any;
   body: any;
   description?: string;
-  view_count?:number;
+  view_count?: number;
   [key: string]: unknown;
-  is_many:boolean;
+  is_many: boolean;
 };
 export type OrderItem = {
   id: number | string;

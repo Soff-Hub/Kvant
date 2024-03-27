@@ -23,6 +23,7 @@ export const API_ENDPOINTS = {
   BRANCHES: 'payment/branches',
   PAYMENT: 'payment/shipping_cost',
   PRODUCTS_MORE: 'payment/more-products-application',
-  CONTACT: "common/contact/"
+  CONTACT: "common/contact/",
+  BRANDS:"common/brands/"
 
 };

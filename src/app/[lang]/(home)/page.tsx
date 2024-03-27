@@ -9,6 +9,7 @@ import PopularProductFeed from '@components/product/feeds/popular-product-feed';
 import ListingtabsFeatured from '@components/product/feeds/listingtabs-featured';
 import BestSellerWithFlashSale from '@components/product/feeds/best-seller-with-flash-sale';
 import { useBannerQueryImages } from '@framework/banner/get-banner-lists';
+import HeroBrands from '@components/brands/hero-banner-card';
 
 export default function Page({
   params: { lang },
@@ -16,7 +17,6 @@ export default function Page({
   params: { lang: string };
 }) {
   const { isLoading, error, data } = useBannerQueryImages({});
-
 
   return (
     <>
@@ -72,6 +72,7 @@ export default function Page({
           className="mb-8 lg:mb-15"
           variant={'outBorder'}
         />
+        <HeroBrands lang={lang} />
       </Container>
     </>
   );

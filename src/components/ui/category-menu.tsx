@@ -7,12 +7,13 @@ import {
 } from 'react-icons/io';
 
 import { useTranslation } from 'src/app/i18n/client';
-import SubMegaVertical from '@components/ui/mega/sub-mega-vertical';
 import { useRouter } from 'next/navigation';
 
 function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
-  const { title, children: items, type, slug } = item;
+  const { title, icon, children: items, type, slug } = item;
   const router = useRouter();
+console.log(icon);
+
 
   function handleClick(currentItem: any) {
     if (slug) {
@@ -41,7 +42,9 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
             },
           )}
         >
-          <span className="capitalize">{title}</span>
+
+
+          <span className="capitalize"><i className={icon + ' ' + "mx-2 text-[16px]"}></i> {title}</span>
         </button>
 
         {Array.isArray(items) ? (
