@@ -5,6 +5,7 @@ import { useTranslation } from 'src/app/i18n/client';
 const AboutPages: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'home');
 
+  
   return (
     <div className="bg-white w-full">
       <h1 className="text-center text-[30px] font-bold">{t("Награды и признание")}</h1>
