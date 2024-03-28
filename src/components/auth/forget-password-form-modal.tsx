@@ -50,7 +50,7 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
         Cookies.set('phone', phone); // Yangi raqam o'rnatamiz
         authorize();
         setLoader(true);
-        toast.success(t('Успешный!'), {
+        toast(t('Успешный!'), {
           style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
           progressClassName: 'fancy-progress-bar',
           autoClose: 1500,
@@ -63,7 +63,7 @@ export default function ForgetPasswordFormModal({ lang }: { lang: string }) {
         closeModal()
 
       } else {
-        toast.error(data?.msg[0] + '', {
+        toast(data?.msg[0] + '', {
           style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
           progressClassName: 'fancy-progress-bar',
           autoClose: 1500,

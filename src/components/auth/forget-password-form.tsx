@@ -34,13 +34,13 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'Accept-Language':lang,
+            Authorization: `Bearer ${token}`,
+            'Accept-Language': lang,
           },
           body: JSON.stringify({ code: codeValues }),
         });
         if (response.ok) {
-          toast.success(t('Отправлено успешно!'), {
+          toast(t('Отправлено успешно!'), {
             style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
             progressClassName: 'fancy-progress-bar',
             autoClose: 1500,
@@ -53,19 +53,20 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
         } else {
           // Xato keldiğida xatoni chiqaramiz
           const error = await response.json();
+          toast(error?.msg[0] + '', {
+            style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
+            progressClassName: 'fancy-progress-bar',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+
           throw new Error(error?.msg[0] || 'Forget password error response');
         }
       } catch (error: any) {
         console.log(error);
-        toast.error(error + '', {
-          style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
-          progressClassName: 'fancy-progress-bar',
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
       }
       setCodeValues(null);
       setLoader(false);
@@ -76,8 +77,8 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'Accept-Language':lang,
+            Authorization: `Bearer ${token}`,
+            'Accept-Language': lang,
           },
           body: JSON.stringify({ code: codeValues }),
         });
@@ -85,7 +86,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
         if (response.ok) {
           Cookies.set('auth_token', data.tokens.access); // Yangi tokenni o'rnatamiz
           authorize();
-          toast.success(t("Вы успешно вошли в систему!"), {
+          toast(t('Вы успешно вошли в систему!'), {
             style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
             progressClassName: 'fancy-progress-bar',
             autoClose: 1500,
@@ -96,21 +97,22 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           });
           router.push(`/${lang}`);
         } else {
+          const error = await response.json();
           // Xato keldiğida xatoni chiqaramiz
-          console.log(data);
-          throw new Error(data?.msg[0] || 'Forget password error response');
+          toast(error?.msg[0] + '', {
+            style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
+            progressClassName: 'fancy-progress-bar',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+
+          throw new Error(error?.msg[0] || 'Forget password error response');
         }
       } catch (error: any) {
         console.log(error);
-        toast.error(error + '', {
-          style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
-          progressClassName: 'fancy-progress-bar',
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
       }
       setCodeValues(null);
       setLoader(false);
@@ -128,8 +130,8 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'Accept-Language':lang,
+            Authorization: `Bearer ${token}`,
+            'Accept-Language': lang,
           },
           body: JSON.stringify({ phone: phoneCookie }),
         });
@@ -139,7 +141,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           authorize();
           setFirstSendCode(true);
           setCountdown(120);
-          toast.success(t("Успешный!"), {
+          toast(t('Успешный!'), {
             style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
             progressClassName: 'fancy-progress-bar',
             autoClose: 1500,
@@ -149,20 +151,22 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
             draggable: true,
           });
         } else {
+          const error = await response.json();
           // Xato keldiğida xatoni chiqaramiz
-          throw new Error('Forget password error response');
+          toast(error + '', {
+            style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
+            progressClassName: 'fancy-progress-bar',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+
+          throw new Error(error?.msg[0] || 'Forget password error response');
         }
       } catch (error) {
         console.log(error, 'forget password error response');
-        toast.error(error + '', {
-          style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
-          progressClassName: 'fancy-progress-bar',
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
       }
       setLoader(false);
       setFirstSendCode(false);
@@ -173,8 +177,8 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'Accept-Language':lang,
+            Authorization: `Bearer ${token}`,
+            'Accept-Language': lang,
           },
         });
         setFirstSendCode(true);
@@ -237,7 +241,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
             variant="formButton"
             className="w-full mt-0 h-11 md:h-12"
           >
-            {t("Отправка")}
+            {t('Отправка')}
           </Button>
         ) : (
           <Button
@@ -247,7 +251,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
             variant="formButton"
             className="w-full mt-0 h-11 md:h-12"
           >
-           {t('Получить перекодирование')}
+            {t('Получить перекодирование')}
           </Button>
         )}
       </form>

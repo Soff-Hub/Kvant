@@ -65,7 +65,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         <div className="w-full md:w-1/2 lg:w-[45%] xl:w-[40%] py-6 sm:py-10 px-4 sm:px-8 md:px-6 lg:px-8 xl:px-12 rounded-md flex flex-col justify-center">
           <div className="mb-6 text-center">
             <h4 className="text-xl font-semibold text-brand-dark sm:text-2xl sm:pt-3 ">
-              {t('Войдите в свой аккаунт')}
+              {t('Авторизоваться')}
             </h4>
             <div className="mt-3 mb-1 text-sm text-center sm:text-15px text-body">
               {t('У вас нет учетной записи?')}

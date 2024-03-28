@@ -24,6 +24,7 @@ export const API_ENDPOINTS = {
   PAYMENT: 'payment/shipping_cost',
   PRODUCTS_MORE: 'payment/more-products-application',
   CONTACT: "common/contact/",
-  BRANDS:"common/brands/"
+  BRANDS:"common/brands/",
+  PROFILE:"auth/profile/"
 
 };

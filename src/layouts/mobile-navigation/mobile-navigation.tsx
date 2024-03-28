@@ -13,6 +13,8 @@ import { IoClose } from 'react-icons/io5';
 import Logo from '@components/ui/logo';
 import { useLogoutMutation } from '@framework/auth/use-logout';
 import { getToken } from '@framework/utils/get-token';
+import { baseURL } from '@framework/utils/http';
+import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 
 const MobileMenu = dynamic(() => import('@layouts/header/mobile-menu'));
 
@@ -26,6 +28,35 @@ export default function BottomNavigation({ lang }: { lang: string }) {
   const [isClient, setIsClient] = useState(Boolean(false));
   const { mutate: logout } = useLogoutMutation(lang);
   const token = getToken();
+  const [profile, setProfile] = useState<any>({});
+
+  async function getProfile() {
+    if (token) {
+      try {
+        const response = await fetch(baseURL + API_ENDPOINTS.PROFILE, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            // You can add any additional headers here
+            'Accept-Language': lang, // Assuming lang is defined elsewhere
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch profile data');
+        }
+
+        const data = await response.json();
+        setProfile(data);
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+      }
+    }
+  }
+
+  useEffect(() => {
+    getProfile();
+    setIsClient(true);
+  }, [lang]);
 
   function handleMobileMenu() {
     setOpen('kategoriya');
@@ -173,10 +204,23 @@ export default function BottomNavigation({ lang }: { lang: string }) {
                   <IoClose />
                 </button>
               </div>
+              <div className="flex items-center gap-2 bg-slate-200 cursor-pointer text-sm lg:text-15px text-brand-dark py-3.5 px-3.5 xl:px-4 2xl:px-5 mb-1 hover:text-brand ">
+                <span className="flex justify-center w-6 me-1 ">
+                  <i className="fa-regular fa-circle-user text-[30px] text-brand"></i>
+                </span>
+                <div className="flex flex-col  justify-center">
+                  <span className="font-bold text-[16px]">
+                    {profile?.first_name}
+                  </span>
+                  <span className="text-[12px]" style={{ lineHeight: '12px' }}>
+                    {profile?.phone}
+                  </span>
+                </div>
+              </div>
 
               {isClient &&
                 (token ? (
-                  <ul className="pl-5 mt-3 flex flex-col gap-3 text-[17px]">
+                  <ul className="pl-2 mt-3 flex flex-col gap-3 text-[17px]">
                     <li>
                       <Link
                         href={`/${lang}/my-account/orders`}
@@ -215,7 +259,7 @@ export default function BottomNavigation({ lang }: { lang: string }) {
                     </li>
                   </ul>
                 ) : (
-                  <ul className="pl-5 mt-3 flex flex-col gap-3 text-[17px]">
+                  <ul className="pl-2 mt-3 flex flex-col gap-3 text-[17px]">
                     <li>
                       <Link
                         className="font-medium"

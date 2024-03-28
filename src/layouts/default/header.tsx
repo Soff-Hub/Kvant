@@ -66,7 +66,6 @@ const Header = ({ className, lang }: HeaderProps) => {
           <div className="border-b border-black/10">
             <Container>
               <div className="flex items-center justify-between  py-2 md:py-4">
-    
                 <Logo lang={lang} className="logo  md:ps-0 lg:mx-0" />
                 {/* End of logo */}
 
@@ -79,12 +78,12 @@ const Header = ({ className, lang }: HeaderProps) => {
                   <CartButton />
                 </div>
 
-                <AccouttWishlist lang={lang}  />
+                <AccouttWishlist lang={lang} />
 
                 <LanguageSwitcher lang={lang} />
 
                 <div className="hidden lg:flex items-center  accountButton">
-                  <AccountIcon lang={lang} />
+                  {isClient && token && <AccountIcon lang={lang} />}
 
                   {isClient &&
                     (!token ? (

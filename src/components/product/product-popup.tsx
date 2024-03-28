@@ -129,7 +129,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
     if (isClient && token) {
       Cookies.remove('products_click');
       Cookies.set('products_click', JSON.stringify(products_click));
-      router.push(`/checkout/checkout?product=${data?.slug}`);
+      router.push(`/${lang}/checkout/?product=${data?.slug}`);
     }else{
       router.push(`/${lang}${ROUTES.SIGN_UP}`);
     }

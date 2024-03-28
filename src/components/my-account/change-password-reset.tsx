@@ -45,7 +45,7 @@ const ChangePasswordReset: React.FC<{ lang: string }> = ({ lang }) => {
       });
       setLoader(true);
       if (response.ok) {
-        toast.success(t('Успешный пароль изменен!'), {
+        toast(t('Успешный пароль изменен!'), {
           style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
           progressClassName: 'fancy-progress-bar',
           autoClose: 1500,
