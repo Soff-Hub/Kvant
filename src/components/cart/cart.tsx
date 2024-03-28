@@ -67,7 +67,7 @@ export default function Cart({ lang }: { lang: string }) {
       <div className="px-5 pt-5 pb-5 border-t border-border-base md:px-7 md:pt-6 md:pb-6">
         <div className="flex pb-5 md:pb-7">
           <div className="ltr:pr-3 rtl:pl-3">
-            <Heading className="mb-2.5">{t('Промежуточный итог')}:</Heading>
+            <Heading className="mb-2.5">{t('Общая сумма')}:</Heading>
             <Text className="leading-6">
               {t(
                 'Окончательная цена и скидки будут определены во время обработки платежа.',
@@ -85,7 +85,7 @@ export default function Cart({ lang }: { lang: string }) {
             href={
               isClient && token
                 ? `/${lang}${ROUTES.CHECKOUT}`
-                : `/${lang}${ROUTES.SIGN_UP}`
+                : `/${lang}${"/signup?id=user_order"}`
             }
             onClick={() => Cookies.remove('products_click')}
             className={cn(

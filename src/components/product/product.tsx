@@ -604,7 +604,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
       Cookies.set('products_click', JSON.stringify(products_click));
       router.push(`/checkout/checkout?product=${data?.slug}`);
     } else {
-      router.push(`/${lang}${ROUTES.SIGN_UP}`);
+      router.push(`/${lang}/signup?id=user_order`);
     }
     closeModal();
   }

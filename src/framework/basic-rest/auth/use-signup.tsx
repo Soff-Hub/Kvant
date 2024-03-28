@@ -44,6 +44,8 @@ async function signUp(input: SignUpInputType) {
 export const useSignUpMutation = (lang: any) => {
   const { authorize } = useUI();
   const router = useRouter();
+  // const pathname = window.location.search;
+
   const { t } = useTranslation(lang, 'login');
   return useMutation((input: SignUpInputType) => signUp(input), {
     onSuccess: (data) => {
@@ -60,7 +62,11 @@ export const useSignUpMutation = (lang: any) => {
           pauseOnHover: true,
           draggable: true,
         });
-        router.push(`/${lang}/forget-password`);
+        // if (pathname) {
+          // router.push(`/${lang}/forget-password?id=user_order`);
+        // } else {
+          router.push(`/${lang}/forget-password`);
+        // }
       }
     },
     onError: (error: any) => {

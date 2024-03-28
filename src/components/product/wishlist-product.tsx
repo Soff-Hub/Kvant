@@ -16,7 +16,6 @@ export const AccouttWishlist = ({ className, lang }: ProductWishlistProps) => {
   const { items } = useCartWishtlists();
   const [isClient, setIsClient] = useState<boolean>(false);
 
-
   const router = useRouter();
 
   function handleClick() {
@@ -58,19 +57,18 @@ export default function ProductWishlistGrid({
 }: ProductWishlistProps) {
   const { items } = useCartWishtlists();
   const [isClient, setIsClient] = useState<boolean>(false);
-  const {t} =useTranslation('home')
+  const { t } = useTranslation(lang, 'home');
 
   useEffect(() => {
     setIsClient(true);
   }, []);
-
 
   return (
     <div className={cn(className)}>
       <div className="flex flex-col">
         {isClient &&
           (items.length === 0 ? (
-            <Alert message={`${t("Нет Избранное")} `}/>
+            <Alert message={`${t('Нет Избранное')} `} />
           ) : (
             items.map((product: any) => (
               <WishlistProductCard

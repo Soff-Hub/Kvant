@@ -11,6 +11,7 @@ import { baseURL } from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { ROUTES } from '@utils/routes';
 
 export default function ForgetPasswordForm({ lang }: { lang: string }) {
   const { t } = useTranslation(lang, 'login');
@@ -20,6 +21,8 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
   const { authorize } = useUI();
   const token = getToken();
   const [codeValues, setCodeValues] = useState<any>(null);
+
+  // const pathname = window.location.search;
 
   const phoneCookie = Cookies.get('phone');
 
@@ -95,7 +98,11 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
             pauseOnHover: true,
             draggable: true,
           });
-          router.push(`/${lang}`);
+          // if (pathname) {
+            // router.push(`/${lang}/${ROUTES.CHECKOUT}`);
+          // } else {
+            router.push(`/${lang}`);
+          // }
         } else {
           const error = await response.json();
           // Xato keldiğida xatoni chiqaramiz

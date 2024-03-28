@@ -37,7 +37,7 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
   const checkoutFooter = [
     {
       id: 1,
-      title: t('Промежуточный итог'),
+      title: t('Общая сумма'),
       price:addPeriodToThousands(total)?.replace(/\.\d+$/, '') + ' ' + t('сум'),
     },
     {
@@ -61,7 +61,7 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
             {t('Продукт')}
           </span>
           <span className="font-medium ltr:ml-auto rtl:mr-auto shrink-0 text-15px text-brand-dark">
-            {t('Промежуточный итог')}
+            {t('Общая сумма')}
           </span>
         </div>
         {isLoading ? (
