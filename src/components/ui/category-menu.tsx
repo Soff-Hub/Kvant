@@ -12,7 +12,6 @@ import { useRouter } from 'next/navigation';
 function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
   const { title, icon, children: items, type, slug } = item;
   const router = useRouter();
-console.log(icon);
 
 
   function handleClick(currentItem: any) {

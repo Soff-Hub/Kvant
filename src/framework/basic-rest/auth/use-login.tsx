@@ -10,7 +10,7 @@ import { useTranslation } from 'src/app/i18n/client';
 export interface LoginInputType {
   phone: string;
   password: string;
-  lang:string;
+  lang: string;
 }
 
 async function login(input: LoginInputType) {
@@ -29,6 +29,16 @@ async function login(input: LoginInputType) {
   } else {
     // Agar serverdan xato javob qaytsa, bu xatolikni ko'rsatish
     const error = await response.json();
+    toast(error?.msg[0] + '', {
+      style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
+      progressClassName: 'fancy-progress-bar',
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+
     throw new Error(error?.msg[0] || 'Login failed');
   }
 }
@@ -40,12 +50,11 @@ export const useLoginMutation = (lang: any) => {
   const router = useRouter();
 
   return useMutation((input: LoginInputType) => login(input), {
-
     onSuccess: async (data) => {
       if (data?.tokens?.access) {
         Cookies.set('auth_token', data.tokens.access);
         await authorize();
-        toast.success(t("Вы успешно вошли в систему!"), {
+        toast(t('Вы успешно вошли в систему!'), {
           style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
           progressClassName: 'fancy-progress-bar',
           autoClose: 1500,
@@ -58,15 +67,6 @@ export const useLoginMutation = (lang: any) => {
       }
     },
     onError: (error: any) => {
-      toast.error(error + '', {
-        style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
-        progressClassName: 'fancy-progress-bar',
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
       console.error(error, 'Login error response');
     },
   });

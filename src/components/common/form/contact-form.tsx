@@ -43,7 +43,7 @@ const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
       });
       const data = await response.json();
       if (response.ok) {
-        toast.success(t('Успешный!'), {
+        toast(t('Успешный!'), {
           style: { color: 'white', background: 'green' },
           progressClassName: 'fancy-progress-bar',
           autoClose: 1500,
@@ -53,7 +53,7 @@ const ContactForm: React.FC<{ lang: string }> = ({ lang }) => {
           draggable: true,
         });
       } else {
-        toast.error(data?.msg[0] + '', {
+        toast(data?.msg[0] + '', {
           style: { color: 'white', background: 'red' },
           progressClassName: 'fancy-progress-bar',
           autoClose: 1500,

@@ -35,6 +35,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
     address: string;
     paymentMethod: string;
     text: string;
+    social:string
   }
 
   async function getBranches() {
@@ -63,6 +64,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
     address,
     customer_name,
     text,
+    social,
   }: SignUpInputCheckout) {
     const token = Cookies.get('auth_token');
     Cookies.remove('products_click');
@@ -76,6 +78,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
       products,
       branch: selectedItem?.id ? selectedItem?.id : null,
       description: text,
+
     };
 
     const headers = {
@@ -87,7 +90,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
       axios
         .post(baseURL + API_ENDPOINTS.ORDERS_CREATE, dataChecout, { headers })
         .then((response) => {
-          toast.success(t('Buyurtma muvaffaqiyatli yuborildi'), {
+          toast(t('Buyurtma muvaffaqiyatli yuborildi'), {
             style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
             progressClassName: 'fancy-progress-bar',
             autoClose: 1500,
@@ -149,6 +152,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
   useEffect(() => {
     setSelectedItem(currentSelectedItem);
   }, [currentSelectedItem]);
+  
 
   return (
     isClient && (
@@ -189,7 +193,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                 defaultValue="+998"
                 maxLength={13} // +998 kodi va 9 ta raqam uchun
                 placeholder=""
-                className="col-span-6"
+                className="col-span-6 my-3 lg:my-0"
               />
               <div className="col-span-6 ">
                 <h1 className="font-bold *">
@@ -319,7 +323,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                     error={errors.address?.message}
                     lang={lang}
                     placeholder=""
-                    className="col-span-12"
+                    className="col-span-12 my-3 lg:my-0"
                   />
                   <div className="mt-2 mb-10 relative h-[420px] col-span-12">
                     <h1 className="font-bold  mb-3">
@@ -359,6 +363,18 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                   </div>
                 </div>
               </div>
+              <div className="w-full col-span-12">
+                <Input
+                  label={`${t("Bo'glanish uchun linklar")}`}
+                  type="text"
+                  variant="solid"
+                  {...register('social')}
+                  lang={lang}
+                  placeholder=""
+                  className="col-span-12"
+                />
+              </div>
+
               <div className="w-full col-span-12">
                 <TextArea
                   variant="normal"

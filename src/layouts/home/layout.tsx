@@ -21,7 +21,6 @@ export default function ModernLayout({
       <Header lang={lang} />
       <main
         className="relative flex-grow pt-5 xl:pt-8 "
-     
       >
         {children}
       </main>

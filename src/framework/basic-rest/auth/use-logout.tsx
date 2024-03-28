@@ -25,8 +25,8 @@ export const useLogoutMutation = (lang: string) => {
       Cookies.remove('auth_token');
       unauthorize();
       router.push(`/${lang}`);
-      toast.warning(t('Вы успешно вышли!'), {
-        style: { color: 'white', background: 'blueyellow' }, // Xabar rangi va orqa fon rangi
+      toast(t('Вы успешно вышли!'), {
+        style: { color: 'white', background: 'blue' }, // Xabar rangi va orqa fon rangi
         progressClassName: 'fancy-progress-bar',
         autoClose: 1500,
         hideProgressBar: false,

@@ -24,10 +24,10 @@ export const ProductGrid: FC<ProductGridProps> = ({
   viewAs,
 }) => {
   const { t } = useTranslation(lang, 'home');
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
   const [error, setError] = useState(null);
   const [count, setCount] = useState(0);
-  const [countPage, setCountPage] = useState(15);
+  const [countToggle, setCountToggle] = useState(true);
   const [isLoading, setIsloading] = useState(true);
   const pathname = usePathname();
   const { query } = useQueryParam(pathname ?? '/');
@@ -47,10 +47,14 @@ export const ProductGrid: FC<ProductGridProps> = ({
           API_ENDPOINTS.FASHION_PRODUCTS +
           '?' +
           query_get +
-          `&limit=${countPage}&offset=${count}`,
+          `&limit=${15}&offset=${count}`,
         { headers },
       );
-      setData(response.data?.results);
+      const newData: any = response.data?.results;
+      setData([...data, ...newData]);
+      if ([...data, ...newData]?.length == response.data?.count) {
+        setCountToggle(false);
+      }
     } catch (error: any) {
       setError(error);
       console.error('Error fetching data:', error);
@@ -59,13 +63,14 @@ export const ProductGrid: FC<ProductGridProps> = ({
   }
 
   function fetchNextPage() {
-    setCount(countPage);
-    setCountPage(countPage + 15);
+    setCount(count + 15);
   }
 
   useEffect(() => {
     getAllProducts();
-  }, [query_get, countPage]);
+  }, [query_get, count]);
+
+  console.log(data?.length);
 
   return (
     <>
@@ -106,17 +111,19 @@ export const ProductGrid: FC<ProductGridProps> = ({
           ))
         )}
       </div>
-      <div className="mt-1.5 py-5 text-center bg-white rounded">
-        <Button
-          loading={isLoading}
-          disabled={isLoading}
-          onClick={fetchNextPage}
-          className={'w-60 '}
-          variant={'primary'}
-        >
-          {t('Загрузи больше')}
-        </Button>
-      </div>
+      {countToggle && (
+        <div className="mt-1.5 py-5 text-center bg-white rounded">
+          <Button
+            loading={isLoading}
+            disabled={isLoading}
+            onClick={fetchNextPage}
+            className={'w-60 '}
+            variant={'primary'}
+          >
+            {t('Загрузи больше')}
+          </Button>
+        </div>
+      )}
     </>
   );
 };

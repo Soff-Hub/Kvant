@@ -28,11 +28,20 @@ async function signUp(input: SignUpInputType) {
     return await response.json();
   } else {
     const error = await response.json();
+    toast(error?.msg[0] + '', {
+      style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
+      progressClassName: 'fancy-progress-bar',
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
     throw new Error(error?.msg[0] || 'Sign up failed');
   }
 }
 
-export const useSignUpMutation = (lang:any) => {
+export const useSignUpMutation = (lang: any) => {
   const { authorize } = useUI();
   const router = useRouter();
   const { t } = useTranslation(lang, 'login');
@@ -42,7 +51,7 @@ export const useSignUpMutation = (lang:any) => {
         Cookies.set('auth_token', data.tokens.access);
         Cookies.remove('phone');
         authorize();
-        toast.success(t("Успешный!"), {
+        toast(t('Успешный!'), {
           style: { color: 'white', background: 'green' }, // Xabar rangi va orqa fon rangi
           progressClassName: 'fancy-progress-bar',
           autoClose: 1500,
@@ -55,15 +64,6 @@ export const useSignUpMutation = (lang:any) => {
       }
     },
     onError: (error: any) => {
-      toast.error(error + '', {
-        style: { color: 'white', background: 'red' }, // Xabar rangi va orqa fon rangi
-        progressClassName: 'fancy-progress-bar',
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
       console.error(error, 'Sign up error response');
     },
   });
