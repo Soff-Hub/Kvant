@@ -35,7 +35,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
     address: string;
     paymentMethod: string;
     text: string;
-    social:string
+    extra_connect:string
   }
 
   async function getBranches() {
@@ -64,7 +64,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
     address,
     customer_name,
     text,
-    social,
+    extra_connect,
   }: SignUpInputCheckout) {
     const token = Cookies.get('auth_token');
     Cookies.remove('products_click');
@@ -78,6 +78,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
       products,
       branch: selectedItem?.id ? selectedItem?.id : null,
       description: text,
+      extra_connect:extra_connect,
 
     };
 
@@ -368,7 +369,7 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                   label={`${t("Bo'glanish uchun linklar")}`}
                   type="text"
                   variant="solid"
-                  {...register('social')}
+                  {...register('extra_connect')}
                   lang={lang}
                   placeholder=""
                   className="col-span-12"

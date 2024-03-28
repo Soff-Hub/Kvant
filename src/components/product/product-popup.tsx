@@ -130,16 +130,15 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
       Cookies.remove('products_click');
       Cookies.set('products_click', JSON.stringify(products_click));
       router.push(`/${lang}/checkout/?product=${data?.slug}`);
-    }else{
-      router.push(`/${lang}${ROUTES.SIGN_UP}`);
+    } else {
+      router.push(`/${lang}/signup?id=user_order`);
     }
-    closeModal()
+    closeModal();
   }
 
   useEffect(() => {
     setIsClient(true);
   }, []);
-
 
   return (
     <div className="md:w-[600px] lg:w-[940px] xl:w-[1180px] mx-auto p-1 lg:p-0 xl:p-3 bg-brand-light rounded-md">
@@ -263,7 +262,6 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
                       <IoArrowRedoOutline className="text-2xl md:text-[26px] ltr:mr-2 rtl:ml-2 transition-all group-hover:text-brand" />
                       {t('Делиться')}
                     </Button>
-
 
                     <SocialShareBox
                       className={`absolute z-10 ltr:right-0 rtl:left-0 w-[300px] md:min-w-[400px]  transition-all duration-300 ${

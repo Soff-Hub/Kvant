@@ -1,6 +1,7 @@
 import { useUI } from '@contexts/ui.context';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { baseURL } from '@framework/utils/http';
+import { ROUTES } from '@utils/routes';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'react-query';
@@ -46,7 +47,6 @@ async function login(input: LoginInputType) {
 export const useLoginMutation = (lang: any) => {
   const { authorize } = useUI();
   const { t } = useTranslation(lang, 'login');
-
   const router = useRouter();
 
   return useMutation((input: LoginInputType) => login(input), {
@@ -63,7 +63,7 @@ export const useLoginMutation = (lang: any) => {
           pauseOnHover: true,
           draggable: true,
         });
-        router.push(`/${lang}/my-account/orders`);
+          router.push(`/${lang}/${ROUTES.ORDERS}`);
       }
     },
     onError: (error: any) => {
