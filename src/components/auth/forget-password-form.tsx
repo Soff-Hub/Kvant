@@ -22,7 +22,7 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
   const token = getToken();
   const [codeValues, setCodeValues] = useState<any>(null);
 
-  const pathname = window.location.search;
+  // const pathname = window.location.search;
 
   const phoneCookie = Cookies.get('phone');
 
@@ -98,11 +98,11 @@ export default function ForgetPasswordForm({ lang }: { lang: string }) {
             pauseOnHover: true,
             draggable: true,
           });
-          if (pathname) {
-            router.push(`/${lang}/${ROUTES.CHECKOUT}`);
-          } else {
+          // if (pathname) {
+            // router.push(`/${lang}/${ROUTES.CHECKOUT}`);
+          // } else {
             router.push(`/${lang}`);
-          }
+          // }
         } else {
           const error = await response.json();
           // Xato keldiğida xatoni chiqaramiz
